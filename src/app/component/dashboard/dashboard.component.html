@@ -1,0 +1,29 @@
+<div class="page-shell">
+  <h1 class="page-title">Dashboard</h1>
+  <p class="page-subtitle">Overview of institute activity and academic operations.</p>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-4" *ngFor="let card of summaryCards">
+      <div class="stat-tile panel p-3 h-100">
+        <div class="stat-label">{{ card.label }}</div>
+        <div class="stat-value">{{ card.value }}</div>
+        <div class="stat-note">{{ card.note }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="panel p-3 h-100">
+        <h3 class="h5 brand-font mb-3">Enrollment trend</h3>
+        <canvas id="myChart1" width="400" height="200"></canvas>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="panel p-3 h-100">
+        <h3 class="h5 brand-font mb-3">Assessment overview</h3>
+        <canvas id="myChart2" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

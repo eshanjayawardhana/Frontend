@@ -1,0 +1,27 @@
+.stat-tile {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.stat-tile:hover {
+  transform: translateY(-3px);
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-value {
+  font-family: var(--font-brand);
+  font-size: 2.2rem;
+  line-height: 1.1;
+  margin: 0.35rem 0;
+}
+
+.stat-note {
+  color: var(--muted);
+  font-size: 0.88rem;
+}

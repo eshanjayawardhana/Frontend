@@ -1,0 +1,57 @@
+<div class="toast-host" *ngIf="toastService.toasts.length">
+  <div class="app-toast" *ngFor="let t of toastService.toasts" [class]="t.kind">
+    <div class="flex-grow-1">{{ t.message }}</div>
+    <button type="button" class="btn-close btn-sm" (click)="toastService.dismiss(t.id)"></button>
+  </div>
+</div>
+
+<div class="app-frame" *ngIf="isLoggedIn(); else guestView">
+  <aside class="side-nav">
+    <div class="side-brand">
+      <span class="brand-mark">H</span>
+      <div>
+        <div class="brand-name">Humber</div>
+        <div class="brand-tag">Institute Portal</div>
+      </div>
+    </div>
+
+    <nav class="side-menu">
+      <p class="menu-label">Core</p>
+      <a routerLink="/dashboard" routerLinkActive="active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+
+      <p class="menu-label">Management</p>
+      <a routerLink="/student" routerLinkActive="active"><i class="bi bi-people"></i> Students</a>
+      <a routerLink="/teacher" routerLinkActive="active"><i class="bi bi-person-video3"></i> Teachers</a>
+      <a routerLink="/course" routerLinkActive="active"><i class="bi bi-journal-bookmark"></i> Courses</a>
+      <a routerLink="/qualification" routerLinkActive="active"><i class="bi bi-award"></i> Qualifications</a>
+      <a routerLink="/class" routerLinkActive="active"><i class="bi bi-easel"></i> Classes</a>
+
+      <p class="menu-label">Administration</p>
+      <a routerLink="/privilege" routerLinkActive="active"><i class="bi bi-shield-lock"></i> Privileges</a>
+    </nav>
+  </aside>
+
+  <div class="main-pane">
+    <header class="top-bar">
+      <div>
+        <div class="top-greeting">{{ displayName || 'Administrator' }}</div>
+        <div class="top-meta" *ngIf="userId">User ID · {{ userId }}</div>
+      </div>
+      <div class="top-actions">
+        <button type="button" class="btn btn-outline-ink btn-sm" (click)="logOut()">
+          <i class="bi bi-box-arrow-right"></i> Sign out
+        </button>
+      </div>
+    </header>
+
+    <main class="content-pane">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<ng-template #guestView>
+  <div class="guest-shell">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

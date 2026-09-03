@@ -1,0 +1,54 @@
+<section class="auth-scene">
+  <div class="auth-glow auth-glow-a" aria-hidden="true"></div>
+  <div class="auth-glow auth-glow-b" aria-hidden="true"></div>
+
+  <div class="auth-layout">
+    <aside class="auth-brand">
+      <p class="eyebrow">Institute Portal</p>
+      <h1 class="brand-title">Humber</h1>
+      <p class="brand-copy">Sign in to manage students, courses, and privileges in one place.</p>
+      <div class="brand-marks" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </aside>
+
+    <div class="auth-panel">
+      <h2>Welcome back</h2>
+      <p class="auth-sub">Use your login credentials to continue.</p>
+
+      <form class="auth-form" (ngSubmit)="login()" novalidate>
+        <div class="field">
+          <label for="login">User ID</label>
+          <input id="login" class="form-control" name="login"
+                 [(ngModel)]="loginObj.login" autocomplete="username"
+                 placeholder="e.g. admin">
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input id="password" class="form-control" name="password"
+                   [type]="showPassword ? 'text' : 'password'"
+                   [(ngModel)]="loginObj.password" autocomplete="current-password"
+                   placeholder="Enter password">
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword"
+                    [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+        <button type="submit" class="btn btn-accent w-100" [disabled]="loading">
+          <span *ngIf="!loading">Sign in</span>
+          <span *ngIf="loading">Signing in…</span>
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        New here? <a routerLink="/register">Create an account</a>
+      </p>
+    </div>
+  </div>
+</section>
