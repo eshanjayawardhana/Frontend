@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentRepresentation } from '../services/api/module/student-representation';
 import { StudentService } from '../services/api/student/student.service';
 import { StatusService } from '../services/api/status/status.service';
@@ -11,7 +11,7 @@ import { AuthIds, PermissionHelperService } from '../services/permission-helper.
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss']
 })
-export class StudentComponent {
+export class StudentComponent implements OnInit {
 
   studentObj:StudentRepresentation = {};
   students: Array<any> = [];

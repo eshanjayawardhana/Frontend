@@ -19,6 +19,7 @@ import { InstituteLoginComponent } from './component/institute-login/institute-l
 import { RegisterComponent } from './component/register/register.component';
 import { PrivilegeComponent } from './component/privilege/privilege.component';
 import { QualificationComponent } from './component/qualification/qualification.component';
+import { TechnicianComponent } from './component/technician/technician.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { QualificationComponent } from './component/qualification/qualification.
     InstituteLoginComponent,
     RegisterComponent,
     PrivilegeComponent,
-    QualificationComponent
+    QualificationComponent,
+    TechnicianComponent
   ],
   imports: [
     BrowserModule,
