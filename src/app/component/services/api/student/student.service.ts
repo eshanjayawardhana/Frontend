@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 
-  private baseUrl : string= 'http://localhost:8010/api/v1/student'; 
+  private baseUrl : string= 'http://localhost:8010/api/v1/student';
 
   constructor(
     private http:HttpClient
@@ -20,7 +20,7 @@ export class StudentService {
       }else{
         return this.http.put(this.baseUrl+"/"+student.id,student);
     }
-        
+
   }
 
   GetAllStudents():Observable<any>{
