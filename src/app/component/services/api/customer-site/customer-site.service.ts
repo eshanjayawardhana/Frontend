@@ -3,31 +3,33 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomerSiteService {
-
   private baseUrl: string = 'http://localhost:8010/api/v1';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    createCustomerSite(customerSite: any, type: any): Observable<any> {
-      if (type == 'Add') {
-        return this.http.post(this.baseUrl + "/customer-site-add", customerSite);
-      } else {
-        return this.http.put(this.baseUrl + "/customer-site/" + customerSite.id, customerSite);
-      }
+  createCustomerSite(customerSite: any, type: any): Observable<any> {
+    if (type == 'Add') {
+      return this.http.post(this.baseUrl + '/customer-site-add', customerSite);
+    } else {
+      return this.http.put(
+        this.baseUrl + '/customer-site/' + customerSite.id,
+        customerSite,
+      );
     }
+  }
 
-    GetAllCustomerSites(): Observable<any> {
-      return this.http.get(this.baseUrl + "/customer-sites");
-    }
+  GetAllCustomerSites(): Observable<any> {
+    return this.http.get(this.baseUrl + '/customer-sites');
+  }
 
-    GetCustomerSitesById(ID:any):Observable<any>{
-      return this.http.get(this.baseUrl+"/customer-site/"+ID);
-    }
+  GetCustomerSitesById(ID: any): Observable<any> {
+    return this.http.get(this.baseUrl + '/customer-site/' + ID);
+  }
 
-    DeleteCustomerSiteById(ID:any):Observable<any>{
-      return this.http.delete(this.baseUrl+"/customer-site/"+ID)
-    }
+  DeleteCustomerSiteById(ID: any): Observable<any> {
+    return this.http.delete(this.baseUrl + '/customer-site/' + ID);
+  }
 }
