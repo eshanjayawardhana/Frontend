@@ -24,4 +24,8 @@ export class StatusService {
   GetAllCustomerStatus():Observable<any>{
     return this.http.get(`${this.baseUrl}/customer-status`);
   }
+
+  GetAllCustomerSiteStatus():Observable<any>{
+    return this.http.get(`${this.baseUrl}/customer-site-status`);
+  }
 }
