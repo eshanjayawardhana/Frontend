@@ -19,8 +19,7 @@ export class ChemicalComponent implements OnInit {
   chemicals: Array<any> = [];
   allStatus: any;
   selectedStatusId: any = '';
-  selectedCustomerId: any = '';
-
+  
   type: string;
   statusValue: any;
   isEditChemical: boolean = false;
@@ -49,7 +48,6 @@ export class ChemicalComponent implements OnInit {
     this.canDelete = this.permissionHelper.has(AuthIds.CHEMICAL_DELETE);
     this.GetAllChemicalStatus();
     this.GetAllChemicals();
-    this.selectedCustomerId = null;
     this.selectedStatusId = null;
   }
 
@@ -129,7 +127,6 @@ export class ChemicalComponent implements OnInit {
       this.isEditChemical = true;
 
       this.selectedStatusId = allData.data.dataList[0].status.id;
-      this.selectedCustomerId = allData.data.dataList[0].customer.id;
 
       this.statusValue = allData.data.dataList[0].status.name;
 
@@ -250,13 +247,12 @@ export class ChemicalComponent implements OnInit {
     });
   }
 
-  
+
   ClearForm(form: any): void {
     this.chemicalObj = {};
     this.isEditChemical = false;
     this.statusValue = null;
     this.selectedStatusId = null;
-    this.selectedCustomerId = null;
 
     form.resetForm(); // Reset the form to its initial state
   }

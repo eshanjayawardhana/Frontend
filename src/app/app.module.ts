@@ -23,6 +23,7 @@ import { TechnicianComponent } from './component/technician/technician.component
 import { CustomerComponent } from './component/customer/customer.component';
 import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
 import { ChemicalComponent } from './component/chemical/chemical.component';
+import { PestTypeComponent } from './component/pest-type/pest-type.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ChemicalComponent } from './component/chemical/chemical.component';
     TechnicianComponent,
     CustomerComponent,
     CustomerSiteComponent,
-    ChemicalComponent
+    ChemicalComponent,
+    PestTypeComponent
   ],
   imports: [
     BrowserModule,
