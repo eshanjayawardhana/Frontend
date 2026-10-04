@@ -66,6 +66,12 @@ export const AuthIds = {
   SERVICE_TYPE_CREATE: 101,
   SERVICE_TYPE_UPDATE: 102,
   SERVICE_TYPE_DELETE: 103,
+
+  // Service Request module
+  SERVICE_REQUEST_VIEW: 110,
+  SERVICE_REQUEST_CREATE: 111,
+  SERVICE_REQUEST_UPDATE: 112,
+  SERVICE_REQUEST_DELETE: 113,
 } as const;
 
 @Injectable({ providedIn: 'root' })

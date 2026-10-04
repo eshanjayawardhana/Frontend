@@ -1,0 +1,637 @@
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <!-- =========================
+         Service Request Form
+    ========================== -->
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">SERVICE REQUEST REGISTRATION</div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Service Request Form</div>
+
+          <div class="card-body">
+            <form
+              #serviceRequestForm="ngForm"
+              (ngSubmit)="SaveServiceRequest(serviceRequestForm)"
+              novalidate
+            >
+              <!-- Request Code -->
+              <div class="form-group mt-3">
+                <label for="requestCode">Request Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="requestCode"
+                  name="requestCode"
+                  [(ngModel)]="serviceRerquestObj.requestCode"
+                  #requestCode="ngModel"
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Request Code"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    requestCode.invalid &&
+                    (requestCode.touched ||
+                      requestCode.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="requestCode.errors?.['minlength']">
+                    Request Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="requestCode.errors?.['maxlength']">
+                    Request Code cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="requestCode.errors?.['pattern']">
+                    Request Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Request Date -->
+              <div class="form-group mt-3">
+                <label for="requestDate">Request Date <span>*</span></label>
+
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="requestDate"
+                  name="requestDate"
+                  [(ngModel)]="serviceRerquestObj.requestDate"
+                  #requestDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    requestDate.invalid &&
+                    (requestDate.touched ||
+                      requestDate.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="requestDate.errors?.['required']">
+                    Request Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Preferred Date -->
+              <div class="form-group mt-3">
+                <label for="preferredDate">Preferred Date <span>*</span></label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  id="preferredDate"
+                  name="preferredDate"
+                  [(ngModel)]="serviceRerquestObj.preferredDate"
+                  #preferredDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    preferredDate.invalid &&
+                    (preferredDate.touched ||
+                      preferredDate.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="preferredDate.errors?.['required']">
+                    Preferred Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Problem Description -->
+              <div class="form-group mt-3">
+                <label for="problemDescription">
+                  Problem Description <span>*</span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  id="problemDescription"
+                  name="problemDescription"
+                  [(ngModel)]="serviceRerquestObj.problemDescription"
+                  #problemDescription="ngModel"
+                  required
+                  maxlength="500"
+                  pattern=".*\S.*"
+                  rows="3"
+                  placeholder="Enter Problem Description"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    problemDescription.invalid &&
+                    (problemDescription.touched ||
+                      problemDescription.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="problemDescription.errors?.['required']">
+                    Problem Description is required.
+                  </small>
+
+                  <small *ngIf="problemDescription.errors?.['maxlength']">
+                    Problem Description cannot exceed 500 characters.
+                  </small>
+
+                  <small *ngIf="problemDescription.errors?.['pattern']">
+                    Problem Description cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Priority -->
+              <div class="form-group mt-3">
+                <label for="priority">Priority <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="priority"
+                  name="priority"
+                  [(ngModel)]="serviceRerquestObj.priority"
+                  #priority="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Priority</option>
+                  <option [ngValue]="'Low'">Low</option>
+                  <option [ngValue]="'Normal'">Normal</option>
+                  <option [ngValue]="'High'">High</option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    priority.invalid &&
+                    (priority.touched ||
+                      priority.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="priority.errors?.['required']">
+                    Priority is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer -->
+              <div class="form-group mt-3">
+                <label for="customerId">Customer <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="customerId"
+                  name="customerId"
+                  [(ngModel)]="selectedCustomerId"
+                  #customerId="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Customer</option>
+
+                  <option
+                    *ngFor="let customer of allCustomers"
+                    [ngValue]="customer.id"
+                  >
+                    {{ customer.customerName }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerId.invalid &&
+                    (customerId.touched ||
+                      customerId.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="customerId.errors?.['required']">
+                    Customer is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer Site -->
+              <div class="form-group mt-3">
+                <label for="customerSiteId">
+                  Customer Site <span>*</span>
+                </label>
+
+                <select
+                  class="form-control form-select"
+                  id="customerSiteId"
+                  name="customerSiteId"
+                  [(ngModel)]="selectedCustomerSiteId"
+                  #customerSiteId="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>
+                    Select Customer Site
+                  </option>
+
+                  <option
+                    *ngFor="let customerSite of allCustomerSites"
+                    [ngValue]="customerSite.id"
+                  >
+                    {{ customerSite.siteName }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerSiteId.invalid &&
+                    (customerSiteId.touched ||
+                      customerSiteId.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="customerSiteId.errors?.['required']">
+                    Customer Site is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Pest Type -->
+              <div class="form-group mt-3">
+                <label for="pestTypeId">Pest Type <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="pestTypeId"
+                  name="pestTypeId"
+                  [(ngModel)]="selectedPestTypeId"
+                  #pestTypeId="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Pest Type</option>
+
+                  <option
+                    *ngFor="let pestType of allPestTypes"
+                    [ngValue]="pestType.id"
+                  >
+                    {{ pestType.pestName }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    pestTypeId.invalid &&
+                    (pestTypeId.touched ||
+                      pestTypeId.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="pestTypeId.errors?.['required']">
+                    Pest Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Type -->
+              <div class="form-group mt-3">
+                <label for="serviceTypeId">Service Type <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="serviceTypeId"
+                  name="serviceTypeId"
+                  [(ngModel)]="selectedServiceTypeId"
+                  #serviceTypeId="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Service Type</option>
+
+                  <option
+                    *ngFor="let serviceType of allServiceTypes"
+                    [ngValue]="serviceType.id"
+                  >
+                    {{ serviceType.serviceName }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceTypeId.invalid &&
+                    (serviceTypeId.touched ||
+                      serviceTypeId.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="serviceTypeId.errors?.['required']">
+                    Service Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="statusId">Status <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="statusId"
+                  name="statusId"
+                  [(ngModel)]="selectedStatusId"
+                  #statusId="ngModel"
+                  (change)="onChangeStatus($event)"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Status</option>
+
+                  <option
+                    *ngFor="let status of allStatus"
+                    [ngValue]="status.id"
+                  >
+                    {{ status.name }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    statusId.invalid &&
+                    (statusId.touched ||
+                      statusId.dirty ||
+                      serviceRequestForm.submitted)
+                  "
+                >
+                  <small *ngIf="statusId.errors?.['required']">
+                    Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(serviceRequestForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    {{ isEditServiceRequest == false ? "submit" : "update" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         Service Request Table
+    ========================== -->
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Service Request Table</div>
+
+          <div class="card-body overflow-auto">
+            <!-- Search + Filters -->
+            <div class="input-group my-3">
+              <!-- Search -->
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by Request Code, Date, Preferred Date, Problem, Priority, Customer ..."
+                aria-label="Search Service Request"
+                [(ngModel)]="searchText"
+                name="searchText"
+                (input)="SearchServiceRequests()"
+              />
+
+              <!-- Customer Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterCustomerId"
+                name="selectedFilterCustomerId"
+                (change)="SearchServiceRequests()"
+              >
+                <option [ngValue]="null">All Customers</option>
+
+                <option
+                  *ngFor="let customer of allCustomers"
+                  [ngValue]="customer.id"
+                >
+                  {{ customer.customerName }}
+                </option>
+              </select>
+
+              <!-- Customer Site Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterCustomerSiteId"
+                name="selectedFilterCustomerSiteId"
+                (change)="SearchServiceRequests()"
+              >
+                <option [ngValue]="null">All Customer Sites</option>
+
+                <option
+                  *ngFor="let customerSite of allCustomerSites"
+                  [ngValue]="customerSite.id"
+                >
+                  {{ customerSite.siteName }}
+                </option>
+              </select>
+
+              <!-- Pest Type Filter -->
+              <select
+                class="form-select"
+                style="max-width: 180px"
+                [(ngModel)]="selectedFilterPestTypeId"
+                name="selectedFilterPestTypeId"
+                (change)="SearchServiceRequests()"
+              >
+                <option [ngValue]="null">All Pest Types</option>
+
+                <option
+                  *ngFor="let pestType of allPestTypes"
+                  [ngValue]="pestType.id"
+                >
+                  {{ pestType.pestName }}
+                </option>
+              </select>
+
+              <!-- Service Type Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterServiceTypeId"
+                name="selectedFilterServiceTypeId"
+                (change)="SearchServiceRequests()"
+              >
+                <option [ngValue]="null">All Service Types</option>
+
+                <option
+                  *ngFor="let serviceType of allServiceTypes"
+                  [ngValue]="serviceType.id"
+                >
+                  {{ serviceType.serviceName }}
+                </option>
+              </select>
+
+              <!-- Status Filter -->
+              <select
+                class="form-select"
+                style="max-width: 180px"
+                [(ngModel)]="selectedFilterStatusId"
+                name="selectedFilterStatusId"
+                (change)="SearchServiceRequests()"
+              >
+                <option [ngValue]="null">All Statuses</option>
+
+                <option *ngFor="let status of allStatus" [ngValue]="status.id">
+                  {{ status.name }}
+                </option>
+              </select>
+
+              <!-- Clear Filters -->
+              <button
+                class="btn btn-secondary"
+                type="button"
+                (click)="
+                  searchText = '';
+                  selectedFilterCustomerId = null;
+                  selectedFilterCustomerSiteId = null;
+                  selectedFilterPestTypeId = null;
+                  selectedFilterServiceTypeId = null;
+                  selectedFilterStatusId = null;
+                  SearchServiceRequests()
+                "
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+
+              <!-- Search Button -->
+              <button
+                class="btn btn-info"
+                type="button"
+                (click)="SearchServiceRequests()"
+              >
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+
+            <!-- Service Request Table -->
+            <table class="table table-striped table-bordered table-wrapper">
+              <thead>
+                <tr>
+                  <th>Request Code</th>
+                  <th>Request Date</th>
+                  <th>Preferred Date</th>
+                  <th>Problem Description</th>
+                  <th>Priority</th>
+                  <th>Customer</th>
+                  <th>Customer Site</th>
+                  <th>Pest Type</th>
+                  <th>Service Type</th>
+                  <th>Status</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- Empty Result -->
+                <tr *ngIf="serviceRequests.length === 0">
+                  <td colspan="11" class="text-center text-muted py-4">
+                    No service requests found.
+                  </td>
+                </tr>
+
+                <!-- Data -->
+                <tr *ngFor="let serviceRequest of serviceRequests">
+                  <td>
+                    {{ serviceRequest.requestCode }}
+                  </td>
+
+                  <td>
+                    {{
+                      serviceRequest.requestDate | date: "MMM dd, yyyy, h:mm a"
+                    }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.preferredDate | date: "MMM dd, yyyy" }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.problemDescription }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.priority }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.customer?.customerName }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.customerSite?.siteName }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.pestType?.pestName }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.serviceType?.serviceName }}
+                  </td>
+
+                  <td>
+                    {{ serviceRequest.status?.name }}
+                  </td>
+
+                  <td class="text-center">
+                    <!-- Edit -->
+                    <button
+                      class="btn btn-warning me-1"
+                      (click)="GetServiceRequestById(serviceRequest.id)"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+
+                    <!-- Delete -->
+                    <button
+                      class="btn btn-danger me-1"
+                      (click)="DeleteServiceRequestById(serviceRequest.id)"
+                    >
+                      <i class="bi bi-archive"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

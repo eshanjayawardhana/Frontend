@@ -35,4 +35,8 @@ export class StatusService {
   GetAllServiceTypeStatus():Observable<any> {
     return this.http.get(`${this.baseUrl}/service-type-status`);
   }
+
+  GetAllServiceRequestStatus():Observable<any> {
+    return this.http.get(`${this.baseUrl}/service-request-status`);
+  }
 }
