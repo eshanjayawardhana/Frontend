@@ -16,6 +16,7 @@ import { CustomerComponent } from './component/customer/customer.component';
 import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
 import { ChemicalComponent } from './component/chemical/chemical.component';
 import { PestTypeComponent } from './component/pest-type/pest-type.component';
+import { NotificationComponent } from './component/notification/notification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -37,9 +38,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'customer', component: CustomerComponent, canActivate: [AuthGuard] },
-  { path: 'customer-site', component: CustomerSiteComponent, canActivate: [AuthGuard] },
+  {
+    path: 'customer-site',
+    component: CustomerSiteComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'chemical', component: ChemicalComponent, canActivate: [AuthGuard] },
-  {path:'pest-type',component:PestTypeComponent,canActivate:[AuthGuard]},
+  { path: 'pest-type', component: PestTypeComponent, canActivate: [AuthGuard] },
+  {path:'notification',component:NotificationComponent,canActivate:[AuthGuard]},
   {
     path: 'qualification',
     component: QualificationComponent,

@@ -24,6 +24,7 @@ import { CustomerComponent } from './component/customer/customer.component';
 import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
 import { ChemicalComponent } from './component/chemical/chemical.component';
 import { PestTypeComponent } from './component/pest-type/pest-type.component';
+import { NotificationComponent } from './component/notification/notification.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { PestTypeComponent } from './component/pest-type/pest-type.component';
     CustomerComponent,
     CustomerSiteComponent,
     ChemicalComponent,
-    PestTypeComponent
+    PestTypeComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

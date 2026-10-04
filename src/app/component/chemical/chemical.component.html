@@ -479,7 +479,7 @@
                   <td>{{ chemical.unit }}</td>
                   <td>{{ chemical.stockQuantity }}</td>
                   <td>{{ chemical.reorderLevel }}</td>
-                  <td>{{ chemical.expiryDate }}</td>
+                  <td>{{ chemical.expiryDate | date:'MMM dd, yyyy' }}</td>
                   <td>{{ chemical.safetyNotes }}</td>
                   <td>{{ chemical.status.name }}</td>
 
