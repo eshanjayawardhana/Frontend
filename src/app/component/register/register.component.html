@@ -3,11 +3,11 @@
   <div class="auth-glow auth-glow-b" aria-hidden="true"></div>
 
   <div class="auth-layout">
-    <aside class="auth-brand">
-      <p class="eyebrow">Institute Portal</p>
-      <h1 class="brand-title">Humber</h1>
-      <p class="brand-copy">Create your account to access academic tools and administration.</p>
-    </aside>
+    <aside
+      class="auth-brand"
+      role="img"
+      aria-label="Agrosole smart pest control services"
+    ></aside>
 
     <div class="auth-panel">
       <h2>Create account</h2>
@@ -17,27 +17,52 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">First name</label>
-            <input class="form-control" [(ngModel)]="registerObj.firstName" name="firstName">
+            <input
+              class="form-control"
+              [(ngModel)]="registerObj.firstName"
+              name="firstName"
+            />
           </div>
           <div class="col-md-6">
             <label class="form-label">Last name</label>
-            <input class="form-control" [(ngModel)]="registerObj.lastName" name="lastName">
+            <input
+              class="form-control"
+              [(ngModel)]="registerObj.lastName"
+              name="lastName"
+            />
           </div>
-        </div>
 
-        <div class="field">
-          <label class="form-label">Login</label>
-          <input class="form-control" [(ngModel)]="registerObj.login" name="login" autocomplete="username">
-        </div>
+          <div class="field mt-3">
+            <label class="form-label">User name</label>
+            <input
+              class="form-control"
+              [(ngModel)]="registerObj.login"
+              name="login"
+              autocomplete="username"
+            />
+          </div>
 
-        <div class="field">
-          <label class="form-label">Password</label>
-          <div class="password-wrap">
-            <input class="form-control" [type]="showPassword ? 'text' : 'password'"
-                   [(ngModel)]="registerObj.password" name="password" autocomplete="new-password">
-            <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
-              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-            </button>
+          <div class="field mt-3">
+            <label class="form-label">Password</label>
+            <div class="password-wrap">
+              <input
+                class="form-control"
+                [type]="showPassword ? 'text' : 'password'"
+                [(ngModel)]="registerObj.password"
+                name="password"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="eye-btn"
+                (click)="showPassword = !showPassword"
+              >
+                <i
+                  class="bi"
+                  [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                ></i>
+              </button>
+            </div>
           </div>
         </div>
 

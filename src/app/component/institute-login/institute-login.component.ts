@@ -11,7 +11,8 @@ import { ToastService } from '../services/toast.service';
   styleUrls: ['./institute-login.component.scss'],
 })
 export class InstituteLoginComponent implements OnInit {
-  loginObj: LoginRepresentation = { login: 'admin', password: 'password' };
+  // loginObj: LoginRepresentation = {};
+  loginObj: LoginRepresentation = { login: '', password: '' };
   error = '';
   loading = false;
   showPassword = false;
