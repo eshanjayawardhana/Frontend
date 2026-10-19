@@ -12,57 +12,25 @@
 <div class="app-frame" *ngIf="isLoggedIn(); else guestView">
   <aside class="side-nav">
     <div class="side-brand">
-      <span class="brand-mark">H</span>
+      <span class="brand-mark" aria-hidden="true">A</span>
       <div>
         <div class="brand-name">Agrosole</div>
         <div class="brand-tag">Smart Pest Control System</div>
       </div>
     </div>
 
-    <nav class="side-menu">
-      <p class="menu-label">Core</p>
-      <a routerLink="/dashboard" routerLinkActive="active"
-        ><i class="bi bi-grid-1x2"></i> Dashboard</a
-      >
-
-      <p class="menu-label">Management</p>
-      <!-- <a routerLink="/student" routerLinkActive="active"><i class="bi bi-people"></i> Students</a> -->
-      <!-- <a routerLink="/teacher" routerLinkActive="active"><i class="bi bi-person-video3"></i> Teachers</a> -->
-      <!-- <a routerLink="/course" routerLinkActive="active"><i class="bi bi-journal-bookmark"></i> Courses</a> -->
-      <!-- <a routerLink="/qualification" routerLinkActive="active"><i class="bi bi-award"></i> Qualifications</a> -->
-      <!-- <a routerLink="/class" routerLinkActive="active"><i class="bi bi-building"></i> Classes</a> -->
-      <a routerLink="/technician" routerLinkActive="active"
-        ><i class="bi bi-wrench"></i> Technicians</a
-      >
-      <a routerLink="/customer" routerLinkActive="active"
-        ><i class="bi bi-people"></i> Customers</a
-      >
-      <a routerLink="/customer-site" routerLinkActive="active"
-        ><i class="bi bi-geo-alt"></i> Customer Sites</a
-      >
-      <a routerLink="/chemical" routerLinkActive="active"
-        ><i class="bi bi-droplet"></i> Chemicals</a
-      >
-
-      <a routerLink="/notification" routerLinkActive="active"
-        ><i class="bi bi-bell"></i> Notifications</a
-      >
-      <a routerLink="/service-request" routerLinkActive="active"
-        ><i class="bi bi-file-earmark-text"></i> Service Requests</a
-      >
-
-      <p class="menu-label">Master Data</p>
-      <a routerLink="/pest-type" routerLinkActive="active"
-        ><i class="bi bi-bug"></i> Pest Types</a
-      >
-      <a routerLink="/service-type" routerLinkActive="active"
-        ><i class="bi bi-ui-checks-grid"></i> Service Types</a
-      >
-
-      <p class="menu-label">Administration</p>
-      <a routerLink="/privilege" routerLinkActive="active"
-        ><i class="bi bi-shield-lock"></i> Privileges</a
-      >
+    <nav class="side-menu" aria-label="Main navigation">
+      <ng-container *ngFor="let group of navigationGroups">
+        <p class="menu-label">{{ group.label }}</p>
+        <a
+          *ngFor="let item of group.items"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+        >
+          <i [class]="'bi ' + item.icon" aria-hidden="true"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      </ng-container>
     </nav>
   </aside>
 

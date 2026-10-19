@@ -17,9 +17,10 @@ import { UserAuthService } from '../services/api/user/user-auth.service';
   styleUrls: ['./technician.component.scss'],
 })
 export class TechnicianComponent implements OnInit {
-  technicianObj: TechnicianRepresentation = {};
+  technicianObj: TechnicianRepresentation = { specialization: '' };
   technicians: Array<any> = [];
   allStatus: any;
+  selectedStatusId: any = '';
 
   type: string;
   statusValue: any;
@@ -29,6 +30,7 @@ export class TechnicianComponent implements OnInit {
   canCreate = false;
   canUpdate = false;
   canDelete = false;
+  technicianSpecializationValue: any;
 
   constructor(
     private technicianService: TechnicianService,
@@ -47,60 +49,92 @@ export class TechnicianComponent implements OnInit {
     this.GetAllTechnicians();
   }
 
-  SaveTechnician(): void {
-    this.type = this.isEditTechnician == false ? 'Add' : 'Update';
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          const userId = this.userAuthService.getUserId(); // Get the logged-in user's ID
 
-          if (userId === null) {
-            swal('Cannot save', 'No logged-in user was found.', 'error');
-            return;
-          }
+SaveTechnician(): void {
+  // Set technician status
+  this.technicianObj.status = {
+    id: Number(this.selectedStatusId),
+  };
 
-          const technicianPayload = {
-            ...this.technicianObj,
-            user: { id: userId }, // Include the logged-in user's ID in the payload
-          };
+  this.type = this.isEditTechnician ? 'Update' : 'Add';
 
-          console.log('Technician POST payload:', technicianPayload);
+  const isUpdate = this.isEditTechnician;
 
-          this.technicianService
-            .createTechnician(technicianPayload, 'Add')
-            .subscribe({
-              next: (result): void => {
-                console.log('Technician response:', result);
-                this.GetAllTechnicians();
-                swal('Successful!', 'Technician has been added!', 'success');
-              },
-              error: (error): void => {
-                console.error('Failed to add technician:', error);
-                swal(
-                  'Request failed',
-                  'Technician could not be saved.',
-                  'error',
-                );
-              },
-            });
-        }
-      });
-    } else {
-      this.technicianService
-        .createTechnician(this.technicianObj, this.type)
-        .subscribe({
-          next: (result): void => {
-            this.GetAllTechnicians();
-          },
-        });
-      swal('Sucessfull!', 'Technician has been updated!', 'success');
+  swal({
+    title: isUpdate ? 'Update Technician?' : 'Add Technician?',
+    text: isUpdate
+      ? 'Are you sure you want to update this technician?'
+      : 'Are you sure you want to add this technician?',
+    icon: 'warning',
+    buttons: ['Cancel', isUpdate ? 'Yes, Update' : 'Yes, Add'],
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
+      return;
     }
-  }
+
+    let technicianPayload: any = {
+      ...this.technicianObj,
+    };
+
+    // Include logged-in user's ID only when adding
+    if (!isUpdate) {
+      const userId = this.userAuthService.getUserId();
+
+      if (userId === null) {
+        swal(
+          'Cannot Save',
+          'No logged-in user was found.',
+          'error',
+        );
+        return;
+      }
+
+      technicianPayload = {
+        ...technicianPayload,
+        user: { id: userId },
+      };
+    }
+
+    console.log('Technician payload:', technicianPayload);
+
+    this.technicianService
+      .createTechnician(technicianPayload, this.type)
+      .subscribe({
+        next: (result): void => {
+          console.log('Technician response:', result);
+
+          this.GetAllTechnicians();
+
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Technician has been updated successfully!'
+              : 'Technician has been added successfully!',
+            'success',
+          );
+
+          this.ClearForm();
+        },
+
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} technician:`,
+            error,
+          );
+
+          swal(
+            'Request Failed',
+            isUpdate
+              ? 'Technician could not be updated. Please try again.'
+              : 'Technician could not be added. Please try again.',
+            'error',
+          );
+        },
+      });
+  });
+}
+
 
   GetTechnicianById(ID: any) {
     this.technicianService.GetTechniciansById(ID).subscribe((allData) => {
@@ -108,9 +142,14 @@ export class TechnicianComponent implements OnInit {
 
       this.isEditTechnician = true;
       this.statusValue = allData.data.dataList[0].status.name;
+      this.selectedStatusId = allData.data.dataList[0].status.id;
+
       this.technicianObj.status = {
         id: allData.data.dataList[0].status.id, // Set the status ID for the technician object
       };
+
+      this.technicianSpecializationValue =
+        allData.data.dataList[0].specialization;
     });
   }
 
@@ -151,5 +190,21 @@ export class TechnicianComponent implements OnInit {
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
     this.technicianObj.status = { id: statusId };
+  }
+
+  onChangeType($event: Event) {
+    const selectedType = ($event.target as HTMLSelectElement).value;
+    this.technicianObj.specialization = selectedType;
+  }
+
+  ClearForm(): void {
+    this.technicianObj = {
+      specialization: '',
+    };
+
+    this.isEditTechnician = false;
+    this.statusValue = null;
+    this.technicianSpecializationValue = null;
+    this.selectedStatusId = '';
   }
 }

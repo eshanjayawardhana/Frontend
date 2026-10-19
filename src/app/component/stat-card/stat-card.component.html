@@ -1,0 +1,34 @@
+<article
+  class="stat-card"
+  [class.stat-card--green]="accent === 'green'"
+  [class.stat-card--gold]="accent === 'gold'"
+  [class.stat-card--blue]="accent === 'blue'"
+  [class.stat-card--sage]="accent === 'sage'"
+>
+  <div class="stat-card__content">
+
+    <div class="stat-card__text">
+
+      <p class="stat-card__label">
+        {{ label }}
+      </p>
+
+      <p class="stat-card__value">
+        {{ value }}
+      </p>
+
+      <p
+        class="stat-card__description"
+        *ngIf="description"
+      >
+        {{ description }}
+      </p>
+
+    </div>
+
+    <div class="stat-card__icon" aria-hidden="true">
+      <i [class]="iconClass"></i>
+    </div>
+
+  </div>
+</article>

@@ -1,8 +1,9 @@
-<main class="mt-5 pt-3">
+<main class="pt-3 service-type-page">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 fw-bold fs-3">SERVICE TYPE REGISTRATION</div>
-    </div>
+    <app-page-header
+  title="Service Types Registration"
+  description="Manage pest control service categories, related pest types, and service status."
+></app-page-header>
 
     <div class="row">
       <div class="col-lg-12 mb-3">
@@ -457,9 +458,6 @@
                         (click)="DeleteServiceTypeById(serviceTypeObj.id)"
                       >
                         <i class="bi bi-archive"></i>
-                      </button>
-                      <button class="btn btn-info">
-                        <i class="bi bi-file-earmark"></i>
                       </button>
                     </td>
                   </tr>

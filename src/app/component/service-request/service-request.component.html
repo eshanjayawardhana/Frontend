@@ -1,11 +1,12 @@
-<main class="mt-5 pt-3">
+<main class="pt-3 service-request-page">
   <div class="container-fluid">
     <!-- =========================
          Service Request Form
     ========================== -->
-    <div class="row">
-      <div class="col-md-12 fw-bold fs-3">SERVICE REQUEST REGISTRATION</div>
-    </div>
+    <app-page-header
+  title="Service Requests Registration"
+  description="Manage customer service requests, requested services, site details, and request status."
+></app-page-header>
 
     <div class="row">
       <div class="col-lg-12 mb-3">
@@ -606,7 +607,9 @@
                   </td>
 
                   <td>
-                    {{ serviceRequest.status?.name }}
+                    <app-status-badge
+                      [status]="serviceRequest.status?.name"
+                    ></app-status-badge>
                   </td>
 
                   <td class="text-center">

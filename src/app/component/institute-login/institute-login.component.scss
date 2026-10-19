@@ -1,8 +1,8 @@
 .auth-scene {
-  --agro-green: #08796d;
-  --agro-green-dark: #07594f;
-  --agro-ink: #102c2b;
-  --agro-muted: #71808a;
+  --agro-green: var(--color-leaf-green);
+  --agro-green-dark: var(--color-forest-green);
+  --agro-ink: var(--color-charcoal);
+  --agro-muted: var(--color-muted);
   min-height: 100vh;
   min-height: 100dvh;
   position: relative;
@@ -13,9 +13,9 @@
   padding: clamp(0.75rem, 1.8vw, 1.5rem);
   box-sizing: border-box;
   background:
-    radial-gradient(ellipse at 12% 18%, rgba(95, 147, 102, 0.22), transparent 34%),
-    radial-gradient(ellipse at 90% 82%, rgba(27, 105, 91, 0.15), transparent 32%),
-    linear-gradient(135deg, #e9eee5 0%, #f8f5ef 48%, #e7eeea 100%);
+    radial-gradient(ellipse at 12% 18%, rgba(54, 124, 80, 0.16), transparent 34%),
+    radial-gradient(ellipse at 90% 82%, rgba(36, 91, 58, 0.12), transparent 32%),
+    linear-gradient(135deg, var(--color-sky-mist) 0%, var(--color-canvas) 52%, #E8F0E7 100%);
 }
 
 .auth-glow {
@@ -31,7 +31,7 @@
 .auth-glow-a {
   width: 300px;
   height: 300px;
-  background: rgba(15, 118, 110, 0.3);
+  background: rgba(54, 124, 80, 0.24);
   top: 4%;
   left: 4%;
 }
@@ -39,7 +39,7 @@
 .auth-glow-b {
   width: 360px;
   height: 360px;
-  background: rgba(72, 110, 76, 0.2);
+  background: rgba(36, 91, 58, 0.17);
   right: 2%;
   bottom: 0;
   animation-delay: -5s;
@@ -72,7 +72,7 @@
   min-height: 450px;
   border-radius: 24px 0 0 24px;
   overflow: hidden;
-  background-color: #073c32;
+  background-color: var(--color-forest-green);
   background-image: url('/assets/cover.png');
   background-repeat: no-repeat;
   background-position: center;
@@ -82,8 +82,8 @@
 
 .auth-panel {
   min-width: 0;
-  background: rgba(255, 252, 247, 0.96);
-  border: 1px solid rgba(16, 44, 43, 0.08);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(36, 91, 58, 0.10);
   border-radius: 0 24px 24px 0;
   padding: clamp(1.5rem, 2.5vw, 2.25rem);
   box-shadow: 0 24px 60px rgba(24, 48, 42, 0.12);
@@ -130,18 +130,18 @@
   display: block;
   font-size: 0.82rem;
   font-weight: 650;
-  color: #4e6264;
+  color: var(--color-charcoal);
   margin-bottom: 0.35rem;
 }
 
 .field .form-control {
   width: 100%;
   min-height: 46px;
-  border: 1px solid #dce3df;
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 0.65rem 1rem;
   background: #fff;
-  color: #253b3b;
+  color: var(--color-charcoal);
   font: inherit;
   box-sizing: border-box;
   box-shadow: 0 2px 5px rgba(17, 42, 35, 0.02);
@@ -149,13 +149,13 @@
 }
 
 .field .form-control::placeholder {
-  color: #9aa6aa;
+  color: #89948B;
 }
 
 .field .form-control:focus {
   outline: none;
   border-color: var(--agro-green);
-  box-shadow: 0 0 0 4px rgba(8, 121, 109, 0.11);
+  box-shadow: 0 0 0 4px rgba(54, 124, 80, 0.12);
 }
 
 .password-wrap {
@@ -178,13 +178,13 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #687b7d;
+  color: var(--color-muted);
   cursor: pointer;
 }
 
 .eye-btn:hover {
   color: var(--agro-green);
-  background: rgba(8, 121, 109, 0.07);
+  background: rgba(54, 124, 80, 0.08);
 }
 
 .auth-submit {
@@ -192,18 +192,18 @@
   margin-top: 0.1rem;
   border: 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, #0d8375, #08685d);
+  background: linear-gradient(135deg, var(--color-leaf-green), var(--color-forest-green));
   color: #fff;
   font-size: 0.98rem;
   font-weight: 700;
-  box-shadow: 0 9px 20px rgba(8, 121, 109, 0.16);
+  box-shadow: 0 9px 20px rgba(54, 124, 80, 0.16);
   transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 }
 
 .auth-submit:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.04);
-  box-shadow: 0 12px 24px rgba(8, 121, 109, 0.22);
+  box-shadow: 0 12px 24px rgba(54, 124, 80, 0.22);
 }
 
 .auth-submit:disabled {
@@ -235,18 +235,18 @@
   align-items: center;
   gap: 0.75rem;
   margin-top: 1.15rem;
-  color: #75858a;
+  color: var(--color-muted);
   text-align: center;
 }
 
 .secure-note > i {
-  color: #244d49;
+  color: var(--color-forest-green);
   font-size: 1.25rem;
 }
 
 .secure-line {
   height: 1px;
-  background: #e0e5e1;
+  background: var(--color-border);
 }
 
 .secure-note p {

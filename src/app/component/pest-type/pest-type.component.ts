@@ -47,71 +47,80 @@ export class PestTypeComponent implements OnInit {
     this.GetAllPestTypes();
   }
 
-  SavePestType(form: any): void {
-    // 1. Validate form
-    if (form.invalid) {
+
+SavePestType(form: any): void {
+  // 1. Validate form — unchanged
+  if (form.invalid) {
+    return;
+  }
+
+  // 2. Decide Add or Update — unchanged
+  this.type = this.isEditPestType == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  // Confirmation dialog — consistent UI/UX
+  swal({
+    title: isUpdate ? 'Update Pest Type?' : 'Add Pest Type?',
+    text: isUpdate
+      ? 'Are you sure you want to update this pest type?'
+      : 'Are you sure you want to add this pest type?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
-    // 4. Decide Add or Update
-    this.type = this.isEditPestType == false ? 'Add' : 'Update';
 
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.pestTypeService
-            .createPestType(this.pestTypeObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllPestTypes();
-                this.ClearForm(form);
+    // Existing API call — unchanged
+    this.pestTypeService
+      .createPestType(this.pestTypeObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllPestTypes();
+          this.ClearForm(form);
 
-                swal('Successful!', 'Pest Type has been added!', 'success');
-              },
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Pest Type has been updated successfully!'
+              : 'Pest Type has been added successfully!',
+            'success',
+          );
+        },
 
-              error: (error): void => {
-                console.error('Failed to add pest type:', error);
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} pest type:`,
+            error,
+          );
 
-                swal('Error!', 'Failed to add pest type.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update pest type.'
+              : 'Failed to add pest type.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.pestTypeService
-            .createPestType(this.pestTypeObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllPestTypes();
-                this.ClearForm(form);
+  });
+}
 
-                swal('Successful!', 'Pest Type has been updated!', 'success');
-              },
-
-              error: (error): void => {
-                console.error('Failed to update pest type:', error);
-
-                swal('Error!', 'Failed to update pest type.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetPestTypeById(ID: any) {
     this.pestTypeService.GetPestTypeById(ID).subscribe((allData) => {
