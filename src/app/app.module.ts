@@ -26,6 +26,7 @@ import { ChemicalComponent } from './component/chemical/chemical.component';
 import { PestTypeComponent } from './component/pest-type/pest-type.component';
 import { NotificationComponent } from './component/notification/notification.component';
 import { ServiceTypeComponent } from './component/service-type/service-type.component';
+import { ServiceRequestComponent } from './component/service-request/service-request.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ServiceTypeComponent } from './component/service-type/service-type.comp
     ChemicalComponent,
     PestTypeComponent,
     NotificationComponent,
-    ServiceTypeComponent
+    ServiceTypeComponent,
+    ServiceRequestComponent
   ],
   imports: [
     BrowserModule,

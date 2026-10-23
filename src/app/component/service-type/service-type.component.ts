@@ -244,7 +244,7 @@ export class ServiceTypeComponent implements OnInit {
       const basePrice = type.basePrice?.toString().toLowerCase() || '';
       const estimatedDurationHrs =
         type.estimatedDurationHrs?.toString().toLowerCase() || '';
-      const pestType = type.pestType?.name?.toLowerCase() || '';
+      const pestType = type.pestType?.pestName?.toLowerCase() || '';
       const status = type.status?.name?.toLowerCase() || '';
 
       // Search Condition
