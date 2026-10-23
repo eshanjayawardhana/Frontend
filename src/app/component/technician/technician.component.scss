@@ -1,3 +1,13 @@
+.technician-section-header{
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: #245b3a;
+  border-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
 /* Edit button - Harvest Gold */
 .technician-page .btn-warning {
   color: #49360a;
@@ -21,4 +31,11 @@
 .technician-page .btn-danger:hover {
   background-color: #f32525;
   border-color: #f32525;
+}
+
+.technician-page .card {
+  overflow: hidden;
+  border: 1px solid #e1e8df;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
 }

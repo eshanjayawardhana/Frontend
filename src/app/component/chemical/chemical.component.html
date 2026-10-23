@@ -1,14 +1,14 @@
 <main class="pt-3 chemical-page">
   <div class="container-fluid">
     <app-page-header
-  title="Chemicals Registration"
-  description="Manage pest control chemicals, product details, and chemical status."
-></app-page-header>
+      title="Chemicals Registration"
+      description="Manage pest control chemicals, product details, and chemical status."
+    ></app-page-header>
 
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card text-dark mb-3 h-100">
-          <div class="card-header bg-info fw-bold">Chemical Form</div>
+          <div class="card-header chemical-section-header">Chemical Form</div>
 
           <div class="card-body">
             <form
@@ -407,7 +407,7 @@
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card text-dark mb-3 h-100">
-          <div class="card-header bg-info fw-bold">Chemical Table</div>
+          <div class="card-header chemical-section-header">Chemical Table</div>
           <div class="card-body overflow-auto">
             <div class="input-group my-3">
               <!-- Search -->
@@ -480,9 +480,13 @@
                   <td>{{ chemical.unit }}</td>
                   <td>{{ chemical.stockQuantity }}</td>
                   <td>{{ chemical.reorderLevel }}</td>
-                  <td>{{ chemical.expiryDate | date:'MMM dd, yyyy' }}</td>
+                  <td>{{ chemical.expiryDate | date: "MMM dd, yyyy" }}</td>
                   <td>{{ chemical.safetyNotes }}</td>
-                  <td>{{ chemical.status.name }}</td>
+                  <td>
+                    <app-status-badge
+                      [status]="chemical.status?.name"
+                    ></app-status-badge>
+                  </td>
 
                   <td class="text-center">
                     <button
