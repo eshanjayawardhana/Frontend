@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StatusService {
-
   private baseUrl : string= 'http://localhost:8010/api/v1';
 
   constructor(
@@ -31,5 +30,9 @@ export class StatusService {
 
   GetAllChemicalStatus():Observable<any>{
     return this.http.get(`${this.baseUrl}/chemical-status`);
+  }
+
+  GetAllServiceTypeStatus():Observable<any> {
+    return this.http.get(`${this.baseUrl}/service-type-status`);
   }
 }

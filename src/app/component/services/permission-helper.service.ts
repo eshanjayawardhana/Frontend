@@ -60,6 +60,12 @@ export const AuthIds = {
   NOTIFICATION_CREATE: 91,
   NOTIFICATION_UPDATE: 92,
   NOTIFICATION_DELETE: 93,
+
+  // Service Type module
+  SERVICE_TYPE_VIEW: 100,
+  SERVICE_TYPE_CREATE: 101,
+  SERVICE_TYPE_UPDATE: 102,
+  SERVICE_TYPE_DELETE: 103,
 } as const;
 
 @Injectable({ providedIn: 'root' })
