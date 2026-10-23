@@ -20,6 +20,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { PrivilegeComponent } from './component/privilege/privilege.component';
 import { QualificationComponent } from './component/qualification/qualification.component';
 import { TechnicianComponent } from './component/technician/technician.component';
+import { CustomerComponent } from './component/customer/customer.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TechnicianComponent } from './component/technician/technician.component
     RegisterComponent,
     PrivilegeComponent,
     QualificationComponent,
-    TechnicianComponent
+    TechnicianComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,

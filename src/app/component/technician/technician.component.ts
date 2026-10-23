@@ -118,7 +118,7 @@ export class TechnicianComponent implements OnInit {
     this.technicianService.GetAllTechnicians().subscribe({
       next: (allData) => {
         this.technicians = allData?.data?.dataList || [];
-        console.log('Technicians:', this.technicians);
+        // console.log('Technicians:', this.technicians);
       },
       error: (error) => {
         console.error('Failed to load technicians:', error);

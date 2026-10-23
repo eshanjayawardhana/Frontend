@@ -20,4 +20,8 @@ export class StatusService {
   GetAllTechnicianStatus():Observable<any>{
     return this.http.get(`${this.baseUrl}/technician-status`);
   }
+
+  GetAllCustomerStatus():Observable<any>{
+    return this.http.get(`${this.baseUrl}/customer-status`);
+  }
 }
