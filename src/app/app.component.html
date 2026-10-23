@@ -1,7 +1,11 @@
 <div class="toast-host" *ngIf="toastService.toasts.length">
   <div class="app-toast" *ngFor="let t of toastService.toasts" [class]="t.kind">
     <div class="flex-grow-1">{{ t.message }}</div>
-    <button type="button" class="btn-close btn-sm" (click)="toastService.dismiss(t.id)"></button>
+    <button
+      type="button"
+      class="btn-close btn-sm"
+      (click)="toastService.dismiss(t.id)"
+    ></button>
   </div>
 </div>
 
@@ -10,14 +14,16 @@
     <div class="side-brand">
       <span class="brand-mark">H</span>
       <div>
-        <div class="brand-name">Humber</div>
-        <div class="brand-tag">Institute Portal</div>
+        <div class="brand-name">Agrosole</div>
+        <div class="brand-tag">Smart Pest Control System</div>
       </div>
     </div>
 
     <nav class="side-menu">
       <p class="menu-label">Core</p>
-      <a routerLink="/dashboard" routerLinkActive="active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+      <a routerLink="/dashboard" routerLinkActive="active"
+        ><i class="bi bi-grid-1x2"></i> Dashboard</a
+      >
 
       <p class="menu-label">Management</p>
       <!-- <a routerLink="/student" routerLinkActive="active"><i class="bi bi-people"></i> Students</a> -->
@@ -25,28 +31,53 @@
       <!-- <a routerLink="/course" routerLinkActive="active"><i class="bi bi-journal-bookmark"></i> Courses</a> -->
       <!-- <a routerLink="/qualification" routerLinkActive="active"><i class="bi bi-award"></i> Qualifications</a> -->
       <!-- <a routerLink="/class" routerLinkActive="active"><i class="bi bi-building"></i> Classes</a> -->
-      <a routerLink="/technician" routerLinkActive="active"><i class="bi bi-wrench"></i> Technicians</a>
-      <a routerLink="/customer" routerLinkActive="active"><i class="bi bi-people"></i> Customers</a>
-      <a routerLink="/customer-site" routerLinkActive="active"><i class="bi bi-geo-alt"></i> Customer Sites</a>
-      <a routerLink="/chemical" routerLinkActive="active"><i class="bi bi-droplet"></i> Chemicals</a>
-      <a routerLink="/pest-type" routerLinkActive="active"><i class="bi bi-bug"></i> Pest Types</a>
-      <a routerLink="/notification" routerLinkActive="active"><i class="bi bi-bell"></i> Notifications</a>
-      <a routerLink="/service-type" routerLinkActive="active"><i class="bi bi-ui-checks-grid"></i> Service Types</a>
-      <a routerLink="/service-request" routerLinkActive="active"><i class="bi bi-file-earmark-text"></i> Service Requests</a>
-      <p class="menu-label">Administration</p>
+      <a routerLink="/technician" routerLinkActive="active"
+        ><i class="bi bi-wrench"></i> Technicians</a
+      >
+      <a routerLink="/customer" routerLinkActive="active"
+        ><i class="bi bi-people"></i> Customers</a
+      >
+      <a routerLink="/customer-site" routerLinkActive="active"
+        ><i class="bi bi-geo-alt"></i> Customer Sites</a
+      >
+      <a routerLink="/chemical" routerLinkActive="active"
+        ><i class="bi bi-droplet"></i> Chemicals</a
+      >
 
-      <a routerLink="/privilege" routerLinkActive="active"><i class="bi bi-shield-lock"></i> Privileges</a>
+      <a routerLink="/notification" routerLinkActive="active"
+        ><i class="bi bi-bell"></i> Notifications</a
+      >
+      <a routerLink="/service-request" routerLinkActive="active"
+        ><i class="bi bi-file-earmark-text"></i> Service Requests</a
+      >
+
+      <p class="menu-label">Master Data</p>
+      <a routerLink="/pest-type" routerLinkActive="active"
+        ><i class="bi bi-bug"></i> Pest Types</a
+      >
+      <a routerLink="/service-type" routerLinkActive="active"
+        ><i class="bi bi-ui-checks-grid"></i> Service Types</a
+      >
+
+      <p class="menu-label">Administration</p>
+      <a routerLink="/privilege" routerLinkActive="active"
+        ><i class="bi bi-shield-lock"></i> Privileges</a
+      >
     </nav>
   </aside>
 
   <div class="main-pane">
     <header class="top-bar">
       <div>
-        <div class="top-greeting">{{ displayName || 'Administrator' }}</div>
+        <div class="top-greeting">{{ displayName || "Administrator" }}</div>
         <div class="top-meta" *ngIf="userId">User ID · {{ userId }}</div>
       </div>
       <div class="top-actions">
-        <button type="button" class="btn btn-outline-ink btn-sm" (click)="logOut()">
+        <button
+          type="button"
+          class="btn btn-outline-ink btn-sm"
+          (click)="logOut()"
+        >
           <i class="bi bi-box-arrow-right"></i> Sign out
         </button>
       </div>

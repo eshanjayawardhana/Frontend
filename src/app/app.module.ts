@@ -49,7 +49,7 @@ import { ServiceRequestComponent } from './component/service-request/service-req
     PestTypeComponent,
     NotificationComponent,
     ServiceTypeComponent,
-    ServiceRequestComponent
+    ServiceRequestComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,45 +3,71 @@
   <div class="auth-glow auth-glow-b" aria-hidden="true"></div>
 
   <div class="auth-layout">
-    <aside class="auth-brand">
-      <p class="eyebrow">Institute Portal</p>
-      <h1 class="brand-title">Humber</h1>
-      <p class="brand-copy">Sign in to manage students, courses, and privileges in one place.</p>
-      <div class="brand-marks" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </aside>
+    <!-- The cover image already contains Agrosole branding and service text. -->
+    <aside
+      class="auth-brand"
+      role="img"
+      aria-label="Agrosole smart pest control services"
+    ></aside>
 
     <div class="auth-panel">
-      <h2>Welcome back</h2>
-      <p class="auth-sub">Use your login credentials to continue.</p>
+      <div class="auth-heading">
+        <span class="auth-kicker">AGROSOLE · SMART PEST CONTROL</span>
+        <h2>Welcome back</h2>
+        <p class="auth-sub">Use your login credentials to continue.</p>
+      </div>
 
       <form class="auth-form" (ngSubmit)="login()" novalidate>
         <div class="field">
-          <label for="login">User ID</label>
-          <input id="login" class="form-control" name="login"
-                 [(ngModel)]="loginObj.login" autocomplete="username"
-                 placeholder="e.g. admin">
+          <label for="login">User Name</label>
+          <input
+            id="login"
+            class="form-control"
+            name="login"
+            [(ngModel)]="loginObj.login"
+            autocomplete="username"
+            placeholder="Enter user name"
+          />
         </div>
 
         <div class="field">
           <label for="password">Password</label>
           <div class="password-wrap">
-            <input id="password" class="form-control" name="password"
-                   [type]="showPassword ? 'text' : 'password'"
-                   [(ngModel)]="loginObj.password" autocomplete="current-password"
-                   placeholder="Enter password">
-            <button type="button" class="eye-btn" (click)="showPassword = !showPassword"
-                    [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
-              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            <input
+              id="password"
+              class="form-control"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="loginObj.password"
+              autocomplete="current-password"
+              placeholder="Enter password"
+            />
+            <button
+              type="button"
+              class="eye-btn"
+              (click)="showPassword = !showPassword"
+              [attr.aria-label]="
+                showPassword ? 'Hide password' : 'Show password'
+              "
+            >
+              <i
+                class="bi"
+                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+              ></i>
             </button>
           </div>
         </div>
 
         <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
 
-        <button type="submit" class="btn btn-accent w-100" [disabled]="loading">
-          <span *ngIf="!loading">Sign in</span>
+        <button
+          type="submit"
+          class="btn btn-accent w-100 auth-submit"
+          [disabled]="loading"
+        >
+          <span *ngIf="!loading"
+            >Sign in <span aria-hidden="true">→</span></span
+          >
           <span *ngIf="loading">Signing in…</span>
         </button>
       </form>
@@ -49,6 +75,13 @@
       <p class="auth-footer">
         New here? <a routerLink="/register">Create an account</a>
       </p>
+
+      <div class="secure-note">
+        <span class="secure-line" aria-hidden="true"></span>
+        <i class="bi bi-shield-check" aria-hidden="true"></i>
+        <span class="secure-line" aria-hidden="true"></span>
+        <p>Secure access for authorized users</p>
+      </div>
     </div>
   </div>
 </section>
