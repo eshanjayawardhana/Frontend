@@ -1,0 +1,519 @@
+<!-- propeties are :
+ private String chemicalCode;
+    private String chemicalName;
+    private String activeIngredient;
+    private String unit;
+    private BigDecimal stockQuantity;
+    private BigDecimal reorderLevel;
+    private LocalDate expiryDate;
+    private String safetyNotes;
+    private StatusDto status; -->
+
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">CHEMICAL REGISTRATION</div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Chemical Form</div>
+
+          <div class="card-body">
+            <form
+              #chemicalForm="ngForm"
+              (ngSubmit)="SaveChemical(chemicalForm)"
+              novalidate
+            >
+              <!-- Chemical Code - optional -->
+              <div class="form-group mt-3">
+                <label for="code">Chemical Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="code"
+                  name="code"
+                  [(ngModel)]="chemicalObj.chemicalCode"
+                  #code="ngModel"
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Chemical Code (optional)"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    code.invalid &&
+                    (code.touched || code.dirty || chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="code.errors?.['minlength']">
+                    Chemical Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="code.errors?.['maxlength']">
+                    Chemical Code cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="code.errors?.['pattern']">
+                    Chemical Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Chemical Name -->
+              <div class="form-group mt-3">
+                <label for="name">Chemical Name <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  [(ngModel)]="chemicalObj.chemicalName"
+                  #name="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Chemical Name"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    name.invalid &&
+                    (name.touched || name.dirty || chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="name.errors?.['required']">
+                    Chemical Name is required.
+                  </small>
+
+                  <small *ngIf="name.errors?.['minlength']">
+                    Chemical Name must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="name.errors?.['maxlength']">
+                    Chemical Name cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="name.errors?.['pattern']">
+                    Chemical Name cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Active Ingredient -->
+              <div class="form-group mt-3">
+                <label for="activeIngredient"
+                  >Active Ingredient <span>*</span></label
+                >
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="activeIngredient"
+                  name="activeIngredient"
+                  [(ngModel)]="chemicalObj.activeIngredient"
+                  #activeIngredient="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="255"
+                  pattern=".*\S.*"
+                  placeholder="Enter Active Ingredient"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    activeIngredient.invalid &&
+                    (activeIngredient.touched ||
+                      activeIngredient.dirty ||
+                      chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="activeIngredient.errors?.['required']">
+                    Active Ingredient is required.
+                  </small>
+
+                  <small *ngIf="activeIngredient.errors?.['minlength']">
+                    Active Ingredient must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="activeIngredient.errors?.['maxlength']">
+                    Active Ingredient cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="activeIngredient.errors?.['pattern']">
+                    Active Ingredient cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- unit -->
+              <div class="form-group mt-3">
+                <label for="unit">Unit <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="unit"
+                  name="unit"
+                  [(ngModel)]="chemicalObj.unit"
+                  #unit="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Unit"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    unit.invalid &&
+                    (unit.touched || unit.dirty || chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="unit.errors?.['required']">
+                    Unit is required.
+                  </small>
+
+                  <small *ngIf="unit.errors?.['minlength']">
+                    Unit must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="unit.errors?.['maxlength']">
+                    Unit cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="unit.errors?.['pattern']">
+                    Unit cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- stockQuantity -->
+              <div class="form-group mt-3">
+                <label for="stockQuantity">Stock Quantity <span>*</span></label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="stockQuantity"
+                  name="stockQuantity"
+                  [(ngModel)]="chemicalObj.stockQuantity"
+                  #stockQuantity="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Stock Quantity"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    stockQuantity.invalid &&
+                    (stockQuantity.touched ||
+                      stockQuantity.dirty ||
+                      chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="stockQuantity.errors?.['required']">
+                    Stock Quantity is required.
+                  </small>
+
+                  <small *ngIf="stockQuantity.errors?.['minlength']">
+                    Stock Quantity must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="stockQuantity.errors?.['maxlength']">
+                    Stock Quantity cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="stockQuantity.errors?.['pattern']">
+                    Stock Quantity cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- reorderLevel -->
+              <div class="form-group mt-3">
+                <label for="reorderLevel">Reorder Level <span>*</span></label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="reorderLevel"
+                  name="reorderLevel"
+                  [(ngModel)]="chemicalObj.reorderLevel"
+                  #reorderLevel="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Reorder Level"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    reorderLevel.invalid &&
+                    (reorderLevel.touched ||
+                      reorderLevel.dirty ||
+                      chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="reorderLevel.errors?.['required']">
+                    Reorder Level is required.
+                  </small>
+
+                  <small *ngIf="reorderLevel.errors?.['minlength']">
+                    Reorder Level must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="reorderLevel.errors?.['maxlength']">
+                    Reorder Level cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="reorderLevel.errors?.['pattern']">
+                    Reorder Level cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- expiryDate -->
+              <div class="form-group mt-3">
+                <label for="expiryDate">Expiry Date <span>*</span></label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  id="expiryDate"
+                  name="expiryDate"
+                  [(ngModel)]="chemicalObj.expiryDate"
+                  #expiryDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    expiryDate.invalid &&
+                    (expiryDate.touched ||
+                      expiryDate.dirty ||
+                      chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="expiryDate.errors?.['required']">
+                    Expiry Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- safetyNotes not optional -->
+              <div class="form-group mt-3">
+                <label for="safetyNotes">Safety Notes <span>*</span></label>
+
+                <textarea
+                  class="form-control"
+                  id="safetyNotes"
+                  name="safetyNotes"
+                  [(ngModel)]="chemicalObj.safetyNotes"
+                  #safetyNotes="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="500"
+                  pattern=".*\S.*"
+                  placeholder="Enter Safety Notes"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    safetyNotes.invalid &&
+                    (safetyNotes.touched ||
+                      safetyNotes.dirty ||
+                      chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="safetyNotes.errors?.['required']">
+                    Safety Notes is required.
+                  </small>
+
+                  <small *ngIf="safetyNotes.errors?.['minlength']">
+                    Safety Notes must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="safetyNotes.errors?.['maxlength']">
+                    Safety Notes cannot exceed 500 characters.
+                  </small>
+
+                  <small *ngIf="safetyNotes.errors?.['pattern']">
+                    Safety Notes cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="status"> Chemical Status <span>*</span> </label>
+
+                <select
+                  class="form-control form-select"
+                  id="status"
+                  name="status"
+                  [(ngModel)]="selectedStatusId"
+                  #status="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Status</option>
+
+                  <option *ngFor="let status of allStatus" [value]="status.id">
+                    {{ status.name }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    status.invalid &&
+                    (status.touched || status.dirty || chemicalForm.submitted)
+                  "
+                >
+                  <small *ngIf="status.errors?.['required']">
+                    Chemical Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(chemicalForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    {{ isEditChemical == false ? "submit" : "update" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Chemical Table</div>
+          <div class="card-body overflow-auto">
+            <div class="input-group my-3">
+              <!-- Search -->
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by chemical name,code, etc..."
+                aria-label="Search Chemical"
+                [(ngModel)]="searchText"
+                name="searchText"
+                (input)="SearchChemicals()"
+              />
+
+              <!-- Status Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterStatusId"
+                name="selectedFilterStatusId"
+                (change)="SearchChemicals()"
+              >
+                <option [ngValue]="null">All Status</option>
+
+                <option *ngFor="let status of allStatus" [ngValue]="status.id">
+                  {{ status.name }}
+                </option>
+              </select>
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                (click)="
+                  searchText = '';
+                  selectedFilterStatusId = null;
+                  SearchChemicals()
+                "
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+
+              <button
+                class="btn btn-info"
+                type="button"
+                (click)="SearchChemicals()"
+              >
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+
+            <table class="table table-striped table-bordered table-wrapper">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>Active Ingredient</th>
+                  <th>Unit</th>
+                  <th>Stock Quantity</th>
+                  <th>Reorder Level</th>
+                  <th>Expiry Date</th>
+                  <th>Safety Notes</th>
+                  <th>Status</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let chemical of chemicals">
+                  <td>{{ chemical.chemicalCode }}</td>
+                  <td>{{ chemical.chemicalName }}</td>
+                  <td>{{ chemical.activeIngredient }}</td>
+                  <td>{{ chemical.unit }}</td>
+                  <td>{{ chemical.stockQuantity }}</td>
+                  <td>{{ chemical.reorderLevel }}</td>
+                  <td>{{ chemical.expiryDate }}</td>
+                  <td>{{ chemical.safetyNotes }}</td>
+                  <td>{{ chemical.status.name }}</td>
+
+                  <td class="text-center">
+                    <button
+                      class="btn btn-warning me-1"
+                      (click)="GetChemicalById(chemical.id)"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      class="btn btn-danger me-1"
+                      (click)="DeleteChemicalById(chemical.id)"
+                    >
+                      <i class="bi bi-archive"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

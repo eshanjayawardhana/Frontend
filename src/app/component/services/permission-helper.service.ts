@@ -42,6 +42,12 @@ export const AuthIds = {
   CUSTOMER_SITE_CREATE: 61,
   CUSTOMER_SITE_UPDATE: 62,
   CUSTOMER_SITE_DELETE: 63,
+
+  // Chemical module
+  CHEMICAL_VIEW: 70,
+  CHEMICAL_CREATE: 71,
+  CHEMICAL_UPDATE: 72,
+  CHEMICAL_DELETE: 73,
 } as const;
 
 @Injectable({ providedIn: 'root' })

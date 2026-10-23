@@ -22,6 +22,7 @@ import { QualificationComponent } from './component/qualification/qualification.
 import { TechnicianComponent } from './component/technician/technician.component';
 import { CustomerComponent } from './component/customer/customer.component';
 import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
+import { ChemicalComponent } from './component/chemical/chemical.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { CustomerSiteComponent } from './component/customer-site/customer-site.c
     QualificationComponent,
     TechnicianComponent,
     CustomerComponent,
-    CustomerSiteComponent
+    CustomerSiteComponent,
+    ChemicalComponent
   ],
   imports: [
     BrowserModule,

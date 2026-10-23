@@ -28,4 +28,8 @@ export class StatusService {
   GetAllCustomerSiteStatus():Observable<any>{
     return this.http.get(`${this.baseUrl}/customer-site-status`);
   }
+
+  GetAllChemicalStatus():Observable<any>{
+    return this.http.get(`${this.baseUrl}/chemical-status`);
+  }
 }
