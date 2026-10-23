@@ -12,6 +12,10 @@ import { ToastService } from './component/services/toast.service';
 export class AppComponent {
   title = 'Agrosole | Smart Pest Control System';
 
+  // Sidebar UI state only — existing business logic is unchanged.
+  isSidebarCollapsed = false;
+  isMobileMenuOpen = false;
+
   // Update this list when adding, removing or regrouping sidebar links.
   // Keep navigation configuration here instead of duplicating markup in the template.
   readonly navigationGroups = [
@@ -54,11 +58,28 @@ export class AppComponent {
     public toastService: ToastService
   ) { }
 
+  // Desktop sidebar: collapse / expand.
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  // Mobile sidebar: open / close.
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  // Close mobile navigation after selecting a menu item.
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+  }
+
   get displayName(): string {
     const user = this.userAuthService.getUser();
+
     if (!user) {
       return '';
     }
+
     return `${user.firstName || ''} ${user.lastName || ''}`.trim()
       || user.login
       || `User #${user.id}`;
@@ -85,6 +106,7 @@ export class AppComponent {
           this.router.navigate(['/login']);
         }
       });
+
       return;
     }
 
