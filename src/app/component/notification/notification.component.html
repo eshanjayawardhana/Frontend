@@ -1,0 +1,400 @@
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">NOTIFICATION REGISTRATION</div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Notification Form</div>
+
+          <div class="card-body">
+            <form
+              #notificationForm="ngForm"
+              (ngSubmit)="SaveNotification(notificationForm)"
+              novalidate
+            >
+              <!-- Recipient ID -->
+              <div class="form-group mt-3">
+                <label for="recipientId">Recipient ID <span>*</span></label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="recipientId"
+                  name="recipientId"
+                  [(ngModel)]="notificationObj.recipientId"
+                  #recipientId="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Recipient ID"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    recipientId.invalid &&
+                    (recipientId.touched ||
+                      recipientId.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="recipientId.errors?.['required']">
+                    Recipient ID is required.
+                  </small>
+
+                  <small *ngIf="recipientId.errors?.['minlength']">
+                    Recipient ID must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="recipientId.errors?.['maxlength']">
+                    Recipient ID cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="recipientId.errors?.['pattern']">
+                    Recipient ID cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- recipientType -->
+              <div class="form-group mt-3">
+                <label for="recipientType">Recipient Type <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="recipientType"
+                  name="recipientType"
+                  [(ngModel)]="notificationObj.recipientType"
+                  #recipientType="ngModel"
+                  required
+                >
+                  <option value="" disabled>Select Recipient Type</option>
+                  <option value="Customer">Customer</option>
+                  <option value="Staff">Staff</option>
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Supervisor">Supervisor</option>
+                  <option value="Technician">Technician</option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    recipientType.invalid &&
+                    (recipientType.touched ||
+                      recipientType.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="recipientType.errors?.['required']">
+                    Recipient Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="form-group mt-3">
+                <label for="message">Message <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="message"
+                  name="message"
+                  [(ngModel)]="notificationObj.message"
+                  #message="ngModel"
+                  required
+                  placeholder="Enter Message"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    message.invalid &&
+                    (message.touched ||
+                      message.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="message.errors?.['required']">
+                    Message is required.
+                  </small>
+                  <small *ngIf="message.errors?.['maxlength']">
+                    Message cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="message.errors?.['pattern']">
+                    Message cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Notification type -->
+              <div class="form-group mt-3">
+                <label for="type">Notification Type <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="type"
+                  name="type"
+                  [(ngModel)]="notificationObj.type"
+                  #notificationType="ngModel"
+                  required
+                >
+                  <option value="" disabled>Select Notification Type</option>
+                  <option value="Job Reminder">Job Reminder</option>
+                  <option value="Job Completion">Job Completion</option>
+                  <option value="Payment Reminder">Payment Reminder</option>
+                  <option value="Feedback Request">Feedback Request</option>
+                  <option value="Promotional">Promotional</option>
+                  <option value="System Alert">System Alert</option>
+                  <option value="Account Update">Account Update</option>
+                  <option value="Service Notification">
+                    Service Notification
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    notificationType.invalid &&
+                    (notificationType.touched ||
+                      notificationType.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="notificationType.errors?.['required']">
+                    Notification Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Sent Date -->
+              <div class="form-group mt-3">
+                <label for="sentDate">Sent Date <span>*</span></label>
+
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="sentDate"
+                  name="sentDate"
+                  [(ngModel)]="notificationObj.sentDate"
+                  #sentDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    sentDate.invalid &&
+                    (sentDate.touched ||
+                      sentDate.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="sentDate.errors?.['required']">
+                    Sent Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Read Status -->
+              <div class="form-group mt-3">
+                <label for="readStatus">Read Status <span>*</span></label>
+                <select
+                  class="form-control form-select"
+                  id="readStatus"
+                  name="readStatus"
+                  [(ngModel)]="notificationObj.readStatus"
+                  #readStatus="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Read Status</option>
+                  <option [ngValue]="true">Read</option>
+                  <option [ngValue]="false">Unread</option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    readStatus.invalid &&
+                    (readStatus.touched ||
+                      readStatus.dirty ||
+                      notificationForm.submitted)
+                  "
+                >
+                  <small *ngIf="readStatus.errors?.['required']">
+                    Read Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(notificationForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    {{ isEditNotification == false ? "submit" : "update" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Notification Table</div>
+          <div class="card-body overflow-auto">
+            <div class="input-group my-3">
+              <!-- Search -->
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by Recipient ID, Recipient Type, Message, Notification Type, Sent ..."
+                aria-label="Search Notification"
+                [(ngModel)]="searchText"
+                name="searchText"
+                (input)="SearchNotifications()"
+              />
+
+              <!-- Recipient Type Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterRecipientTypeId"
+                name="selectedFilterRecipientTypeId"
+                (change)="SearchNotifications()"
+              >
+                <option [ngValue]="null">All Recipient Types</option>
+                <option value="Customer">Customer</option>
+                <option value="Staff">Staff</option>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Technician">Technician</option>
+              </select>
+
+              <select
+                class="form-select"
+                style="max-width: 220px"
+                [(ngModel)]="selectedFilterNotificationTypeId"
+                name="selectedFilterNotificationTypeId"
+                (change)="SearchNotifications()"
+              >
+                <option [ngValue]="null">All Notification Types</option>
+
+                <option value="Job Reminder">Job Reminder</option>
+                <option value="Job Completion">Job Completion</option>
+                <option value="Payment Reminder">Payment Reminder</option>
+                <option value="Feedback Request">Feedback Request</option>
+                <option value="Promotional">Promotional</option>
+                <option value="System Alert">System Alert</option>
+                <option value="Account Update">Account Update</option>
+                <option value="Service Notification">
+                  Service Notification
+                </option>
+              </select>
+              <select
+                class="form-select"
+                style="max-width: 180px"
+                [(ngModel)]="selectedFilterReadStatus"
+                name="selectedFilterReadStatus"
+                (change)="SearchNotifications()"
+              >
+                <option [ngValue]="null">All Read Status</option>
+                <option [ngValue]="true">Read</option>
+                <option [ngValue]="false">Unread</option>
+              </select>
+              <button
+                class="btn btn-secondary"
+                type="button"
+                (click)="
+                  searchText = '';
+                  selectedFilterRecipientTypeId = null;
+                  selectedFilterNotificationTypeId = null;
+                  selectedFilterReadStatus = null;
+                  SearchNotifications()
+                "
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+
+              <button
+                class="btn btn-info"
+                type="button"
+                (click)="SearchNotifications()"
+              >
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+
+            <table class="table table-striped table-bordered table-wrapper">
+              <thead>
+                <tr>
+                  <th>Recipient ID</th>
+                  <th>Recipient Type</th>
+                  <th>Message</th>
+                  <th>Notification Type</th>
+                  <th>Sent Date</th>
+                  <th>Read Status</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="notifications.length === 0">
+                  <td colspan="7" class="text-center text-muted py-4">
+                    No notifications found.
+                  </td>
+                </tr>
+                <tr *ngFor="let notificationObj of notifications">
+                  <td>{{ notificationObj.recipientId }}</td>
+                  <td>{{ notificationObj.recipientType }}</td>
+                  <td>{{ notificationObj.message }}</td>
+                  <td>{{ notificationObj.type }}</td>
+                  <td>
+                    {{
+                      notificationObj.sentDate | date: "MMM dd, yyyy, h:mm a"
+                    }}
+                  </td>
+                  <td>{{ notificationObj.readStatus ? "Read" : "Unread" }}</td>
+
+                  <td class="text-center">
+                    <button
+                      class="btn btn-warning me-1"
+                      (click)="GetNotificationById(notificationObj.id)"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      class="btn btn-danger me-1"
+                      (click)="DeleteNotificationById(notificationObj.id)"
+                    >
+                      <i class="bi bi-archive"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

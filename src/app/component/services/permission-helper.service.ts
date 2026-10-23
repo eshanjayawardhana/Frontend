@@ -54,6 +54,12 @@ export const AuthIds = {
   PEST_TYPE_CREATE: 81,
   PEST_TYPE_UPDATE: 82,
   PEST_TYPE_DELETE: 83,
+
+  // Notification module
+  NOTIFICATION_VIEW: 90,
+  NOTIFICATION_CREATE: 91,
+  NOTIFICATION_UPDATE: 92,
+  NOTIFICATION_DELETE: 93,
 } as const;
 
 @Injectable({ providedIn: 'root' })
