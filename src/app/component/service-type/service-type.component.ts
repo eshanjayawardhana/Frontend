@@ -71,86 +71,90 @@ export class ServiceTypeComponent implements OnInit {
     this.selectedStatusId = null;
   }
 
-  SaveServiceType(form: any): void {
-    // 1. Validate form
-    if (form.invalid) {
+
+SaveServiceType(form: any): void {
+  // 1. Validate form — unchanged
+  if (form.invalid) {
+    return;
+  }
+
+  // 2. Set status — unchanged
+  this.serviceTypeObj.status = {
+    id: Number(this.selectedStatusId),
+  };
+
+  // 3. Set pest type — unchanged
+  this.serviceTypeObj.pestType = {
+    id: Number(this.selectedPestTypeId),
+  };
+
+  // 4. Decide Add or Update — unchanged
+  this.type = this.isEditServiceType == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  // Confirmation dialog — consistent UI/UX
+  swal({
+    title: isUpdate ? 'Update Service Type?' : 'Add Service Type?',
+    text: isUpdate
+      ? 'Are you sure you want to update this service type?'
+      : 'Are you sure you want to add this service type?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
 
-    // 2. Set status
-    this.serviceTypeObj.status = {
-      id: Number(this.selectedStatusId),
-    };
+    // Existing API call — unchanged
+    this.serviceTypeService
+      .createServiceType(this.serviceTypeObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllServiceTypes();
+          this.ClearForm(form);
 
-    // 3. Set pest type
-    this.serviceTypeObj.pestType = {
-      id: Number(this.selectedPestTypeId),
-    };
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Service type has been updated!'
+              : 'Service type has been added!',
+            'success',
+          );
+        },
 
-    // 4. Decide Add or Update
-    this.type = this.isEditServiceType == false ? 'Add' : 'Update';
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} service type:`,
+            error,
+          );
 
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.serviceTypeService
-            .createServiceType(this.serviceTypeObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllServiceTypes();
-                this.ClearForm(form);
-
-                swal('Successful!', 'Service type has been added!', 'success');
-              },
-
-              error: (error): void => {
-                console.error('Failed to add service type:', error);
-
-                swal('Error!', 'Failed to add service type.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update service type.'
+              : 'Failed to add service type.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.serviceTypeService
-            .createServiceType(this.serviceTypeObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllServiceTypes();
-                this.ClearForm(form);
+  });
+}
 
-                swal(
-                  'Successful!',
-                  'Service type has been updated!',
-                  'success',
-                );
-              },
-
-              error: (error): void => {
-                console.error('Failed to update service type:', error);
-
-                swal('Error!', 'Failed to update service type.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetServiceTypeById(ID: any) {
     this.serviceTypeService.GetServiceTypeById(ID).subscribe((allData) => {

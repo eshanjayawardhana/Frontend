@@ -1,29 +1,115 @@
-<div class="page-shell">
-  <h1 class="page-title">Dashboard</h1>
-  <p class="page-subtitle">Overview of institute activity and academic operations.</p>
+<div class="page-shell dashboard-page">
+  <!-- Page heading -->
+  <app-page-header
+    title="Operations Dashboard"
+    description="Monitor customer services, field operations, and important activity."
+  ></app-page-header>
 
-  <div class="row g-3 mb-3">
-    <div class="col-md-4" *ngFor="let card of summaryCards">
-      <div class="stat-tile panel p-3 h-100">
-        <div class="stat-label">{{ card.label }}</div>
-        <div class="stat-value">{{ card.value }}</div>
-        <div class="stat-note">{{ card.note }}</div>
-      </div>
-    </div>
+  <!-- Dashboard loading state -->
+  <div *ngIf="isLoading" class="dashboard-feedback" role="status">
+    <span
+      class="spinner-border spinner-border-sm me-2"
+      aria-hidden="true"
+    ></span>
+    Loading dashboard statistics...
   </div>
 
-  <div class="row g-3">
-    <div class="col-lg-7">
-      <div class="panel p-3 h-100">
-        <h3 class="h5 brand-font mb-3">Enrollment trend</h3>
-        <canvas id="myChart1" width="400" height="200"></canvas>
-      </div>
-    </div>
-    <div class="col-lg-5">
-      <div class="panel p-3 h-100">
-        <h3 class="h5 brand-font mb-3">Assessment overview</h3>
-        <canvas id="myChart2" width="400" height="200"></canvas>
-      </div>
-    </div>
+  <!-- Dashboard error state -->
+  <div
+    *ngIf="loadError"
+    class="dashboard-feedback dashboard-feedback--error"
+    role="alert"
+  >
+    Some statistics could not be loaded. Please check the backend connection and
+    try again.
+
+    <button
+      type="button"
+      class="dashboard-retry-button"
+      (click)="loadDashboardStatistics()"
+    >
+      Retry
+    </button>
   </div>
+
+  <!-- KPI cards -->
+  <section class="dashboard-stats" aria-label="Operational summary">
+    <app-stat-card
+      *ngFor="let card of summaryCards"
+      [label]="card.label"
+      [value]="card.value"
+      [description]="card.description"
+      [iconClass]="card.iconClass"
+      [accent]="card.accent"
+    ></app-stat-card>
+  </section>
+
+  <!-- Operational overview -->
+  <section class="dashboard-panels">
+    <!-- Service request analytics -->
+    <article class="dashboard-panel">
+      <div class="dashboard-panel__header">
+        <div>
+          <h2 class="dashboard-panel__title">Service Request Overview</h2>
+
+          <p class="dashboard-panel__subtitle">
+            Monitor the status and progress of service requests.
+          </p>
+        </div>
+
+        <div
+          class="dashboard-panel__icon dashboard-panel__icon--green"
+          aria-hidden="true"
+        >
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+      </div>
+
+      <div class="dashboard-placeholder">
+        <div class="dashboard-placeholder__icon">
+          <i class="bi bi-bar-chart-line"></i>
+        </div>
+
+        <h3>Request analytics</h3>
+
+        <p>
+          Request status summaries and trends will appear here when dashboard
+          analytics are connected to the backend.
+        </p>
+      </div>
+    </article>
+
+    <!-- Operational alerts -->
+    <article class="dashboard-panel">
+      <div class="dashboard-panel__header">
+        <div>
+          <h2 class="dashboard-panel__title">Operational Alerts</h2>
+
+          <p class="dashboard-panel__subtitle">
+            Keep important operational issues in view.
+          </p>
+        </div>
+
+        <div
+          class="dashboard-panel__icon dashboard-panel__icon--gold"
+          aria-hidden="true"
+        >
+          <i class="bi bi-bell"></i>
+        </div>
+      </div>
+
+      <div class="dashboard-placeholder">
+        <div class="dashboard-placeholder__icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+
+        <h3>Actionable alerts</h3>
+
+        <p>
+          Low-stock chemicals, urgent requests, and other alerts will be shown
+          here when their data sources are connected.
+        </p>
+      </div>
+    </article>
+  </section>
 </div>

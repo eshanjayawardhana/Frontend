@@ -57,86 +57,90 @@ export class CustomerSiteComponent implements OnInit {
     this.selectedStatusId = null;
   }
 
-  SaveCustomerSite(form: any): void {
-    // 1. Validate form
-    if (form.invalid) {
+
+SaveCustomerSite(form: any): void {
+  // 1. Validate form — unchanged
+  if (form.invalid) {
+    return;
+  }
+
+  // 2. Set status — unchanged
+  this.customerSiteObj.status = {
+    id: Number(this.selectedStatusId),
+  };
+
+  // 3. Set customer — unchanged
+  this.customerSiteObj.customer = {
+    id: Number(this.selectedCustomerId),
+  };
+
+  // 4. Decide Add or Update — unchanged
+  this.type = this.isEditCustomerSite == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  // Confirmation — consistent Add / Update UX
+  swal({
+    title: isUpdate ? 'Update Customer Site?' : 'Add Customer Site?',
+    text: isUpdate
+      ? 'Are you sure you want to update this customer site?'
+      : 'Are you sure you want to add this customer site?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
 
-    // 2. Set status
-    this.customerSiteObj.status = {
-      id: Number(this.selectedStatusId),
-    };
+    // Existing API call — unchanged
+    this.customerSiteService
+      .createCustomerSite(this.customerSiteObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllCustomerSites();
+          this.ClearForm(form);
 
-    // 3. Set customer
-    this.customerSiteObj.customer = {
-      id: Number(this.selectedCustomerId),
-    };
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Customer site has been updated successfully!'
+              : 'Customer site has been added successfully!',
+            'success',
+          );
+        },
 
-    // 4. Decide Add or Update
-    this.type = this.isEditCustomerSite == false ? 'Add' : 'Update';
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} customer site:`,
+            error,
+          );
 
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.customerSiteService
-            .createCustomerSite(this.customerSiteObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllCustomerSites();
-                this.ClearForm(form);
-
-                swal('Successful!', 'Customer site has been added!', 'success');
-              },
-
-              error: (error): void => {
-                console.error('Failed to add customer site:', error);
-
-                swal('Error!', 'Failed to add customer site.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update customer site.'
+              : 'Failed to add customer site.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.customerSiteService
-            .createCustomerSite(this.customerSiteObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllCustomerSites();
-                this.ClearForm(form);
+  });
+}
 
-                swal(
-                  'Successful!',
-                  'Customer site has been updated!',
-                  'success',
-                );
-              },
-
-              error: (error): void => {
-                console.error('Failed to update customer site:', error);
-
-                swal('Error!', 'Failed to update customer site.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetCustomerSiteById(ID: any) {
     this.customerSiteService.GetCustomerSitesById(ID).subscribe((allData) => {

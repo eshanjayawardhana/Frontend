@@ -27,6 +27,9 @@ import { PestTypeComponent } from './component/pest-type/pest-type.component';
 import { NotificationComponent } from './component/notification/notification.component';
 import { ServiceTypeComponent } from './component/service-type/service-type.component';
 import { ServiceRequestComponent } from './component/service-request/service-request.component';
+import { PageHeaderComponent } from './component/page-header/page-header.component';
+import { StatCardComponent } from './component/stat-card/stat-card.component';
+import { StatusBadgeComponent } from './component/status-badge/status-badge.component';
 
 
 @NgModule({
@@ -50,6 +53,9 @@ import { ServiceRequestComponent } from './component/service-request/service-req
     NotificationComponent,
     ServiceTypeComponent,
     ServiceRequestComponent,
+    PageHeaderComponent,
+    StatCardComponent,
+    StatusBadgeComponent,
   ],
   imports: [
     BrowserModule,

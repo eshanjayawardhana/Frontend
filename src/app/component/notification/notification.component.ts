@@ -54,76 +54,80 @@ export class NotificationComponent implements OnInit {
     this.GetAllNotifications();
   }
 
-  SaveNotification(form: any): void {
-    // Validate form
-    if (form.invalid) {
+
+SaveNotification(form: any): void {
+  // Validate form — unchanged
+  if (form.invalid) {
+    return;
+  }
+
+  // Decide Add or Update — unchanged
+  this.type = this.isEditNotification == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  // Confirmation dialog — consistent UI/UX
+  swal({
+    title: isUpdate ? 'Update Notification?' : 'Add Notification?',
+    text: isUpdate
+      ? 'Are you sure you want to update this notification?'
+      : 'Are you sure you want to add this notification?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
 
-    // Decide Add or Update
-    this.type = this.isEditNotification == false ? 'Add' : 'Update';
+    // Existing API call — unchanged
+    this.notificationService
+      .createNotification(this.notificationObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllNotifications();
+          this.ClearForm(form);
 
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.notificationService
-            .createNotification(this.notificationObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllNotifications();
-                this.ClearForm(form);
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Notification has been updated successfully!'
+              : 'Notification has been added successfully!',
+            'success',
+          );
+        },
 
-                swal('Successful!', 'Notification has been added!', 'success');
-              },
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} notification:`,
+            error,
+          );
 
-              error: (error): void => {
-                console.error('Failed to add notification:', error);
-
-                swal('Error!', 'Failed to add notification.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update notification.'
+              : 'Failed to add notification.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.notificationService
-            .createNotification(this.notificationObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllNotifications();
-                this.ClearForm(form);
+  });
+}
 
-                swal(
-                  'Successful!',
-                  'Notification has been updated!',
-                  'success',
-                );
-              },
-
-              error: (error): void => {
-                console.error('Failed to update notification:', error);
-
-                swal('Error!', 'Failed to update notification.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetNotificationById(ID: any) {
     this.notificationService.GetNotificationById(ID).subscribe({

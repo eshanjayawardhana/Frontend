@@ -1,0 +1,73 @@
+:host {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  max-width: 100%;
+  padding: 0.32rem 0.65rem;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+
+  white-space: nowrap;
+}
+
+.status-badge__dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Successful states */
+
+.status-badge--success {
+  color: var(--color-forest-green);
+  background: var(--color-success-bg);
+  border-color: rgba(54, 124, 80, 0.14);
+}
+
+/* Information and in-progress states */
+
+.status-badge--info {
+  color: var(--color-info-text);
+  background: var(--color-info-bg);
+  border-color: rgba(36, 91, 58, 0.12);
+}
+
+/* States requiring attention */
+
+.status-badge--warning {
+  color: var(--color-warning-text);
+  background: var(--color-warning-bg);
+  border-color: rgba(231, 184, 75, 0.32);
+}
+
+/* Cancelled, expired and overdue states */
+
+.status-badge--danger {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+  border-color: rgba(180, 35, 24, 0.12);
+}
+
+/* Any unrecognized status */
+
+.status-badge--neutral {
+  color: var(--color-charcoal);
+  background: #F0F2EE;
+  border-color: var(--color-border);
+}

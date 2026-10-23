@@ -1,8 +1,9 @@
-<main class="mt-5 pt-3">
+<main class="pt-3 customer-site-site-page">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 fw-bold fs-3">CUSTOMER SITES REGISTRATION</div>
-    </div>
+    <app-page-header
+  title="Customer Sites Registration"
+  description="Manage customer locations, site details, and associated customer records."
+></app-page-header>
 
     <div class="row">
       <div class="col-lg-12 mb-3">
@@ -433,9 +434,6 @@
                       (click)="DeleteCustomerSiteById(customerSiteObj.id)"
                     >
                       <i class="bi bi-archive"></i>
-                    </button>
-                    <button class="btn btn-info">
-                      <i class="bi bi-file-earmark"></i>
                     </button>
                   </td>
                 </tr>

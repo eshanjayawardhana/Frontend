@@ -19,7 +19,7 @@ export class ChemicalComponent implements OnInit {
   chemicals: Array<any> = [];
   allStatus: any;
   selectedStatusId: any = '';
-  
+
   type: string;
   statusValue: any;
   isEditChemical: boolean = false;
@@ -51,74 +51,84 @@ export class ChemicalComponent implements OnInit {
     this.selectedStatusId = null;
   }
 
-  SaveChemical(form: any): void {
-    this.chemicalObj.status = {
-      id: Number(this.selectedStatusId),
-    };
-    // 1. Validate form
-    if (form.invalid) {
+
+SaveChemical(form: any): void {
+  this.chemicalObj.status = {
+    id: Number(this.selectedStatusId),
+  };
+
+  // 1. Validate form — unchanged
+  if (form.invalid) {
+    return;
+  }
+
+  // 2. Decide Add or Update — unchanged
+  this.type = this.isEditChemical == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  // 3. Confirmation dialog — consistent UI/UX
+  swal({
+    title: isUpdate ? 'Update Chemical?' : 'Add Chemical?',
+    text: isUpdate
+      ? 'Are you sure you want to update this chemical?'
+      : 'Are you sure you want to add this chemical?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
-    // 4. Decide Add or Update
-    this.type = this.isEditChemical == false ? 'Add' : 'Update';
 
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.chemicalService
-            .AddChemical(this.chemicalObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllChemicals();
-                this.ClearForm(form);
+    // Existing API call — unchanged
+    this.chemicalService
+      .AddChemical(this.chemicalObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllChemicals();
+          this.ClearForm(form);
 
-                swal('Successful!', 'Chemical has been added!', 'success');
-              },
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Chemical has been updated successfully!'
+              : 'Chemical has been added successfully!',
+            'success',
+          );
+        },
 
-              error: (error): void => {
-                console.error('Failed to add chemical:', error);
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} chemical:`,
+            error,
+          );
 
-                swal('Error!', 'Failed to add chemical.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update chemical.'
+              : 'Failed to add chemical.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.chemicalService
-            .AddChemical(this.chemicalObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllChemicals();
-                this.ClearForm(form);
+  });
+}
 
-                swal('Successful!', 'Chemical has been updated!', 'success');
-              },
-
-              error: (error): void => {
-                console.error('Failed to update chemical:', error);
-
-                swal('Error!', 'Failed to update chemical.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetChemicalById(ID: any) {
     this.chemicalService.GetChemicalById(ID).subscribe((allData) => {

@@ -1,0 +1,42 @@
+.customer-section-header {
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: #245b3a;
+  border-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  // border-radius: 19px 19px 0 0;
+}
+
+.customer-page .card {
+  overflow: hidden;
+  border: 1px solid #e1e8df;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
+}
+
+/* Edit button - Harvest Gold */
+.customer-page .btn-warning {
+  color: #49360a;
+  background-color: #edba42;
+  border-color: #edba42;
+}
+
+.customer-page .btn-warning:hover {
+  color: #49360a;
+  background-color: #f5c147;
+  border-color: #f5c147;
+}
+
+/* Delete button */
+.customer-page .btn-danger {
+  color: #ffffff;
+  background-color: #e22e2e;
+  border-color: #e22e2e;
+}
+
+.customer-page .btn-danger:hover {
+  background-color: #f32525;
+  border-color: #f32525;
+}

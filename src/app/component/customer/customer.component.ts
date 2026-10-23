@@ -48,42 +48,76 @@ export class CustomerComponent implements OnInit {
     this.GetAllCustomers();
   }
 
-  SaveCustomer(): void {
-    this.customerObj.status = {
-      id: Number(this.selectedStatusId),
-    };
-    this.type = this.isEditCustomer == false ? 'Add' : 'Update';
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.customerService
-            .createCustomer(this.customerObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllCustomers();
-              },
-            });
-          swal('Sucessfull!', 'Customer has been added!', 'success');
-          this.ClearForm();
-        }
-      });
-    } else {
-      this.customerService
-        .createCustomer(this.customerObj, this.type)
-        .subscribe({
-          next: (result): void => {
-            this.GetAllCustomers();
-          },
-        });
-      swal('Sucessfull!', 'Customer has been updated!', 'success');
-      this.ClearForm();
+
+SaveCustomer(): void {
+  this.customerObj.status = {
+    id: Number(this.selectedStatusId),
+  };
+
+  const isUpdate = this.isEditCustomer;
+  this.type = isUpdate ? 'Update' : 'Add';
+
+  swal({
+    title: isUpdate ? 'Update Customer?' : 'Add Customer?',
+    text: isUpdate
+      ? 'Are you sure you want to update this customer?'
+      : 'Are you sure you want to add this customer?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
+      return;
     }
-  }
+
+    this.customerService
+      .createCustomer(this.customerObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          this.GetAllCustomers();
+
+          swal(
+            'Successful!',
+            isUpdate
+              ? 'Customer has been updated successfully!'
+              : 'Customer has been added successfully!',
+            'success',
+          );
+
+          this.ClearForm();
+        },
+
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} customer:`,
+            error,
+          );
+
+          swal(
+            'Request Failed',
+            isUpdate
+              ? 'Customer could not be updated. Please try again.'
+              : 'Customer could not be added. Please try again.',
+            'error',
+          );
+        },
+      });
+  });
+}
+
 
   GetCustomerById(ID: any) {
     this.customerService.GetCustomerById(ID).subscribe((allData) => {

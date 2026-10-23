@@ -1,0 +1,8 @@
+<span
+  class="status-badge"
+  [ngClass]="statusClass"
+  [attr.aria-label]="'Status: ' + displayStatus"
+>
+  <span class="status-badge__dot" aria-hidden="true"></span>
+  {{ displayStatus }}
+</span>

@@ -99,104 +99,111 @@ export class ServiceRequestComponent implements OnInit {
     this.selectedCustomerSiteId = null;
   }
 
-  SaveServiceRequest(form: any): void {
-    if (form.invalid) {
+
+SaveServiceRequest(form: any): void {
+  if (form.invalid) {
+    return;
+  }
+
+  // Set status — unchanged
+  this.serviceRerquestObj.status = {
+    id: Number(this.selectedStatusId),
+  };
+
+  // Set customer — unchanged
+  this.serviceRerquestObj.customer = {
+    id: Number(this.selectedCustomerId),
+  };
+
+  // Set customer site — unchanged
+  this.serviceRerquestObj.customerSite = {
+    id: Number(this.selectedCustomerSiteId),
+  };
+
+  // Set pest type — unchanged
+  this.serviceRerquestObj.pestType = {
+    id: Number(this.selectedPestTypeId),
+  };
+
+  // Set service type — unchanged
+  this.serviceRerquestObj.serviceType = {
+    id: Number(this.selectedServiceTypeId),
+  };
+
+  // Decide Add or Update — unchanged
+  this.type = this.isEditServiceRequest == false ? 'Add' : 'Update';
+
+  const isUpdate = this.type == 'Update';
+
+  swal({
+    title: isUpdate ? 'Update Service Request?' : 'Add Service Request?',
+    text: isUpdate
+      ? 'Are you sure you want to update this service request?'
+      : 'Are you sure you want to add this service request?',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Cancel',
+        value: false,
+        visible: true,
+        closeModal: true,
+      },
+      confirm: {
+        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+        value: true,
+        visible: true,
+        closeModal: true,
+      },
+    },
+    dangerMode: false,
+  }).then((confirmed) => {
+    if (!confirmed) {
       return;
     }
 
-    // 1. Set status
-    this.serviceRerquestObj.status = {
-      id: Number(this.selectedStatusId),
-    };
+    this.serviceRequestService
+      .createServiceRequest(this.serviceRerquestObj, this.type)
+      .subscribe({
+        next: (result): void => {
+          if (isUpdate) {
+            this.ClearForm(form);
+            this.GetAllServiceRequests();
 
-    // 2. Set customer
-    this.serviceRerquestObj.customer = {
-      id: Number(this.selectedCustomerId),
-    };
+            swal(
+              'Successful!',
+              'Service Request has been updated!',
+              'success',
+            );
+          } else {
+            this.GetAllServiceRequests();
+            this.ClearForm(form);
 
-    // 3. set customer site
-    this.serviceRerquestObj.customerSite = {
-      id: Number(this.selectedCustomerSiteId),
-    };
+            swal(
+              'Successful!',
+              'Service Request has been added!',
+              'success',
+            );
+          }
+        },
 
-    // 4. set pest type
-    this.serviceRerquestObj.pestType = {
-      id: Number(this.selectedPestTypeId),
-    };
+        error: (error): void => {
+          console.error(
+            `Failed to ${isUpdate ? 'update' : 'add'} Service Request:`,
+            error,
+          );
 
-    // 5. set service type
-    this.serviceRerquestObj.serviceType = {
-      id: Number(this.selectedServiceTypeId),
-    };
-
-    this.type = this.isEditServiceRequest == false ? 'Add' : 'Update';
-
-    // ADD
-    if (this.type == 'Add') {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Add this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.serviceRequestService
-            .createServiceRequest(this.serviceRerquestObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.GetAllServiceRequests();
-                this.ClearForm(form);
-
-                swal(
-                  'Successful!',
-                  'Service Request has been added!',
-                  'success',
-                );
-              },
-
-              error: (error): void => {
-                console.error('Failed to add Service Request:', error);
-
-                swal('Error!', 'Failed to add Service Request.', 'error');
-              },
-            });
-        }
+          swal(
+            'Error!',
+            isUpdate
+              ? 'Failed to update Service Request.'
+              : 'Failed to add Service Request.',
+            'error',
+          );
+        },
       });
-    }
-    // UPDATE
-    else {
-      swal({
-        title: 'Are you sure?',
-        text: 'That you want to Update this details?',
-        icon: 'warning',
-        dangerMode: true,
-      }).then((willUpdate) => {
-        if (willUpdate) {
-          this.serviceRequestService
-            .createServiceRequest(this.serviceRerquestObj, this.type)
-            .subscribe({
-              next: (result): void => {
-                this.ClearForm(form);
-                this.GetAllServiceRequests();
+  });
+}
 
-
-                swal(
-                  'Successful!',
-                  'Service Request has been updated!',
-                  'success',
-                );
-              },
-
-              error: (error): void => {
-                console.error('Failed to update Service Request:', error);
-
-                swal('Error!', 'Failed to update Service Request.', 'error');
-              },
-            });
-        }
-      });
-    }
-  }
 
   GetServiceRequestById(ID: any) {
     this.serviceRequestService.GetServiceRequestById(ID).subscribe({

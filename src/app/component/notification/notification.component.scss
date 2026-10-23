@@ -1,0 +1,236 @@
+/* Agrosole Notification Module */
+
+.notification-section-header {
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: #245b3a;
+  border-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.notification-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.notification-status--read {
+  color: #245b3a;
+  background: #e3f2e5;
+}
+
+.notification-status--unread {
+  color: #8a6411;
+  background: #fff3cf;
+}
+
+/* Notification table */
+
+.table-wrapper {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.table-wrapper thead th {
+  padding: 0.9rem 0.85rem;
+  color: #26332b;
+  background: #f0f4ed;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table-wrapper tbody td {
+  padding: 0.8rem 0.85rem;
+  color: #344239;
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+.table-wrapper tbody tr:hover {
+  background: #f7f8f4;
+}
+
+/* Consistent card appearance */
+
+.notification-page .card {
+  overflow: hidden;
+  border: 1px solid #e1e8df;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
+}
+
+.notification-page .card-body {
+  padding: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .notification-page .card-body {
+    padding: 0.9rem;
+  }
+
+  .table-wrapper {
+    min-width: 750px;
+  }
+}
+
+/* ========================================
+   Agrosole - Notification Form Styling
+======================================== */
+
+/* Form labels */
+.notification-page .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #26332b;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.notification-page .form-group label span {
+  color: #c0392b;
+}
+
+/* Text inputs, dropdowns and date fields */
+.notification-page .form-control,
+.notification-page .form-select {
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  color: #26332b;
+  background-color: #ffffff;
+  border: 1px solid #d8e1d7;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Placeholder */
+.notification-page .form-control::placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+/* Focus state */
+.notification-page .form-control:focus,
+.notification-page .form-select:focus {
+  border-color: #367c50;
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+  outline: none;
+}
+
+/* Disabled dropdown options remain readable */
+.notification-page .form-select:disabled,
+.notification-page .form-control:disabled {
+  background-color: #f0f3ee;
+  cursor: not-allowed;
+}
+
+/* Validation messages */
+.notification-page .text-danger {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Base button styling */
+.notification-page .btn {
+  min-height: 40px;
+  padding: 0.55rem 1rem;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.notification-page .btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Primary actions - Forest Green */
+.notification-page .btn-primary,
+.notification-page .btn-info {
+  color: #ffffff;
+  background-color: #245b3a;
+  border-color: #245b3a;
+}
+
+.notification-page .btn-primary:hover,
+.notification-page .btn-info:hover {
+  color: #ffffff;
+  background-color: #367c50;
+  border-color: #367c50;
+  box-shadow: 0 4px 10px rgba(36, 91, 58, 0.15);
+}
+
+/* Secondary actions */
+.notification-page .btn-secondary {
+  color: #26332b;
+  background-color: #edf1eb;
+  border-color: #d8e1d7;
+}
+
+.notification-page .btn-secondary:hover {
+  color: #245b3a;
+  background-color: #dfe9dd;
+  border-color: #c7d8c6;
+}
+
+/* Edit button - Harvest Gold */
+.notification-page .btn-warning {
+  color: #49360a;
+  background-color: #edba42;
+  border-color: #edba42;
+}
+
+.notification-page .btn-warning:hover {
+  color: #49360a;
+  background-color: #f5c147;
+  border-color: #f5c147;
+}
+
+/* Delete button */
+.notification-page .btn-danger {
+  color: #ffffff;
+  background-color: #e22e2e;
+  border-color: #e22e2e;
+}
+
+.notification-page .btn-danger:hover {
+  background-color: #f32525;
+  border-color: #f32525;
+}
+
+
+/* Keyboard accessibility */
+.notification-page .btn:focus-visible {
+  outline: 3px solid rgba(54, 124, 80, 0.3);
+  outline-offset: 2px;
+}
+
+/* Mobile spacing */
+@media (max-width: 576px) {
+  .notification-page .form-group {
+    margin-top: 1rem;
+  }
+
+  .notification-page .btn {
+    min-height: 42px;
+  }
+
+  .notification-page .input-group {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

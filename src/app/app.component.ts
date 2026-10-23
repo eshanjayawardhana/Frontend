@@ -10,7 +10,42 @@ import { ToastService } from './component/services/toast.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'template-angular';
+  title = 'Agrosole | Smart Pest Control System';
+
+  // Update this list when adding, removing or regrouping sidebar links.
+  // Keep navigation configuration here instead of duplicating markup in the template.
+  readonly navigationGroups = [
+    {
+      label: 'Core',
+      items: [
+        { label: 'Dashboard', icon: 'bi-grid-1x2', route: '/dashboard' }
+      ]
+    },
+    {
+      label: 'Management',
+      items: [
+        { label: 'Technicians', icon: 'bi-wrench', route: '/technician' },
+        { label: 'Customers', icon: 'bi-people', route: '/customer' },
+        { label: 'Customer Sites', icon: 'bi-geo-alt', route: '/customer-site' },
+        { label: 'Chemicals', icon: 'bi-droplet', route: '/chemical' },
+        { label: 'Notifications', icon: 'bi-bell', route: '/notification' },
+        { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' }
+      ]
+    },
+    {
+      label: 'Master Data',
+      items: [
+        { label: 'Pest Types', icon: 'bi-bug', route: '/pest-type' },
+        { label: 'Service Types', icon: 'bi-ui-checks-grid', route: '/service-type' }
+      ]
+    },
+    {
+      label: 'Administration',
+      items: [
+        { label: 'Privileges', icon: 'bi-shield-lock', route: '/privilege' }
+      ]
+    }
+  ];
 
   constructor(
     private router: Router,

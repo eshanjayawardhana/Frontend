@@ -1,13 +1,14 @@
-<main class="mt-5 pt-3">
+<main class="pt-3 customer-page">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 fw-bold fs-3">CUSTOMER REGISTRATION</div>
-    </div>
+    <app-page-header
+      title="Customers Registration"
+      description="Manage customer records, contact information, and customer categories."
+    ></app-page-header>
 
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card text-dark mb-3 h-100">
-          <div class="card-header bg-info fw-bold">Customer Form</div>
+          <div class="card-header customer-section-header">Customer Form</div>
           <div class="card-body">
             <form (ngSubmit)="SaveCustomer()">
               <div class="form-group">
@@ -161,9 +162,9 @@
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Nice</th>
-                  <th scope="col">Nice</th>
                   <th scope="col">BillingAddress</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,9 +192,6 @@
                       (click)="DeleteById(customerObj.id)"
                     >
                       <i class="bi bi-archive"></i>
-                    </button>
-                    <button class="btn btn-info">
-                      <i class="bi bi-file-earmark"></i>
                     </button>
                   </td>
                 </tr>
