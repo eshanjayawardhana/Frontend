@@ -48,6 +48,12 @@ export const AuthIds = {
   CHEMICAL_CREATE: 71,
   CHEMICAL_UPDATE: 72,
   CHEMICAL_DELETE: 73,
+
+  // Pest Type module
+  PEST_TYPE_VIEW: 80,
+  PEST_TYPE_CREATE: 81,
+  PEST_TYPE_UPDATE: 82,
+  PEST_TYPE_DELETE: 83,
 } as const;
 
 @Injectable({ providedIn: 'root' })

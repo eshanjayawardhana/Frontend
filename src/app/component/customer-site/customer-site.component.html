@@ -295,10 +295,7 @@
                 >
                   <option [ngValue]="null" disabled>Select Status</option>
 
-                  <option
-                    *ngFor="let status of allStatus"
-                    [value]="status.id"
-                  >
+                  <option *ngFor="let status of allStatus" [value]="status.id">
                     {{ status.name }}
                   </option>
                 </select>
@@ -373,12 +370,16 @@
               </select>
 
               <button
-  class="btn btn-secondary"
-  type="button"
-  (click)="searchText = ''; selectedFilterStatusId = null; SearchCustomerSites()"
->
-  <i class="bi bi-x-lg"></i>
-</button>
+                class="btn btn-secondary"
+                type="button"
+                (click)="
+                  searchText = '';
+                  selectedFilterStatusId = null;
+                  SearchCustomerSites()
+                "
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
 
               <button
                 class="btn btn-info"
