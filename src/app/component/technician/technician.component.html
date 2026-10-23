@@ -1,1 +1,154 @@
-<p>technician works!</p>
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">TECHNICIAN REGISTRATION</div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Technician Form</div>
+          <div class="card-body">
+            <form (ngSubmit)="SaveTechnician()">
+              <div class="form-group">
+                <label for="fullName">Full Name <span>*</span></label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  id="fullName"
+                  name="fullName"
+                  [(ngModel)]="technicianObj.fullName"
+                  required
+                  placeholder="Enter Technician Full Name"
+                />
+              </div>
+
+              <div class="form-group mt-1">
+                <label for="phone">Phone Number <span>*</span></label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  id="phone"
+                  name="phone"
+                  [(ngModel)]="technicianObj.phone"
+                  required
+                  placeholder="Enter Technician Phone Number"
+                />
+              </div>
+
+              <div class="form-group mt-1">
+                <label for="licenseNo">License Number <span>*</span></label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  id="licenseNo"
+                  name="licenseNo"
+                  [(ngModel)]="technicianObj.licenseNo"
+                  required
+                  placeholder="Enter Technician License Number"
+                />
+              </div>
+
+              <div class="form-group mt-1">
+                <label for="specialization"
+                  >Specialization <span>*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  id="specialization"
+                  name="specialization"
+                  [(ngModel)]="technicianObj.specialization"
+                  required
+                  placeholder="Enter Technician Specialization"
+                />
+
+                <div class="form-group mt-1">
+                  <label for="status">Technician Status <span>*</span></label>
+                  <select
+                    class="form-control form-select mt-2"
+                    id="status"
+                    name="status"
+                    aria-label="Default select example"
+                    (change)="onChangeStatus($event)"
+                    required
+                  >
+                    <option disabled selected>
+                      {{
+                        isEditTechnician === true ? statusValue : "Select Value"
+                      }}
+                    </option>
+                    <option
+                      *ngFor="let status of allStatus"
+                      [value]="status.id"
+                    >
+                      {{ status.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group mt-4">
+                    <div class="text-end ms-auto">
+                      <button class="btn btn-primary"> {{isEditTechnician == false ? "submit" : "update"}}</button>
+                    </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Technician Table</div>
+          <div class="card-body overflow-auto">
+            <div class="input-group my-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search Technician"
+                aria-label="Search"
+                aria-describedby="button-addon2"
+              />
+              <button class="btn btn-info" type="button" id="button-addon2">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+            <table class="table table-striped table-bordered table-wrapper">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">License No</th>
+                  <th scope="col">Specialization</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let technicianObj of technicians">
+                  <td>
+                    {{ technicianObj.technicianCode || technicianObj.id }}
+                  </td>
+                  <td>{{ technicianObj.fullName }}</td>
+                  <td>{{ technicianObj.phone }}</td>
+                  <td>{{ technicianObj.licenseNo }}</td>
+                  <td>{{ technicianObj.specialization }}</td>
+                  <td>{{ technicianObj.status?.name }}</td>
+
+
+                  <td class="text-center">
+                      <button class="btn btn-warning me-1" (click)="GetTechnicianById(technicianObj.id)"><i class="bi bi-pencil-square"></i></button>
+                      <button class="btn btn-danger me-1"  (click)="DeleteById(technicianObj.id)"><i class="bi bi-archive"></i></button>
+                      <button class="btn btn-info"><i class="bi bi-file-earmark"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
