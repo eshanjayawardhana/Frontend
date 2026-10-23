@@ -1,0 +1,448 @@
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">CUSTOMER SITES REGISTRATION</div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Customer Site Form</div>
+
+          <div class="card-body">
+            <form
+              #customerSiteForm="ngForm"
+              (ngSubmit)="SaveCustomerSite(customerSiteForm)"
+              novalidate
+            >
+              <!-- Customer -->
+              <div class="form-group">
+                <label for="customer">Customer Name <span>*</span></label>
+
+                <select
+                  class="form-control form-select"
+                  id="customer"
+                  name="customer"
+                  [(ngModel)]="selectedCustomerId"
+                  #customer="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Customer</option>
+
+                  <option
+                    *ngFor="let customer of allCustomers"
+                    [value]="customer.id"
+                  >
+                    {{ customer.customerName }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customer.invalid &&
+                    (customer.touched ||
+                      customer.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="customer.errors?.['required']">
+                    Customer Name is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Site Name -->
+              <div class="form-group mt-3">
+                <label for="siteName">Site Name <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="siteName"
+                  name="siteName"
+                  [(ngModel)]="customerSiteObj.siteName"
+                  #siteName="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Site Name"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    siteName.invalid &&
+                    (siteName.touched ||
+                      siteName.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="siteName.errors?.['required']">
+                    Site Name is required.
+                  </small>
+
+                  <small *ngIf="siteName.errors?.['minlength']">
+                    Site Name must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="siteName.errors?.['maxlength']">
+                    Site Name cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="siteName.errors?.['pattern']">
+                    Site Name cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="form-group mt-3">
+                <label for="address">Address <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="address"
+                  [(ngModel)]="customerSiteObj.address"
+                  #address="ngModel"
+                  required
+                  minlength="5"
+                  maxlength="255"
+                  pattern=".*\S.*"
+                  placeholder="Enter Site Address"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    address.invalid &&
+                    (address.touched ||
+                      address.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="address.errors?.['required']">
+                    Address is required.
+                  </small>
+
+                  <small *ngIf="address.errors?.['minlength']">
+                    Address must be at least 5 characters.
+                  </small>
+
+                  <small *ngIf="address.errors?.['maxlength']">
+                    Address cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="address.errors?.['pattern']">
+                    Address cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- City -->
+              <div class="form-group mt-3">
+                <label for="city">City <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="city"
+                  name="city"
+                  [(ngModel)]="customerSiteObj.city"
+                  #city="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter City"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    city.invalid &&
+                    (city.touched || city.dirty || customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="city.errors?.['required']">
+                    City is required.
+                  </small>
+
+                  <small *ngIf="city.errors?.['minlength']">
+                    City must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="city.errors?.['maxlength']">
+                    City cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="city.errors?.['pattern']">
+                    City cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Contact Person -->
+              <div class="form-group mt-3">
+                <label for="contactPerson">Contact Person <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contactPerson"
+                  name="contactPerson"
+                  [(ngModel)]="customerSiteObj.contactPerson"
+                  #contactPerson="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Contact Person"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    contactPerson.invalid &&
+                    (contactPerson.touched ||
+                      contactPerson.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="contactPerson.errors?.['required']">
+                    Contact Person is required.
+                  </small>
+
+                  <small *ngIf="contactPerson.errors?.['minlength']">
+                    Contact Person must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="contactPerson.errors?.['maxlength']">
+                    Contact Person cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="contactPerson.errors?.['pattern']">
+                    Contact Person cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Contact Phone -->
+              <div class="form-group mt-3">
+                <label for="contactPhone">Contact Phone <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contactPhone"
+                  name="contactPhone"
+                  [(ngModel)]="customerSiteObj.contactPhone"
+                  #contactPhone="ngModel"
+                  required
+                  pattern="^(?:\+94|0)7[0-9]{8}$"
+                  placeholder="Enter Contact Phone"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    contactPhone.invalid &&
+                    (contactPhone.touched ||
+                      contactPhone.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="contactPhone.errors?.['required']">
+                    Contact Phone is required.
+                  </small>
+
+                  <small *ngIf="contactPhone.errors?.['pattern']">
+                    Enter a valid Sri Lankan mobile number. Example: 0712345678
+                  </small>
+                </div>
+              </div>
+
+              <!-- Site Notes - Optional -->
+              <div class="form-group mt-3">
+                <label for="siteNotes">Site Notes</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="siteNotes"
+                  name="siteNotes"
+                  [(ngModel)]="customerSiteObj.siteNotes"
+                  placeholder="Enter Site Notes"
+                />
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="status">
+                  Customer Site Status <span>*</span>
+                </label>
+
+                <select
+                  class="form-control form-select"
+                  id="status"
+                  name="status"
+                  [(ngModel)]="selectedStatusId"
+                  #status="ngModel"
+                  required
+                >
+                  <option [ngValue]="null" disabled>Select Status</option>
+
+                  <option
+                    *ngFor="let status of allStatus"
+                    [value]="status.id"
+                  >
+                    {{ status.name }}
+                  </option>
+                </select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    status.invalid &&
+                    (status.touched ||
+                      status.dirty ||
+                      customerSiteForm.submitted)
+                  "
+                >
+                  <small *ngIf="status.errors?.['required']">
+                    Customer Site Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(customerSiteForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    {{ isEditCustomerSite == false ? "submit" : "update" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header bg-info fw-bold">Customer Table</div>
+          <div class="card-body overflow-auto">
+            <div class="input-group my-3">
+              <!-- Search -->
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by site name, customer, city..."
+                aria-label="Search Customer Site"
+                [(ngModel)]="searchText"
+                name="searchText"
+                (input)="SearchCustomerSites()"
+              />
+
+              <!-- Status Filter -->
+              <select
+                class="form-select"
+                style="max-width: 200px"
+                [(ngModel)]="selectedFilterStatusId"
+                name="selectedFilterStatusId"
+                (change)="SearchCustomerSites()"
+              >
+                <option [ngValue]="null">All Status</option>
+
+                <option *ngFor="let status of allStatus" [ngValue]="status.id">
+                  {{ status.name }}
+                </option>
+              </select>
+
+              <button
+  class="btn btn-secondary"
+  type="button"
+  (click)="searchText = ''; selectedFilterStatusId = null; SearchCustomerSites()"
+>
+  <i class="bi bi-x-lg"></i>
+</button>
+
+              <button
+                class="btn btn-info"
+                type="button"
+                (click)="SearchCustomerSites()"
+              >
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+
+            <table class="table table-striped table-bordered table-wrapper">
+              <thead>
+                <tr>
+                  <th>Customer Code</th>
+                  <th>Site Code</th>
+                  <th>Site Name</th>
+                  <th>Customer Name</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Contact Person</th>
+                  <th>Contact Phone</th>
+                  <th>Site Notes</th>
+                  <th>Status</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let customerSiteObj of customerSites">
+                  <td>
+                    {{ customerSiteObj.customerCode || customerSiteObj.id }}
+                  </td>
+                  <td>{{ customerSiteObj.siteCode }}</td>
+                  <td>{{ customerSiteObj.siteName }}</td>
+                  <td>{{ customerSiteObj.customer.customerName }}</td>
+                  <td>{{ customerSiteObj.address }}</td>
+                  <td>{{ customerSiteObj.city }}</td>
+                  <td>{{ customerSiteObj.contactPerson }}</td>
+                  <td>{{ customerSiteObj.contactPhone }}</td>
+                  <td>{{ customerSiteObj.siteNotes }}</td>
+                  <td>{{ customerSiteObj.status.name }}</td>
+
+                  <td class="text-center">
+                    <button
+                      class="btn btn-warning me-1"
+                      (click)="GetCustomerSiteById(customerSiteObj.id)"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      class="btn btn-danger me-1"
+                      (click)="DeleteCustomerSiteById(customerSiteObj.id)"
+                    >
+                      <i class="bi bi-archive"></i>
+                    </button>
+                    <button class="btn btn-info">
+                      <i class="bi bi-file-earmark"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

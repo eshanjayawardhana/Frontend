@@ -13,6 +13,7 @@ import { PrivilegeComponent } from './component/privilege/privilege.component';
 import { QualificationComponent } from './component/qualification/qualification.component';
 import { TechnicianComponent } from './component/technician/technician.component';
 import { CustomerComponent } from './component/customer/customer.component';
+import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'customer', component: CustomerComponent, canActivate: [AuthGuard] },
+  { path: 'customer-site', component: CustomerSiteComponent, canActivate: [AuthGuard] },
   {
     path: 'qualification',
     component: QualificationComponent,
