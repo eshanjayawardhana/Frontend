@@ -15,7 +15,7 @@
                 <label for="customerName">Full Name <span>*</span></label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mt-2"
                   id="customerName"
                   name="customerName"
                   [(ngModel)]="customerObj.customerName"
@@ -27,25 +27,24 @@
               <!-- customer type selection (types: Residential, Commercial, Industrial)-->
               <div class="form-group mt-3">
                 <label for="customerType">Customer Type <span>*</span></label>
-                <select
-                  class="form-control form-select"
-                  id="customerType"
-                  name="customerType"
+                <ng-select
+                  class="mt-2"
+                  [items]="customerTypes"
                   [(ngModel)]="customerObj.customerType"
+                  name="customerType"
+                  placeholder="Select Customer Type"
+                  [clearable]="true"
+                  [searchable]="true"
                   required
                 >
-                  <option value="" disabled>Select Value</option>
-                  <option value="Residential">Residential</option>
-                  <option value="Commercial">Commercial</option>
-                  <option value="Industrial">Industrial</option>
-                </select>
+                </ng-select>
               </div>
 
               <div class="form-group mt-3">
                 <label for="email">Email <span>*</span></label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mt-2"
                   id="email"
                   name="email"
                   [(ngModel)]="customerObj.email"
@@ -58,7 +57,7 @@
                 <label for="phone">Phone <span>*</span></label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mt-2"
                   id="phone"
                   name="phone"
                   [(ngModel)]="customerObj.phone"
@@ -71,7 +70,7 @@
                 <label for="nic">NIC <span>*</span></label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mt-2"
                   id="nic"
                   name="nic"
                   [(ngModel)]="customerObj.nic"
@@ -85,7 +84,7 @@
                 >
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mt-2"
                   id="billingAddress"
                   name="billingAddress"
                   [(ngModel)]="customerObj.billingAddress"
@@ -97,22 +96,19 @@
               <div class="form-group mt-3">
                 <div class="form-group mt-3">
                   <label for="status">Customer Status <span>*</span></label>
-                  <select
-                    class="form-control form-select"
-                    id="status"
-                    name="status"
+                  <ng-select
+                    class="mt-2"
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
                     [(ngModel)]="selectedStatusId"
+                    name="status"
+                    placeholder="Select Customer Status"
+                    [clearable]="true"
+                    [searchable]="true"
                     required
                   >
-                    <option value="" disabled>Select Value</option>
-
-                    <option
-                      *ngFor="let status of allStatus"
-                      [value]="status.id"
-                    >
-                      {{ status.name }}
-                    </option>
-                  </select>
+                  </ng-select>
                 </div>
 
                 <div class="form-group mt-4">

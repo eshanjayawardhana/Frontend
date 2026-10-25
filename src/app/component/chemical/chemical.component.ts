@@ -15,7 +15,21 @@ import swal from 'sweetalert';
   styleUrls: ['./chemical.component.scss'],
 })
 export class ChemicalComponent implements OnInit {
-  chemicalObj: ChemicalRepresentation = {};
+
+  chemicalUnits: string[] = [
+  'Milliliter (mL)',
+  'Liter (L)',
+  'Gram (g)',
+  'Kilogram (kg)',
+  'Milligram (mg)',
+  'Piece (pcs)',
+  'Bottle',
+  'Can',
+  'Packet',
+  'Box',
+];
+
+  chemicalObj: ChemicalRepresentation = {unit: null as any,};
   chemicals: Array<any> = [];
   allStatus: any;
   selectedStatusId: any = '';
@@ -33,6 +47,8 @@ export class ChemicalComponent implements OnInit {
   canCreate = false;
   canUpdate = false;
   canDelete = false;
+  chemicalUnitValue: any;
+
 
   constructor(
     private chemicalService: ChemicalService,
@@ -143,6 +159,9 @@ SaveChemical(form: any): void {
       this.chemicalObj.status = {
         id: allData.data.dataList[0].status.id, // Set the status ID for the chemical object
       };
+
+      this.chemicalUnitValue =
+        allData.data.dataList[0].unit;
     });
   }
 
@@ -263,6 +282,7 @@ SaveChemical(form: any): void {
     this.isEditChemical = false;
     this.statusValue = null;
     this.selectedStatusId = null;
+    this.chemicalUnitValue = null;
 
     form.resetForm(); // Reset the form to its initial state
   }
