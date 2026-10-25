@@ -30,6 +30,7 @@ import { ServiceRequestComponent } from './component/service-request/service-req
 import { PageHeaderComponent } from './component/page-header/page-header.component';
 import { StatCardComponent } from './component/stat-card/stat-card.component';
 import { StatusBadgeComponent } from './component/status-badge/status-badge.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { StatusBadgeComponent } from './component/status-badge/status-badge.comp
     FormsModule,
     NgbModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule,
   ],
   providers: [
     AuthGuard,

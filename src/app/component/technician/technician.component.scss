@@ -39,3 +39,42 @@
   border-radius: 14px;
   box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
 }
+
+////////////////////
+
+/* Match ng-select with standard form-control inputs */
+:host ::ng-deep .ng-select .ng-select-container {
+  min-height: 43px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background-color: var(--color-white);
+  box-shadow: none;
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Keep single-select text vertically aligned */
+:host ::ng-deep .ng-select.ng-select-single .ng-select-container {
+  height: 45px;
+}
+
+/* Placeholder appearance */
+:host ::ng-deep .ng-select .ng-placeholder {
+  color: #7a877d;
+  opacity: 1;
+}
+
+/* Focus state */
+:host ::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+/* Prevent Bootstrap-like square corners */
+:host ::ng-deep .ng-select .ng-select-container:hover {
+  border-color: var(--color-border-strong);
+}

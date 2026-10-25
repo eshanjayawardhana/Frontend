@@ -17,10 +17,12 @@ import { UserAuthService } from '../services/api/user/user-auth.service';
   styleUrls: ['./technician.component.scss'],
 })
 export class TechnicianComponent implements OnInit {
-  technicianObj: TechnicianRepresentation = { specialization: '' };
+  specializations: string[] = ['Termite', 'Fumigation', 'General'];
+
+  technicianObj: TechnicianRepresentation = { specialization: null as any };
   technicians: Array<any> = [];
   allStatus: any;
-  selectedStatusId: any = '';
+  selectedStatusId: number | null = null;
 
   type: string;
   statusValue: any;
@@ -49,92 +51,86 @@ export class TechnicianComponent implements OnInit {
     this.GetAllTechnicians();
   }
 
-
-SaveTechnician(): void {
-  // Set technician status
-  this.technicianObj.status = {
-    id: Number(this.selectedStatusId),
-  };
-
-  this.type = this.isEditTechnician ? 'Update' : 'Add';
-
-  const isUpdate = this.isEditTechnician;
-
-  swal({
-    title: isUpdate ? 'Update Technician?' : 'Add Technician?',
-    text: isUpdate
-      ? 'Are you sure you want to update this technician?'
-      : 'Are you sure you want to add this technician?',
-    icon: 'warning',
-    buttons: ['Cancel', isUpdate ? 'Yes, Update' : 'Yes, Add'],
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
-      return;
-    }
-
-    let technicianPayload: any = {
-      ...this.technicianObj,
+  SaveTechnician(): void {
+    // Set technician status
+    this.technicianObj.status = {
+      id: Number(this.selectedStatusId),
     };
 
-    // Include logged-in user's ID only when adding
-    if (!isUpdate) {
-      const userId = this.userAuthService.getUserId();
+    this.type = this.isEditTechnician ? 'Update' : 'Add';
 
-      if (userId === null) {
-        swal(
-          'Cannot Save',
-          'No logged-in user was found.',
-          'error',
-        );
+    const isUpdate = this.isEditTechnician;
+
+    swal({
+      title: isUpdate ? 'Update Technician?' : 'Add Technician?',
+      text: isUpdate
+        ? 'Are you sure you want to update this technician?'
+        : 'Are you sure you want to add this technician?',
+      icon: 'warning',
+      buttons: ['Cancel', isUpdate ? 'Yes, Update' : 'Yes, Add'],
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
         return;
       }
 
-      technicianPayload = {
-        ...technicianPayload,
-        user: { id: userId },
+      let technicianPayload: any = {
+        ...this.technicianObj,
       };
-    }
 
-    console.log('Technician payload:', technicianPayload);
+      // Include logged-in user's ID only when adding
+      if (!isUpdate) {
+        const userId = this.userAuthService.getUserId();
 
-    this.technicianService
-      .createTechnician(technicianPayload, this.type)
-      .subscribe({
-        next: (result): void => {
-          console.log('Technician response:', result);
+        if (userId === null) {
+          swal('Cannot Save', 'No logged-in user was found.', 'error');
+          return;
+        }
 
-          this.GetAllTechnicians();
+        technicianPayload = {
+          ...technicianPayload,
+          user: { id: userId },
+        };
+      }
 
-          swal(
-            'Successful!',
-            isUpdate
-              ? 'Technician has been updated successfully!'
-              : 'Technician has been added successfully!',
-            'success',
-          );
+      console.log('Technician payload:', technicianPayload);
 
-          this.ClearForm();
-        },
+      this.technicianService
+        .createTechnician(technicianPayload, this.type)
+        .subscribe({
+          next: (result): void => {
+            console.log('Technician response:', result);
 
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} technician:`,
-            error,
-          );
+            this.GetAllTechnicians();
 
-          swal(
-            'Request Failed',
-            isUpdate
-              ? 'Technician could not be updated. Please try again.'
-              : 'Technician could not be added. Please try again.',
-            'error',
-          );
-        },
-      });
-  });
-}
+            swal(
+              'Successful!',
+              isUpdate
+                ? 'Technician has been updated successfully!'
+                : 'Technician has been added successfully!',
+              'success',
+            );
 
+            this.ClearForm();
+          },
+
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} technician:`,
+              error,
+            );
+
+            swal(
+              'Request Failed',
+              isUpdate
+                ? 'Technician could not be updated. Please try again.'
+                : 'Technician could not be added. Please try again.',
+              'error',
+            );
+          },
+        });
+    });
+  }
 
   GetTechnicianById(ID: any) {
     this.technicianService.GetTechniciansById(ID).subscribe((allData) => {
@@ -199,12 +195,12 @@ SaveTechnician(): void {
 
   ClearForm(): void {
     this.technicianObj = {
-      specialization: '',
+      specialization: null as any,
     };
 
     this.isEditTechnician = false;
     this.statusValue = null;
     this.technicianSpecializationValue = null;
-    this.selectedStatusId = '';
+    this.selectedStatusId = null;
   }
 }

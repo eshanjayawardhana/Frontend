@@ -8,7 +8,9 @@
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card text-dark mb-3 h-100">
-          <div class="card-header technician-section-header">Technician Form</div>
+          <div class="card-header technician-section-header">
+            Technician Form
+          </div>
           <div class="card-body">
             <form (ngSubmit)="SaveTechnician()">
               <div class="form-group">
@@ -24,7 +26,7 @@
                 />
               </div>
 
-              <div class="form-group mt-1">
+              <div class="form-group mt-3">
                 <label for="phone">Phone Number <span>*</span></label>
                 <input
                   type="text"
@@ -37,7 +39,7 @@
                 />
               </div>
 
-              <div class="form-group mt-1">
+              <div class="form-group mt-3">
                 <label for="licenseNo">License Number <span>*</span></label>
                 <input
                   type="text"
@@ -51,55 +53,36 @@
               </div>
 
               <div class="form-group mt-3">
-                <label for="specialization"
-                  >Specialization <span>*</span></label
-                >
-                <select
-                  class="form-control form-select"
-                  id="specialization"
-                  name="specialization"
+                <label for="customerType">Specialization <span>*</span></label>
+                <ng-select
+                  class="mt-2"
+                  [items]="specializations"
                   [(ngModel)]="technicianObj.specialization"
+                  name="specialization"
+                  placeholder="Select Specialization"
+                  [clearable]="true"
+                  [searchable]="true"
                   required
                 >
-                  <option value="" disabled>Select Specialization</option>
-                  <option value="Termite">Termite</option>
-                  <option value="Fumigation">Fumigation</option>
-                  <option value="General">General</option>
-                </select>
+                </ng-select>
               </div>
 
-              <div class="form-group mt-1">
-                <!-- <label for="specialization"
-                  >Specialization <span>*</span></label
-                >
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  id="specialization"
-                  name="specialization"
-                  [(ngModel)]="technicianObj.specialization"
-                  required
-                  placeholder="Enter Technician Specialization"
-                /> -->
-
+              <div class="form-group mt-3">
                 <div class="form-group mt-1">
                   <label for="status">Technician Status <span>*</span></label>
-                  <select
-                    class="form-control form-select"
-                    id="status"
-                    name="status"
+                  <ng-select
+                    class="mt-2"
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
                     [(ngModel)]="selectedStatusId"
+                    name="status"
+                    placeholder="Select Technician Status"
+                    [clearable]="true"
+                    [searchable]="true"
                     required
                   >
-                    <option value="" disabled>Select Status</option>
-
-                    <option
-                      *ngFor="let status of allStatus"
-                      [value]="status.id"
-                    >
-                      {{ status.name }}
-                    </option>
-                  </select>
+                  </ng-select>
                 </div>
 
                 <div class="form-group mt-4">
@@ -126,7 +109,9 @@
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card text-dark mb-3 h-100">
-          <div class="card-header technician-section-header">Technician Table</div>
+          <div class="card-header technician-section-header">
+            Technician Table
+          </div>
           <div class="card-body overflow-auto">
             <div class="input-group my-3">
               <input

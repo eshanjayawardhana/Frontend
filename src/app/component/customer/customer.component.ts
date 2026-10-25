@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TechnicianRepresentation } from '../services/api/module/technician-representation';
 import { CustomerRepresentation } from '../services/api/module/customer-representation';
-import { TechnicianService } from '../services/api/technician/technician.service';
 import { CustomerService } from '../services/api/customer/customer.service';
 import { StatusService } from '../services/api/status/status.service';
 import {
@@ -17,10 +15,12 @@ import swal from 'sweetalert';
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent implements OnInit {
-  customerObj: CustomerRepresentation = { customerType: '' };
+  customerTypes: string[] = ['Residential','Commercial','Industrial',];
+
+  customerObj: CustomerRepresentation = { customerType: null as any, };
   customers: Array<any> = [];
   allStatus: any;
-  selectedStatusId: any = '';
+  selectedStatusId: number | null = null;
 
   type: string;
   statusValue: any;
@@ -48,76 +48,74 @@ export class CustomerComponent implements OnInit {
     this.GetAllCustomers();
   }
 
+  SaveCustomer(): void {
+    this.customerObj.status = {
+      id: Number(this.selectedStatusId),
+    };
 
-SaveCustomer(): void {
-  this.customerObj.status = {
-    id: Number(this.selectedStatusId),
-  };
+    const isUpdate = this.isEditCustomer;
+    this.type = isUpdate ? 'Update' : 'Add';
 
-  const isUpdate = this.isEditCustomer;
-  this.type = isUpdate ? 'Update' : 'Add';
-
-  swal({
-    title: isUpdate ? 'Update Customer?' : 'Add Customer?',
-    text: isUpdate
-      ? 'Are you sure you want to update this customer?'
-      : 'Are you sure you want to add this customer?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
-      return;
-    }
-
-    this.customerService
-      .createCustomer(this.customerObj, this.type)
-      .subscribe({
-        next: (result): void => {
-          this.GetAllCustomers();
-
-          swal(
-            'Successful!',
-            isUpdate
-              ? 'Customer has been updated successfully!'
-              : 'Customer has been added successfully!',
-            'success',
-          );
-
-          this.ClearForm();
+    swal({
+      title: isUpdate ? 'Update Customer?' : 'Add Customer?',
+      text: isUpdate
+        ? 'Are you sure you want to update this customer?'
+        : 'Are you sure you want to add this customer?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
         },
-
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} customer:`,
-            error,
-          );
-
-          swal(
-            'Request Failed',
-            isUpdate
-              ? 'Customer could not be updated. Please try again.'
-              : 'Customer could not be added. Please try again.',
-            'error',
-          );
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
         },
-      });
-  });
-}
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
+      this.customerService
+        .createCustomer(this.customerObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllCustomers();
+
+            swal(
+              'Successful!',
+              isUpdate
+                ? 'Customer has been updated successfully!'
+                : 'Customer has been added successfully!',
+              'success',
+            );
+
+            this.ClearForm();
+          },
+
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} customer:`,
+              error,
+            );
+
+            swal(
+              'Request Failed',
+              isUpdate
+                ? 'Customer could not be updated. Please try again.'
+                : 'Customer could not be added. Please try again.',
+              'error',
+            );
+          },
+        });
+    });
+  }
 
   GetCustomerById(ID: any) {
     this.customerService.GetCustomerById(ID).subscribe((allData) => {
@@ -183,12 +181,12 @@ SaveCustomer(): void {
 
   ClearForm(): void {
     this.customerObj = {
-      customerType: '',
+      customerType: null as any,
     };
 
     this.isEditCustomer = false;
     this.statusValue = null;
     this.customerTypeValue = null;
-    this.selectedStatusId = '';
+    this.selectedStatusId = null;
   }
 }

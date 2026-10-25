@@ -14,11 +14,44 @@ import { NotificationService } from '../services/api/notification/notification.s
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
+  recipientType: string[] = [
+    'Customer',
+    'Staff',
+    'User',
+    'Admin',
+    'Manager',
+    'Supervisor',
+    'Technician',
+  ];
+
+  readStatusOptions = [
+    { label: 'Read', value: true },
+    { label: 'Unread', value: false },
+  ];
+
+
+readStatusFilterOptions = [
+  { label: 'Read', value: true },
+  { label: 'Unread', value: false },
+];
+
+
+  notificationTypeOptions = [
+    { label: 'Job Reminder', value: 'Job Reminder' },
+    { label: 'Job Completion', value: 'Job Completion' },
+    { label: 'Payment Reminder', value: 'Payment Reminder' },
+    { label: 'Feedback Request', value: 'Feedback Request' },
+    { label: 'Promotional', value: 'Promotional' },
+    { label: 'System Alert', value: 'System Alert' },
+    { label: 'Account Update', value: 'Account Update' },
+    { label: 'Service Notification', value: 'Service Notification' },
+  ];
+
   notificationObj: NotificationRepresentation = {
     recipientId: undefined,
-    recipientType: '',
+    recipientType: null as any,
     message: '',
-    type: '',
+    type: null as any,
     sentDate: '',
     readStatus: null,
   };
@@ -54,80 +87,78 @@ export class NotificationComponent implements OnInit {
     this.GetAllNotifications();
   }
 
-
-SaveNotification(form: any): void {
-  // Validate form — unchanged
-  if (form.invalid) {
-    return;
-  }
-
-  // Decide Add or Update — unchanged
-  this.type = this.isEditNotification == false ? 'Add' : 'Update';
-
-  const isUpdate = this.type == 'Update';
-
-  // Confirmation dialog — consistent UI/UX
-  swal({
-    title: isUpdate ? 'Update Notification?' : 'Add Notification?',
-    text: isUpdate
-      ? 'Are you sure you want to update this notification?'
-      : 'Are you sure you want to add this notification?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
+  SaveNotification(form: any): void {
+    // Validate form — unchanged
+    if (form.invalid) {
       return;
     }
 
-    // Existing API call — unchanged
-    this.notificationService
-      .createNotification(this.notificationObj, this.type)
-      .subscribe({
-        next: (result): void => {
-          this.GetAllNotifications();
-          this.ClearForm(form);
+    // Decide Add or Update — unchanged
+    this.type = this.isEditNotification == false ? 'Add' : 'Update';
 
-          swal(
-            'Successful!',
-            isUpdate
-              ? 'Notification has been updated successfully!'
-              : 'Notification has been added successfully!',
-            'success',
-          );
+    const isUpdate = this.type == 'Update';
+
+    // Confirmation dialog — consistent UI/UX
+    swal({
+      title: isUpdate ? 'Update Notification?' : 'Add Notification?',
+      text: isUpdate
+        ? 'Are you sure you want to update this notification?'
+        : 'Are you sure you want to add this notification?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
         },
-
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} notification:`,
-            error,
-          );
-
-          swal(
-            'Error!',
-            isUpdate
-              ? 'Failed to update notification.'
-              : 'Failed to add notification.',
-            'error',
-          );
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
         },
-      });
-  });
-}
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
+      // Existing API call — unchanged
+      this.notificationService
+        .createNotification(this.notificationObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllNotifications();
+            this.ClearForm(form);
+
+            swal(
+              'Successful!',
+              isUpdate
+                ? 'Notification has been updated successfully!'
+                : 'Notification has been added successfully!',
+              'success',
+            );
+          },
+
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} notification:`,
+              error,
+            );
+
+            swal(
+              'Error!',
+              isUpdate
+                ? 'Failed to update notification.'
+                : 'Failed to add notification.',
+              'error',
+            );
+          },
+        });
+    });
+  }
 
   GetNotificationById(ID: any) {
     this.notificationService.GetNotificationById(ID).subscribe({
@@ -161,20 +192,20 @@ SaveNotification(form: any): void {
   }
 
   GetAllNotifications(): void {
-  this.notificationService.GetAllNotifications().subscribe({
-    next: (allData) => {
-      const data = allData?.data?.dataList || [];
+    this.notificationService.GetAllNotifications().subscribe({
+      next: (allData) => {
+        const data = allData?.data?.dataList || [];
 
-      this.notifications = data;
-      this.allNotifications = [...data];
+        this.notifications = data;
+        this.allNotifications = [...data];
 
-      console.log('All Notifications:', this.allNotifications);
-    },
-    error: (error) => {
-      console.error('Failed to load notifications:', error);
-    },
-  });
-}
+        console.log('All Notifications:', this.allNotifications);
+      },
+      error: (error) => {
+        console.error('Failed to load notifications:', error);
+      },
+    });
+  }
 
   DeleteNotificationById(ID: any) {
     swal({
@@ -258,24 +289,24 @@ SaveNotification(form: any): void {
   }
 
   ClearForm(form: any): void {
-  form.resetForm({
-    recipientId: undefined,
-    recipientType: '',
-    message: '',
-    type: '',
-    sentDate: '',
-    readStatus: null,
-  });
+    form.resetForm({
+      recipientId: undefined,
+      recipientType: null as any,
+      message: '',
+      type: null as any,
+      sentDate: '',
+      readStatus: null,
+    });
 
-  this.notificationObj = {
-    recipientId: undefined,
-    recipientType: '',
-    message: '',
-    type: '',
-    sentDate: '',
-    readStatus: null,
-  };
+    this.notificationObj = {
+      recipientId: undefined,
+      recipientType: null as any,
+      message: '',
+      type: null as any,
+      sentDate: '',
+      readStatus: null,
+    };
 
-  this.isEditNotification = false;
-}
+    this.isEditNotification = false;
+  }
 }

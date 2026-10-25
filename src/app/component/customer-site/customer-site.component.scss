@@ -40,3 +40,151 @@
   background-color: #f32525;
   border-color: #f32525;
 }
+
+////////////////////
+
+/* Match ng-select with standard form-control inputs */
+:host ::ng-deep .ng-select .ng-select-container {
+  min-height: 43px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background-color: var(--color-white);
+  box-shadow: none;
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Keep single-select text vertically aligned */
+:host ::ng-deep .ng-select.ng-select-single .ng-select-container {
+  height: 45px;
+}
+
+/* Placeholder appearance */
+:host ::ng-deep .ng-select .ng-placeholder {
+  color: #7a877d;
+  opacity: 1;
+}
+
+/* Focus state */
+:host ::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+/* Prevent Bootstrap-like square corners */
+:host ::ng-deep .ng-select .ng-select-container:hover {
+  border-color: var(--color-border-strong);
+}
+
+//////////////////////////////////////////
+
+/* Customer Site Search Toolbar */
+.customer-site-toolbar {
+  width: 100%;
+}
+
+.customer-site-search {
+  flex: 1 1 320px;
+  min-width: 220px;
+}
+
+.customer-site-search .input-group {
+  width: 100%;
+}
+
+.customer-site-search .form-control {
+  min-width: 0;
+  min-height: 43px;
+  border-radius: var(--radius-control) 0 0 var(--radius-control);
+}
+
+.customer-site-search-btn {
+  min-width: 46px;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+}
+
+.customer-site-status-filter {
+  flex: 0 1 210px;
+  min-width: 180px;
+}
+
+/* Match the application's standard form control */
+:host ::ng-deep .customer-site-status-filter .ng-select .ng-select-container {
+  min-height: 43px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background-color: var(--color-white);
+  box-shadow: none;
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+}
+
+:host
+  ::ng-deep
+  .customer-site-status-filter
+  .ng-select.ng-select-single
+  .ng-select-container {
+  height: 43px;
+}
+
+:host
+  ::ng-deep
+  .customer-site-status-filter
+  .ng-select.ng-select-focused
+  .ng-select-container {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+:host ::ng-deep .customer-site-status-filter .ng-select .ng-placeholder {
+  color: #7a877d;
+}
+
+.customer-site-clear-btn {
+  min-height: 43px;
+  padding-inline: 16px;
+  white-space: nowrap;
+  border-radius: var(--radius-control);
+}
+
+/* Table alignment */
+.customer-site-table-wrapper {
+  width: 100%;
+  border-radius: var(--radius-control);
+}
+
+.customer-site-table-wrapper .table {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.customer-site-table-wrapper th,
+.customer-site-table-wrapper td {
+  vertical-align: middle;
+}
+
+.customer-site-table-wrapper th {
+  white-space: nowrap;
+}
+
+/* Responsive layout */
+@media (max-width: 767.98px) {
+  .customer-site-search {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  .customer-site-status-filter {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .customer-site-clear-btn {
+    flex: 0 0 auto;
+  }
+}
