@@ -29,12 +29,10 @@ export class NotificationComponent implements OnInit {
     { label: 'Unread', value: false },
   ];
 
-
-readStatusFilterOptions = [
-  { label: 'Read', value: true },
-  { label: 'Unread', value: false },
-];
-
+  readStatusFilterOptions = [
+    { label: 'Read', value: true },
+    { label: 'Unread', value: false },
+  ];
 
   notificationTypeOptions = [
     { label: 'Job Reminder', value: 'Job Reminder' },

@@ -1,42 +1,558 @@
-.pest-type-section-header {
-  padding: 1rem 1.25rem;
-  color: #ffffff;
-  background: #245b3a;
-  border-bottom: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  // border-radius: 19px 19px 0 0;
+
+/* ========================================
+   AGROSOLE - PEST TYPE MODULE
+======================================== */
+
+.pest-type-page {
+  --pest-forest: #245b3a;
+  --pest-leaf: #367c50;
+  --pest-border: #e1e8df;
+  --pest-text: #26332b;
+  --pest-muted: #7a877d;
 }
 
+/* Cards */
+
 .pest-type-page .card {
-  overflow: hidden;
-  border: 1px solid #e1e8df;
+  overflow: visible;
+  border: 1px solid var(--pest-border);
   border-radius: 14px;
+  background: #fff;
   box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
 }
 
-/* Edit button - Harvest Gold */
-.pest-type-page .btn-warning {
-  color: #49360a;
-  background-color: #edba42;
-  border-color: #edba42;
+.pest-type-section-header {
+  padding: 1rem 1.25rem;
+  color: #fff;
+  background: var(--pest-forest);
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
-.pest-type-page .btn-warning:hover {
-  color: #49360a;
-  background-color: #f5c147;
-  border-color: #f5c147;
+/* Table card header */
+
+.pest-type-table-card .pest-type-section-header {
+  display: flex;
+  align-items: center;
+  padding: 1.15rem 1.5rem;
+  color: var(--pest-text);
+  background: #fff;
+  border-bottom: 1px solid #edf0eb;
 }
 
-/* Delete button */
-.pest-type-page .btn-danger {
-  color: #ffffff;
-  background-color: #e22e2e;
-  border-color: #e22e2e;
+.pest-type-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #eaf3ec;
+  color: var(--pest-forest);
+  font-size: 1.3rem;
 }
 
-.pest-type-page .btn-danger:hover {
-  background-color: #f32525;
-  border-color: #f32525;
+.pest-type-table-card .pest-type-section-header h5 {
+  margin: 0;
+  color: var(--pest-text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.pest-type-table-card .pest-type-section-header p {
+  margin-top: 0.25rem;
+  color: var(--pest-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+/* Card body */
+
+.pest-type-page .card-body,
+.pest-type-table-body {
+  padding: 1.25rem;
+}
+
+.pest-type-table-body {
+  overflow: visible;
+}
+
+/* Form fields */
+
+.pest-type-page .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--pest-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.pest-type-page .form-group label span {
+  color: #c0392b;
+}
+
+.pest-type-page .form-control,
+.pest-type-page .form-select {
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  color: var(--pest-text);
+  background-color: #fff;
+  border: 1px solid #d8e1d7;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pest-type-page .form-control::placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+.pest-type-page .form-control:focus,
+.pest-type-page .form-select:focus {
+  border-color: var(--pest-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+  outline: none;
+}
+
+/* ng-select - Form and filter */
+
+:host ::ng-deep .pest-type-page .ng-select {
+  width: 100%;
+  font-size: 0.88rem;
+}
+
+:host ::ng-deep .pest-type-page .ng-select .ng-select-container {
+  min-height: 44px;
+  border: 1px solid #d8e1d7;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--pest-text);
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:host ::ng-deep
+.pest-type-page .ng-select.ng-select-single .ng-select-container {
+  height: 44px;
+}
+
+:host ::ng-deep .pest-type-page .ng-select .ng-value-container {
+  padding-left: 0.75rem;
+}
+
+:host ::ng-deep .pest-type-page .ng-select .ng-placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+:host ::ng-deep
+.pest-type-page .ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--pest-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+}
+
+:host ::ng-deep
+.pest-type-page .ng-select .ng-select-container:hover {
+  border-color: #bdcdbd;
+}
+
+:host ::ng-deep .pest-type-page .ng-dropdown-panel {
+  z-index: 1050;
+  overflow: hidden;
+  border: 1px solid var(--pest-border);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(36, 60, 40, 0.12);
+}
+
+:host ::ng-deep .pest-type-page .ng-dropdown-panel .ng-option {
+  padding: 0.65rem 0.8rem;
+  color: #344239;
+  font-size: 0.84rem;
+}
+
+:host ::ng-deep
+.pest-type-page .ng-dropdown-panel .ng-option.ng-option-selected {
+  color: var(--pest-forest);
+  background: #eaf3ec;
+  font-weight: 600;
+}
+
+:host ::ng-deep
+.pest-type-page .ng-dropdown-panel .ng-option.ng-option-marked {
+  color: var(--pest-forest);
+  background: #f1f6f0;
+}
+
+/* Form buttons */
+
+.pest-type-page .btn {
+  min-height: 40px;
+  padding: 0.55rem 1rem;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pest-type-page .btn:hover {
+  transform: translateY(-1px);
+}
+
+.pest-type-page .btn-primary {
+  color: #fff;
+  background: var(--pest-forest);
+  border-color: var(--pest-forest);
+}
+
+.pest-type-page .btn-primary:hover {
+  color: #fff;
+  background: var(--pest-leaf);
+  border-color: var(--pest-leaf);
+  box-shadow: 0 4px 10px rgba(36, 91, 58, 0.15);
+}
+
+.pest-type-page .btn-secondary {
+  color: var(--pest-text);
+  background: #edf1eb;
+  border-color: #d8e1d7;
+}
+
+.pest-type-page .btn-secondary:hover {
+  color: var(--pest-forest);
+  background: #dfe9dd;
+  border-color: #c7d8c6;
+}
+
+/* ========================================
+   SEARCH TOOLBAR
+======================================== */
+
+.pest-type-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.pest-type-search {
+  position: relative;
+  flex: 1 1 230px;
+  min-width: 200px;
+}
+
+.pest-type-search > i.bi-search {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  z-index: 2;
+  color: #89958b;
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.pest-type-page .pest-type-search input.pest-type-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 43px;
+  min-height: 43px;
+  padding: 0.65rem 0.85rem 0.65rem 44px !important;
+  border: 1px solid #d8e1d7;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--pest-text);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  box-shadow: none;
+}
+
+.pest-type-page .pest-type-search-input::placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+.pest-type-page .pest-type-search-input:focus {
+  border-color: var(--pest-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+  outline: none;
+}
+
+.pest-type-filter {
+  flex: 0 1 210px;
+  min-width: 190px;
+}
+
+:host ::ng-deep .pest-type-filter .ng-select .ng-select-container {
+  min-height: 43px;
+  height: 43px;
+  border-radius: 9px;
+}
+
+/* Toolbar buttons */
+
+.pest-type-clear-btn,
+.pest-type-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 0.45rem;
+  height: 43px;
+  min-height: 43px;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pest-type-clear-btn {
+  color: #465449;
+  background: #fff;
+  border-color: #d8e1d7;
+}
+
+.pest-type-clear-btn:hover {
+  color: var(--pest-forest);
+  background: #f1f6f0;
+  border-color: #c7d8c6;
+}
+
+.pest-type-search-btn {
+  color: #fff;
+  background: var(--pest-forest);
+  border-color: var(--pest-forest);
+}
+
+.pest-type-search-btn:hover {
+  color: #fff;
+  background: var(--pest-leaf);
+  border-color: var(--pest-leaf);
+  box-shadow: 0 3px 9px rgba(36, 91, 58, 0.14);
+}
+
+/* ========================================
+   TABLE
+======================================== */
+
+.pest-type-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e5ebe3;
+  border-radius: 10px;
+}
+
+.pest-type-table {
+  width: 100%;
+  min-width: 650px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.pest-type-table thead th {
+  padding: 0.95rem 0.9rem;
+  color: #59675b;
+  background: #f0f4ed;
+  border-bottom: 1px solid #e1e8df;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pest-type-table tbody td {
+  padding: 0.9rem;
+  color: #344239;
+  background: #fff;
+  border-bottom: 1px solid #edf0eb;
+  font-size: 0.84rem;
+  vertical-align: middle;
+}
+
+.pest-type-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.pest-type-table tbody tr:hover td {
+  background: #f7faf6;
+}
+
+.pest-type-name {
+  color: var(--pest-forest);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pest-type-description {
+  display: -webkit-box;
+  max-width: 320px;
+  overflow: hidden;
+  color: #59675b;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Actions */
+
+.pest-type-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.pest-type-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  min-height: 35px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.pest-type-edit-btn {
+  color: #856016;
+  background: #fff7e5;
+  border-color: #f0dfb9;
+}
+
+.pest-type-edit-btn:hover {
+  color: #6e4c0c;
+  background: #f8e8c3;
+  border-color: #e7cb8f;
+}
+
+.pest-type-delete-btn {
+  color: #b5423d;
+  background: #fff0ef;
+  border-color: #f0d2d0;
+}
+
+.pest-type-delete-btn:hover {
+  color: #982f2a;
+  background: #fbe0de;
+  border-color: #e7b2ae;
+}
+
+/* Empty state */
+
+.pest-type-empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 210px;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.pest-type-empty-state h6 {
+  margin: 0.9rem 0 0.4rem;
+  color: #344239;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.pest-type-empty-state p {
+  margin: 0;
+  color: #879188;
+  font-size: 0.82rem;
+}
+
+.pest-type-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  background: #edf4ed;
+  color: #63896b;
+  font-size: 1.4rem;
+}
+
+/* Validation */
+
+.pest-type-page .text-danger {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+  .pest-type-search {
+    flex: 1 1 100%;
+  }
+
+  .pest-type-filter {
+    flex: 1 1 190px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pest-type-page .card-body,
+  .pest-type-table-body {
+    padding: 0.9rem;
+  }
+
+  .pest-type-table-card .pest-type-section-header {
+    padding: 1rem;
+  }
+
+  .pest-type-header-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .pest-type-toolbar {
+    gap: 0.6rem;
+  }
+
+  .pest-type-search,
+  .pest-type-filter {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .pest-type-clear-btn,
+  .pest-type-search-btn {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .pest-type-page .btn {
+    min-height: 42px;
+  }
+
+  .pest-type-table-card .pest-type-section-header h5 {
+    font-size: 0.94rem;
+  }
+
+  .pest-type-table-card .pest-type-section-header p {
+    font-size: 0.75rem;
+  }
 }

@@ -15,21 +15,20 @@ import swal from 'sweetalert';
   styleUrls: ['./chemical.component.scss'],
 })
 export class ChemicalComponent implements OnInit {
-
   chemicalUnits: string[] = [
-  'Milliliter (mL)',
-  'Liter (L)',
-  'Gram (g)',
-  'Kilogram (kg)',
-  'Milligram (mg)',
-  'Piece (pcs)',
-  'Bottle',
-  'Can',
-  'Packet',
-  'Box',
-];
+    'Milliliter (mL)',
+    'Liter (L)',
+    'Gram (g)',
+    'Kilogram (kg)',
+    'Milligram (mg)',
+    'Piece (pcs)',
+    'Bottle',
+    'Can',
+    'Packet',
+    'Box',
+  ];
 
-  chemicalObj: ChemicalRepresentation = {unit: null as any,};
+  chemicalObj: ChemicalRepresentation = { unit: null as any };
   chemicals: Array<any> = [];
   allStatus: any;
   selectedStatusId: any = '';
@@ -49,7 +48,6 @@ export class ChemicalComponent implements OnInit {
   canDelete = false;
   chemicalUnitValue: any;
 
-
   constructor(
     private chemicalService: ChemicalService,
     private statusService: StatusService,
@@ -67,53 +65,51 @@ export class ChemicalComponent implements OnInit {
     this.selectedStatusId = null;
   }
 
-
-SaveChemical(form: any): void {
-  this.chemicalObj.status = {
-    id: Number(this.selectedStatusId),
-  };
-
-  // 1. Validate form — unchanged
-  if (form.invalid) {
-    return;
-  }
-
-  // 2. Decide Add or Update — unchanged
-  this.type = this.isEditChemical == false ? 'Add' : 'Update';
-
-  const isUpdate = this.type == 'Update';
-
-  // 3. Confirmation dialog — consistent UI/UX
-  swal({
-    title: isUpdate ? 'Update Chemical?' : 'Add Chemical?',
-    text: isUpdate
-      ? 'Are you sure you want to update this chemical?'
-      : 'Are you sure you want to add this chemical?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
+  SaveChemical(form: any): void {
+    // 1. Validate form — unchanged
+    if (form.invalid) {
+      form.form.markAllAsTouched();
       return;
     }
 
-    // Existing API call — unchanged
-    this.chemicalService
-      .AddChemical(this.chemicalObj, this.type)
-      .subscribe({
+    this.chemicalObj.status = {
+      id: Number(this.selectedStatusId),
+    };
+
+    // 2. Decide Add or Update — unchanged
+    this.type = this.isEditChemical == false ? 'Add' : 'Update';
+
+    const isUpdate = this.type == 'Update';
+
+    // 3. Confirmation dialog — consistent UI/UX
+    swal({
+      title: isUpdate ? 'Update Chemical?' : 'Add Chemical?',
+      text: isUpdate
+        ? 'Are you sure you want to update this chemical?'
+        : 'Are you sure you want to add this chemical?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
+        },
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
+        },
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
+
+      // Existing API call — unchanged
+      this.chemicalService.AddChemical(this.chemicalObj, this.type).subscribe({
         next: (result): void => {
           this.GetAllChemicals();
           this.ClearForm(form);
@@ -135,16 +131,13 @@ SaveChemical(form: any): void {
 
           swal(
             'Error!',
-            isUpdate
-              ? 'Failed to update chemical.'
-              : 'Failed to add chemical.',
+            isUpdate ? 'Failed to update chemical.' : 'Failed to add chemical.',
             'error',
           );
         },
       });
-  });
-}
-
+    });
+  }
 
   GetChemicalById(ID: any) {
     this.chemicalService.GetChemicalById(ID).subscribe((allData) => {
@@ -160,8 +153,7 @@ SaveChemical(form: any): void {
         id: allData.data.dataList[0].status.id, // Set the status ID for the chemical object
       };
 
-      this.chemicalUnitValue =
-        allData.data.dataList[0].unit;
+      this.chemicalUnitValue = allData.data.dataList[0].unit;
     });
   }
 
@@ -276,14 +268,18 @@ SaveChemical(form: any): void {
     });
   }
 
-
   ClearForm(form: any): void {
-    this.chemicalObj = {};
+    this.chemicalObj = {
+      unit: null as any,
+    };
+
     this.isEditChemical = false;
     this.statusValue = null;
     this.selectedStatusId = null;
     this.chemicalUnitValue = null;
 
-    form.resetForm(); // Reset the form to its initial state
+    if (form) {
+      form.resetForm();
+    }
   }
 }

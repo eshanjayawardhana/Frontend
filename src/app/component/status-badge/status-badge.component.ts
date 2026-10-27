@@ -1,3 +1,4 @@
+
 import { Component, Input } from '@angular/core';
 
 type StatusTone =
@@ -26,12 +27,23 @@ export class StatusBadgeComponent {
       .replace(/[_-]+/g, ' ')
       .replace(/\s+/g, ' ');
 
-    const tone = this.getTone(value);
-
-    return `status-badge--${tone}`;
+    return `status-badge--${this.getTone(value)}`;
   }
 
   private getTone(value: string): StatusTone {
+
+    // Pest severity levels
+    if (value === 'low') {
+      return 'success';
+    }
+
+    if (value === 'medium') {
+      return 'warning';
+    }
+
+    if (value === 'high' || value === 'critical' || value === 'severe') {
+      return 'danger';
+    }
 
     // Successful or completed states
     const successStatuses = [
@@ -91,5 +103,4 @@ export class StatusBadgeComponent {
 
     return 'neutral';
   }
-
 }

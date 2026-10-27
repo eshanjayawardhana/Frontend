@@ -5,100 +5,240 @@
       description="Manage technician records, personal details, and technician status."
     ></app-page-header>
 
+    <!-- Technician Form -->
     <div class="row">
-      <div class="col-lg-12 mb-3">
-        <div class="card text-dark mb-3 h-100">
+      <div class="col-12 mb-3">
+        <div class="card technician-form-card">
+          
           <div class="card-header technician-section-header">
             Technician Form
           </div>
+
           <div class="card-body">
-            <form (ngSubmit)="SaveTechnician()">
-              <div class="form-group">
-                <label for="fullName">Full Name <span>*</span></label>
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  id="fullName"
-                  name="fullName"
-                  [(ngModel)]="technicianObj.fullName"
-                  required
-                  placeholder="Enter Technician Full Name"
-                />
-              </div>
+            <form
+              #technicianForm="ngForm"
+              (ngSubmit)="SaveTechnician(technicianForm)"
+              novalidate
+            >
+              <div class="row g-3">
+                <!-- Full Name -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="fullName">Full Name <span>*</span></label>
 
-              <div class="form-group mt-3">
-                <label for="phone">Phone Number <span>*</span></label>
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  id="phone"
-                  name="phone"
-                  [(ngModel)]="technicianObj.phone"
-                  required
-                  placeholder="Enter Technician Phone Number"
-                />
-              </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fullName"
+                      name="fullName"
+                      [(ngModel)]="technicianObj.fullName"
+                      #fullName="ngModel"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                      pattern=".*\S.*"
+                      placeholder="Enter Technician Full Name"
+                    />
 
-              <div class="form-group mt-3">
-                <label for="licenseNo">License Number <span>*</span></label>
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  id="licenseNo"
-                  name="licenseNo"
-                  [(ngModel)]="technicianObj.licenseNo"
-                  required
-                  placeholder="Enter Technician License Number"
-                />
-              </div>
-
-              <div class="form-group mt-3">
-                <label for="customerType">Specialization <span>*</span></label>
-                <ng-select
-                  class="mt-2"
-                  [items]="specializations"
-                  [(ngModel)]="technicianObj.specialization"
-                  name="specialization"
-                  placeholder="Select Specialization"
-                  [clearable]="true"
-                  [searchable]="true"
-                  required
-                >
-                </ng-select>
-              </div>
-
-              <div class="form-group mt-3">
-                <div class="form-group mt-1">
-                  <label for="status">Technician Status <span>*</span></label>
-                  <ng-select
-                    class="mt-2"
-                    [items]="allStatus"
-                    bindLabel="name"
-                    bindValue="id"
-                    [(ngModel)]="selectedStatusId"
-                    name="status"
-                    placeholder="Select Technician Status"
-                    [clearable]="true"
-                    [searchable]="true"
-                    required
-                  >
-                  </ng-select>
-                </div>
-
-                <div class="form-group mt-4">
-                  <div class="text-end ms-auto">
-                    <button
-                      type="button"
-                      class="btn btn-secondary me-2"
-                      (click)="ClearForm()"
+                    <div
+                      class="text-danger mt-1"
+                      *ngIf="
+                        fullName.invalid &&
+                        (fullName.touched ||
+                          fullName.dirty ||
+                          technicianForm.submitted)
+                      "
                     >
-                      Clear
-                    </button>
-                    <button class="btn btn-primary">
-                      {{ isEditTechnician == false ? "submit" : "update" }}
-                    </button>
+                      <small *ngIf="fullName.errors?.['required']">
+                        Full Name is required.
+                      </small>
+                      <small *ngIf="fullName.errors?.['minlength']">
+                        Full Name must contain at least 2 characters.
+                      </small>
+                      <small *ngIf="fullName.errors?.['maxlength']">
+                        Full Name cannot exceed 100 characters.
+                      </small>
+                      <small *ngIf="fullName.errors?.['pattern']">
+                        Full Name cannot contain only spaces.
+                      </small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Phone -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="phone">Phone Number <span>*</span></label>
+
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="phone"
+                      name="phone"
+                      [(ngModel)]="technicianObj.phone"
+                      #phone="ngModel"
+                      required
+                      pattern="^[0-9+()\-\s]{9,15}$"
+                      placeholder="Enter Phone Number"
+                    />
+
+                    <div
+                      class="text-danger mt-1"
+                      *ngIf="
+                        phone.invalid &&
+                        (phone.touched ||
+                          phone.dirty ||
+                          technicianForm.submitted)
+                      "
+                    >
+                      <small *ngIf="phone.errors?.['required']">
+                        Phone Number is required.
+                      </small>
+                      <small *ngIf="phone.errors?.['pattern']">
+                        Enter a valid phone number using 9–15 digits or common
+                        phone symbols.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- License Number -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="licenseNo">License Number <span>*</span></label>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="licenseNo"
+                      name="licenseNo"
+                      [(ngModel)]="technicianObj.licenseNo"
+                      #licenseNo="ngModel"
+                      required
+                      minlength="2"
+                      maxlength="50"
+                      pattern=".*\S.*"
+                      placeholder="Enter Technician License Number"
+                    />
+
+                    <div
+                      class="text-danger mt-1"
+                      *ngIf="
+                        licenseNo.invalid &&
+                        (licenseNo.touched ||
+                          licenseNo.dirty ||
+                          technicianForm.submitted)
+                      "
+                    >
+                      <small *ngIf="licenseNo.errors?.['required']">
+                        License Number is required.
+                      </small>
+                      <small *ngIf="licenseNo.errors?.['minlength']">
+                        License Number must contain at least 2 characters.
+                      </small>
+                      <small *ngIf="licenseNo.errors?.['maxlength']">
+                        License Number cannot exceed 50 characters.
+                      </small>
+                      <small *ngIf="licenseNo.errors?.['pattern']">
+                        License Number cannot contain only spaces.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Specialization -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="specialization"
+                      >Specialization <span>*</span></label
+                    >
+
+                    <ng-select
+                      [items]="specializations"
+                      [(ngModel)]="technicianObj.specialization"
+                      name="specialization"
+                      placeholder="Select Specialization"
+                      [clearable]="true"
+                      [searchable]="true"
+                      #specialization="ngModel"
+                      required
+                    >
+                    </ng-select>
+
+                    <div
+                      class="text-danger mt-1"
+                      *ngIf="
+                        specialization.invalid &&
+                        (specialization.touched ||
+                          specialization.dirty ||
+                          technicianForm.submitted)
+                      "
+                    >
+                      <small *ngIf="specialization.errors?.['required']">
+                        Specialization is required.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="status">Technician Status <span>*</span></label>
+
+                    <ng-select
+                      [items]="allStatus"
+                      bindLabel="name"
+                      bindValue="id"
+                      [(ngModel)]="selectedStatusId"
+                      name="status"
+                      placeholder="Select Technician Status"
+                      [clearable]="true"
+                      [searchable]="true"
+                      #status="ngModel"
+                      required
+                    >
+                    </ng-select>
+
+                    <div
+                      class="text-danger mt-1"
+                      *ngIf="
+                        status.invalid &&
+                        (status.touched ||
+                          status.dirty ||
+                          technicianForm.submitted)
+                      "
+                    >
+                      <small *ngIf="status.errors?.['required']">
+                        Technician Status is required.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Buttons -->
+              <div class="technician-form-actions mt-4">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="ClearForm(technicianForm)"
+                >
+                  <!-- <i class="bi bi-arrow-counterclockwise me-1"></i> -->
+                  Clear
+                </button>
+
+                <button type="submit" class="btn btn-primary">
+                  <i
+                    class="bi me-1"
+                    [ngClass]="
+                      isEditTechnician ? 'bi-check2-circle' : 'bi-plus-circle'
+                    "
+                  ></i>
+                  {{
+                    isEditTechnician ? "Update Technician" : "Add Technician"
+                  }}
+                </button>
               </div>
             </form>
           </div>
@@ -106,69 +246,202 @@
       </div>
     </div>
 
+    <!-- Technician Table -->
     <div class="row">
-      <div class="col-lg-12 mb-3">
-        <div class="card text-dark mb-3 h-100">
-          <div class="card-header technician-section-header">
-            Technician Table
-          </div>
-          <div class="card-body overflow-auto">
-            <div class="input-group my-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search Technician"
-                aria-label="Search"
-                aria-describedby="button-addon2"
-              />
-              <button class="btn btn-info" type="button" id="button-addon2">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-            <table class="table table-striped table-bordered table-wrapper">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">License No</th>
-                  <th scope="col">Specialization</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let technicianObj of technicians">
-                  <td>
-                    {{ technicianObj.technicianCode || technicianObj.id }}
-                  </td>
-                  <td>{{ technicianObj.fullName }}</td>
-                  <td>{{ technicianObj.phone }}</td>
-                  <td>{{ technicianObj.licenseNo }}</td>
-                  <td>{{ technicianObj.specialization }}</td>
-                  <td>
-                    <app-status-badge
-                      [status]="technicianObj.status?.name"
-                    ></app-status-badge>
-                  </td>
+      <div class="col-12 mb-4">
+        <div class="card technician-table-card h-100">
 
-                  <td class="text-center">
-                    <button
-                      class="btn btn-warning me-1"
-                      (click)="GetTechnicianById(technicianObj.id)"
-                    >
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button
-                      class="btn btn-danger me-1"
-                      (click)="DeleteById(technicianObj.id)"
-                    >
-                      <i class="bi bi-archive"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="card-header technician-section-header technician-table-heading">
+
+            <div class="d-flex align-items-center gap-3">
+              <div class="technician-header-icon">
+                <i class="bi bi-people"></i>
+              </div>
+
+              <div>
+                <h5 class="mb-1">Technician Table</h5>
+                <p class="mb-0">
+                  Search and manage technician profiles, specializations, and
+                  status.
+                </p>
+              </div>
+            </div>
+
+            <div class="technician-record-count">
+              <i class="bi bi-collection me-1"></i>
+              {{ technicians.length }} Records
+            </div>
+          </div>
+
+          <div class="card-body technician-table-body">
+            <!-- Search and Filters -->
+            <div class="technician-toolbar">
+              <div class="technician-search">
+                <i class="bi bi-search"></i>
+
+                <input
+                  type="text"
+                  class="form-control technician-search-input"
+                  placeholder="Search technicians..."
+                  aria-label="Search technicians"
+                  [(ngModel)]="searchText"
+                  name="technicianSearchText"
+                  (input)="SearchTechnicians()"
+                />
+              </div>
+
+              <!-- Specialization Filter -->
+              <div class="technician-filter">
+                <ng-select
+                  [items]="specializations"
+                  [(ngModel)]="selectedFilterSpecialization"
+                  name="selectedFilterSpecialization"
+                  placeholder="All Specializations"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTechnicians()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Status Filter -->
+              <div class="technician-filter">
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterStatusId"
+                  name="selectedFilterStatusId"
+                  placeholder="All Statuses"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTechnicians()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Clear -->
+              <button
+                type="button"
+                class="btn technician-clear-btn"
+                title="Clear search and filters"
+                (click)="
+                  searchText = '';
+                  selectedFilterSpecialization = null;
+                  selectedFilterStatusId = null;
+                  SearchTechnicians()
+                "
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Clear</span>
+              </button>
+
+              <!-- Search Button -->
+              <!-- <button
+            type="button"
+            class="btn technician-search-btn"
+            (click)="SearchTechnicians()"
+          >
+            <i class="bi bi-search"></i>
+            <span>Search</span>
+          </button> -->
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive technician-table-responsive">
+              <table class="table technician-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Technician Code</th>
+                    <th>Full Name</th>
+                    <th>Phone Number</th>
+                    <th>License Number</th>
+                    <th>Specialization</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!-- Empty State -->
+                  <tr *ngIf="technicians.length === 0">
+                    <td colspan="7">
+                      <div class="technician-empty-state">
+                        <div class="technician-empty-icon">
+                          <i class="bi bi-person-x"></i>
+                        </div>
+                        <h6>No technicians found</h6>
+                        <p>Try changing your search text or filter criteria.</p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Technician Rows -->
+                  <tr *ngFor="let technicianObj of technicians">
+                    <td>
+                      <span class="technician-code">
+                        {{ technicianObj.technicianCode || technicianObj.id }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="technician-name">
+                        {{ technicianObj.fullName }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="technician-contact">
+                        <i class="bi bi-telephone"></i>
+                        {{ technicianObj.phone }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="technician-license">
+                        {{ technicianObj.licenseNo }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="technician-specialization">
+                        {{ technicianObj.specialization }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <app-status-badge
+                        [status]="technicianObj.status?.name"
+                      ></app-status-badge>
+                    </td>
+
+                    <td>
+                      <div class="technician-actions">
+                        <button
+                          type="button"
+                          class="btn technician-action-btn technician-edit-btn"
+                          title="Edit technician"
+                          aria-label="Edit technician"
+                          (click)="GetTechnicianById(technicianObj.id)"
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn technician-action-btn technician-delete-btn"
+                          title="Delete technician"
+                          aria-label="Delete technician"
+                          (click)="DeleteById(technicianObj.id)"
+                        >
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -17,20 +17,22 @@ import swal from 'sweetalert';
 })
 export class CustomerSiteComponent implements OnInit {
   customerSiteObj: CustomerSiteRepresentation = {};
-  customerSites: Array<any> = [];
-  allStatus: any;
-  allCustomers: any;
-  selectedStatusId: any = '';
-  selectedCustomerId: any = '';
 
-  // Search text for filtering customer sites
-  searchText: string = '';
+  customerSites: Array<any> = [];
   allCustomerSites: Array<any> = [];
-  selectedFilterStatusId: any = null;
+
+  allStatus: any[] = [];
+  allCustomers: any[] = [];
+
+  selectedStatusId: number | null = null;
+  selectedCustomerId: number | null = null;
+
+  searchText = '';
+  selectedFilterStatusId: number | null = null;
 
   type: string;
   statusValue: any;
-  isEditCustomerSite: boolean = false;
+  isEditCustomerSite = false;
   dtDynamicVerticalScrollExample: any;
 
   canCreate = false;
@@ -47,175 +49,203 @@ export class CustomerSiteComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEditCustomerSite = false;
-    this.canCreate = this.permissionHelper.has(AuthIds.CUSTOMER_SITE_CREATE);
-    this.canUpdate = this.permissionHelper.has(AuthIds.CUSTOMER_SITE_UPDATE);
-    this.canDelete = this.permissionHelper.has(AuthIds.CUSTOMER_SITE_DELETE);
+
+    this.canCreate = this.permissionHelper.has(
+      AuthIds.CUSTOMER_SITE_CREATE,
+    );
+    this.canUpdate = this.permissionHelper.has(
+      AuthIds.CUSTOMER_SITE_UPDATE,
+    );
+    this.canDelete = this.permissionHelper.has(
+      AuthIds.CUSTOMER_SITE_DELETE,
+    );
+
     this.GetAllCustomerSitesStatus();
     this.GetAllCustomers();
     this.GetAllCustomerSites();
-    this.selectedCustomerId = null;
-    this.selectedStatusId = null;
   }
 
-
-SaveCustomerSite(form: any): void {
-  // 1. Validate form — unchanged
-  if (form.invalid) {
-    return;
-  }
-
-  // 2. Set status — unchanged
-  this.customerSiteObj.status = {
-    id: Number(this.selectedStatusId),
-  };
-
-  // 3. Set customer — unchanged
-  this.customerSiteObj.customer = {
-    id: Number(this.selectedCustomerId),
-  };
-
-  // 4. Decide Add or Update — unchanged
-  this.type = this.isEditCustomerSite == false ? 'Add' : 'Update';
-
-  const isUpdate = this.type == 'Update';
-
-  // Confirmation — consistent Add / Update UX
-  swal({
-    title: isUpdate ? 'Update Customer Site?' : 'Add Customer Site?',
-    text: isUpdate
-      ? 'Are you sure you want to update this customer site?'
-      : 'Are you sure you want to add this customer site?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
+  SaveCustomerSite(form: any): void {
+    // Stop submission if the form is invalid.
+    if (form.invalid) {
+      form.control.markAllAsTouched();
       return;
     }
 
-    // Existing API call — unchanged
-    this.customerSiteService
-      .createCustomerSite(this.customerSiteObj, this.type)
-      .subscribe({
-        next: (result): void => {
-          this.GetAllCustomerSites();
-          this.ClearForm(form);
+    // Preserve the existing status payload.
+    this.customerSiteObj.status = {
+      id: Number(this.selectedStatusId),
+    };
 
-          swal(
-            'Successful!',
-            isUpdate
-              ? 'Customer site has been updated successfully!'
-              : 'Customer site has been added successfully!',
-            'success',
-          );
+    // Preserve the existing customer relationship payload.
+    this.customerSiteObj.customer = {
+      id: Number(this.selectedCustomerId),
+    };
+
+    this.type = this.isEditCustomerSite ? 'Update' : 'Add';
+
+    const isUpdate = this.type === 'Update';
+
+    swal({
+      title: isUpdate ? 'Update Customer Site?' : 'Add Customer Site?',
+      text: isUpdate
+        ? 'Are you sure you want to update this customer site?'
+        : 'Are you sure you want to add this customer site?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
         },
-
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} customer site:`,
-            error,
-          );
-
-          swal(
-            'Error!',
-            isUpdate
-              ? 'Failed to update customer site.'
-              : 'Failed to add customer site.',
-            'error',
-          );
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
         },
-      });
-  });
-}
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
+      this.customerSiteService
+        .createCustomerSite(this.customerSiteObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllCustomerSites();
+            this.ClearForm(form);
 
-  GetCustomerSiteById(ID: any) {
-    this.customerSiteService.GetCustomerSitesById(ID).subscribe((allData) => {
-      this.customerSiteObj = allData.data.dataList[0];
+            swal(
+              'Successful!',
+              isUpdate
+                ? 'Customer site has been updated successfully!'
+                : 'Customer site has been added successfully!',
+              'success',
+            );
+          },
 
-      this.isEditCustomerSite = true;
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} customer site:`,
+              error,
+            );
 
-      this.selectedStatusId = allData.data.dataList[0].status.id;
-      this.selectedCustomerId = allData.data.dataList[0].customer.id;
-
-      this.statusValue = allData.data.dataList[0].status.name;
-
-      this.customerSiteObj.status = {
-        id: allData.data.dataList[0].status.id, // Set the status ID for the customer object
-      };
-      this.customerSiteObj.customer = {
-        id: allData.data.dataList[0].customer.id, // Set the customer ID for the customer object
-      };
+            swal(
+              'Error!',
+              isUpdate
+                ? 'Failed to update customer site.'
+                : 'Failed to add customer site.',
+              'error',
+            );
+          },
+        });
     });
   }
 
-  GetAllCustomerSites() {
+  GetCustomerSiteById(ID: any): void {
+    this.customerSiteService.GetCustomerSitesById(ID).subscribe({
+      next: (allData) => {
+        const site = allData?.data?.dataList?.[0];
+
+        if (!site) {
+          console.error('Customer site not found.');
+          return;
+        }
+
+        this.customerSiteObj = { ...site };
+
+        this.isEditCustomerSite = true;
+        this.selectedStatusId = site.status?.id ?? null;
+        this.selectedCustomerId = site.customer?.id ?? null;
+        this.statusValue = site.status?.name ?? null;
+
+        // Preserve the existing relationship structure.
+        this.customerSiteObj.status = {
+          id: site.status?.id,
+        };
+
+        this.customerSiteObj.customer = {
+          id: site.customer?.id,
+        };
+      },
+
+      error: (error) => {
+        console.error('Failed to load customer site:', error);
+      },
+    });
+  }
+
+  GetAllCustomerSites(): void {
     this.customerSiteService.GetAllCustomerSites().subscribe({
       next: (allData) => {
-        this.customerSites = allData?.data?.dataList || [];
-        this.allCustomerSites = [...this.customerSites];
-        console.log('Customer Sites:', this.customerSites);
+        this.allCustomerSites = allData?.data?.dataList || [];
+        this.SearchCustomerSites();
       },
+
       error: (error) => {
         console.error('Failed to load customer sites:', error);
       },
     });
   }
 
-  DeleteCustomerSiteById(ID: any) {
+  DeleteCustomerSiteById(ID: any): void {
     swal({
-      title: 'Are you sure',
-      text: 'That you want to Delete this Customer Site?',
+      title: 'Delete Customer Site?',
+      text: 'Are you sure you want to delete this customer site?',
       icon: 'warning',
       dangerMode: true,
+      buttons: ['Cancel', 'Yes, Delete'],
     }).then((willDelete) => {
-      if (willDelete) {
-        this.customerSiteService.DeleteCustomerSiteById(ID).subscribe({
-          next: (allData) => {
-            this.GetAllCustomerSites();
-
-            swal(
-              'Deleted!',
-              'Customer Site has been deleted successfully!',
-              'success',
-            );
-          },
-
-          error: (error) => {
-            console.error('Failed to delete customer site:', error);
-
-            swal('Error!', 'Failed to delete customer site.', 'error');
-          },
-        });
+      if (!willDelete) {
+        return;
       }
+
+      this.customerSiteService.DeleteCustomerSiteById(ID).subscribe({
+        next: (result) => {
+          this.GetAllCustomerSites();
+
+          swal(
+            'Deleted!',
+            'Customer site has been deleted successfully!',
+            'success',
+          );
+        },
+
+        error: (error) => {
+          console.error('Failed to delete customer site:', error);
+
+          swal(
+            'Error!',
+            'Failed to delete customer site.',
+            'error',
+          );
+        },
+      });
     });
   }
 
-  GetAllCustomerSitesStatus() {
-    this.statusService.GetAllCustomerSiteStatus().subscribe((allData) => {
-      this.allStatus = allData.data.dataList;
+  GetAllCustomerSitesStatus(): void {
+    this.statusService.GetAllCustomerSiteStatus().subscribe({
+      next: (allData) => {
+        this.allStatus = allData?.data?.dataList || [];
+      },
+
+      error: (error) => {
+        console.error('Failed to load customer site statuses:', error);
+      },
     });
   }
 
-  GetAllCustomers() {
+  GetAllCustomers(): void {
     this.customerService.GetAllCustomers().subscribe({
       next: (allData) => {
         this.allCustomers = allData?.data?.dataList || [];
-        // console.log('Customers:', this.allCustomers);
       },
+
       error: (error) => {
         console.error('Failed to load customers:', error);
       },
@@ -223,29 +253,30 @@ SaveCustomerSite(form: any): void {
   }
 
   SearchCustomerSites(): void {
-    const search = this.searchText.toLowerCase().trim();
+    const search = (this.searchText || '').toLowerCase().trim();
 
     this.customerSites = this.allCustomerSites.filter((site: any) => {
-      // Search Fields
-      const siteName = site.siteName?.toLowerCase() || '';
+      const siteCode = String(site.siteCode ?? site.id ?? '').toLowerCase();
 
-      const customerName = site.customer?.customerName?.toLowerCase() || '';
+      const customerCode = String(
+        site.customerCode ?? site.customer?.customerCode ?? site.customer?.id ?? '',
+      ).toLowerCase();
 
-      const address = site.address?.toLowerCase() || '';
+      const siteName = String(site.siteName ?? '').toLowerCase();
+      const customerName = String(
+        site.customer?.customerName ?? '',
+      ).toLowerCase();
+      const address = String(site.address ?? '').toLowerCase();
+      const city = String(site.city ?? '').toLowerCase();
+      const contactPerson = String(site.contactPerson ?? '').toLowerCase();
+      const contactPhone = String(site.contactPhone ?? '').toLowerCase();
+      const siteNotes = String(site.siteNotes ?? '').toLowerCase();
+      const statusName = String(site.status?.name ?? '').toLowerCase();
 
-      const city = site.city?.toLowerCase() || '';
-
-      const contactPerson = site.contactPerson?.toLowerCase() || '';
-
-      const contactPhone = site.contactPhone?.toLowerCase() || '';
-
-      const siteNotes = site.siteNotes?.toLowerCase() || '';
-
-      const status = site.status?.name?.toLowerCase() || '';
-
-      // Search Condition
       const matchesSearch =
         !search ||
+        siteCode.includes(search) ||
+        customerCode.includes(search) ||
         siteName.includes(search) ||
         customerName.includes(search) ||
         address.includes(search) ||
@@ -253,37 +284,50 @@ SaveCustomerSite(form: any): void {
         contactPerson.includes(search) ||
         contactPhone.includes(search) ||
         siteNotes.includes(search) ||
-        status.includes(search);
+        statusName.includes(search);
 
-      // Status Filter Condition
       const matchesStatus =
-        this.selectedFilterStatusId === null ||
-        this.selectedFilterStatusId === '' ||
+        this.selectedFilterStatusId == null ||
         Number(site.status?.id) === Number(this.selectedFilterStatusId);
 
-      // Final Result
       return matchesSearch && matchesStatus;
     });
   }
 
-  onChangeStatus(event: Event): void {
-    const statusId = Number((event.target as HTMLSelectElement).value);
-    this.customerSiteObj.status = { id: statusId };
+  ClearFilters(): void {
+    this.searchText = '';
+    this.selectedFilterStatusId = null;
+
+    this.SearchCustomerSites();
   }
 
+  onChangeStatus(event: Event): void {
+    const statusId = Number((event.target as HTMLSelectElement).value);
 
-  // onChangeCustomer(event: Event): void {
-  //   const customerId = Number((event.target as HTMLSelectElement).value);
-  //   this.customerSiteObj.customer = { id: customerId };
-  // }
+    this.customerSiteObj.status = {
+      id: statusId,
+    };
+  }
 
-  ClearForm(form: any): void {
+  ClearForm(form?: any): void {
     this.customerSiteObj = {};
+
     this.isEditCustomerSite = false;
     this.statusValue = null;
     this.selectedStatusId = null;
     this.selectedCustomerId = null;
 
-    form.resetForm(); // Reset the form to its initial state
+    if (form) {
+      form.resetForm({
+        customer: null,
+        siteName: '',
+        address: '',
+        city: '',
+        contactPerson: '',
+        contactPhone: '',
+        siteNotes: '',
+        status: null,
+      });
+    }
   }
 }

@@ -20,7 +20,10 @@ import swal from 'sweetalert';
   styleUrls: ['./service-request.component.scss'],
 })
 export class ServiceRequestComponent implements OnInit {
-  serviceRerquestObj: ServiceRequestRepresentation = { priority: null as any, };
+  // Priority options
+  priorityOptions: string[] = ['Low', 'Normal', 'High'];
+
+  serviceRerquestObj: ServiceRequestRepresentation = { priority: null as any };
   serviceRequests: Array<any> = [];
 
   // objects from other modules
@@ -30,21 +33,21 @@ export class ServiceRequestComponent implements OnInit {
   allServiceTypes: any;
   allStatus: any;
 
-  selectedStatusId: any = '';
-  selectedPestTypeId: any = '';
-  selectedServiceTypeId: any = '';
-  selectedCustomerId: any = '';
-  selectedCustomerSiteId: any = '';
+  selectedStatusId: number | null = null;
+  selectedPestTypeId: number | null = null;
+  selectedServiceTypeId: number | null = null;
+  selectedCustomerId: number | null = null;
+  selectedCustomerSiteId: number | null = null;
 
   // Search text for filtering customer sites
   searchText: string = '';
-  // allServiceTypes: Array<any> = [];
   allServiceRequests: Array<any> = [];
-  selectedFilterStatusId: string | null = null;
-  selectedFilterPestTypeId: string | null = null;
-  selectedFilterServiceTypeId: string | null = null;
-  selectedFilterCustomerId: string | null = null;
-  selectedFilterCustomerSiteId: string | null = null;
+
+  selectedFilterStatusId: number | null = null;
+  selectedFilterPestTypeId: number | null = null;
+  selectedFilterServiceTypeId: number | null = null;
+  selectedFilterCustomerId: number | null = null;
+  selectedFilterCustomerSiteId: number | null = null;
 
   type: string;
   statusValue: any;
@@ -99,111 +102,105 @@ export class ServiceRequestComponent implements OnInit {
     this.selectedCustomerSiteId = null;
   }
 
-
-SaveServiceRequest(form: any): void {
-  if (form.invalid) {
-    return;
-  }
-
-  // Set status — unchanged
-  this.serviceRerquestObj.status = {
-    id: Number(this.selectedStatusId),
-  };
-
-  // Set customer — unchanged
-  this.serviceRerquestObj.customer = {
-    id: Number(this.selectedCustomerId),
-  };
-
-  // Set customer site — unchanged
-  this.serviceRerquestObj.customerSite = {
-    id: Number(this.selectedCustomerSiteId),
-  };
-
-  // Set pest type — unchanged
-  this.serviceRerquestObj.pestType = {
-    id: Number(this.selectedPestTypeId),
-  };
-
-  // Set service type — unchanged
-  this.serviceRerquestObj.serviceType = {
-    id: Number(this.selectedServiceTypeId),
-  };
-
-  // Decide Add or Update — unchanged
-  this.type = this.isEditServiceRequest == false ? 'Add' : 'Update';
-
-  const isUpdate = this.type == 'Update';
-
-  swal({
-    title: isUpdate ? 'Update Service Request?' : 'Add Service Request?',
-    text: isUpdate
-      ? 'Are you sure you want to update this service request?'
-      : 'Are you sure you want to add this service request?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
+  SaveServiceRequest(form: any): void {
+    if (form.invalid) {
       return;
     }
 
-    this.serviceRequestService
-      .createServiceRequest(this.serviceRerquestObj, this.type)
-      .subscribe({
-        next: (result): void => {
-          if (isUpdate) {
-            this.ClearForm(form);
-            this.GetAllServiceRequests();
+    // Set status — unchanged
+    this.serviceRerquestObj.status = {
+      id: Number(this.selectedStatusId),
+    };
+
+    // Set customer — unchanged
+    this.serviceRerquestObj.customer = {
+      id: Number(this.selectedCustomerId),
+    };
+
+    // Set customer site — unchanged
+    this.serviceRerquestObj.customerSite = {
+      id: Number(this.selectedCustomerSiteId),
+    };
+
+    // Set pest type — unchanged
+    this.serviceRerquestObj.pestType = {
+      id: Number(this.selectedPestTypeId),
+    };
+
+    // Set service type — unchanged
+    this.serviceRerquestObj.serviceType = {
+      id: Number(this.selectedServiceTypeId),
+    };
+
+    // Decide Add or Update — unchanged
+    this.type = this.isEditServiceRequest == false ? 'Add' : 'Update';
+
+    const isUpdate = this.type == 'Update';
+
+    swal({
+      title: isUpdate ? 'Update Service Request?' : 'Add Service Request?',
+      text: isUpdate
+        ? 'Are you sure you want to update this service request?'
+        : 'Are you sure you want to add this service request?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
+        },
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
+        },
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
+
+      this.serviceRequestService
+        .createServiceRequest(this.serviceRerquestObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            if (isUpdate) {
+              this.ClearForm(form);
+              this.GetAllServiceRequests();
+
+              swal(
+                'Successful!',
+                'Service Request has been updated!',
+                'success',
+              );
+            } else {
+              this.GetAllServiceRequests();
+              this.ClearForm(form);
+
+              swal('Successful!', 'Service Request has been added!', 'success');
+            }
+          },
+
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} Service Request:`,
+              error,
+            );
 
             swal(
-              'Successful!',
-              'Service Request has been updated!',
-              'success',
+              'Error!',
+              isUpdate
+                ? 'Failed to update Service Request.'
+                : 'Failed to add Service Request.',
+              'error',
             );
-          } else {
-            this.GetAllServiceRequests();
-            this.ClearForm(form);
-
-            swal(
-              'Successful!',
-              'Service Request has been added!',
-              'success',
-            );
-          }
-        },
-
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} Service Request:`,
-            error,
-          );
-
-          swal(
-            'Error!',
-            isUpdate
-              ? 'Failed to update Service Request.'
-              : 'Failed to add Service Request.',
-            'error',
-          );
-        },
-      });
-  });
-}
-
+          },
+        });
+    });
+  }
 
   GetServiceRequestById(ID: any) {
     this.serviceRequestService.GetServiceRequestById(ID).subscribe({
@@ -383,16 +380,14 @@ SaveServiceRequest(form: any): void {
       // Customer Filter
       // =========================
       const matchesCustomer =
-        this.selectedFilterCustomerId === null ||
-        this.selectedFilterCustomerId === '' ||
+        this.selectedFilterCustomerId == null ||
         Number(type.customer?.id) === Number(this.selectedFilterCustomerId);
 
       // =========================
       // Customer Site Filter
       // =========================
       const matchesCustomerSite =
-        this.selectedFilterCustomerSiteId === null ||
-        this.selectedFilterCustomerSiteId === '' ||
+        this.selectedFilterCustomerSiteId == null ||
         Number(type.customerSite?.id) ===
           Number(this.selectedFilterCustomerSiteId);
 
@@ -400,16 +395,14 @@ SaveServiceRequest(form: any): void {
       // Pest Type Filter
       // =========================
       const matchesPestType =
-        this.selectedFilterPestTypeId === null ||
-        this.selectedFilterPestTypeId === '' ||
+        this.selectedFilterPestTypeId == null ||
         Number(type.pestType?.id) === Number(this.selectedFilterPestTypeId);
 
       // =========================
       // Service Type Filter
       // =========================
       const matchesServiceType =
-        this.selectedFilterServiceTypeId === null ||
-        this.selectedFilterServiceTypeId === '' ||
+        this.selectedFilterServiceTypeId == null ||
         Number(type.serviceType?.id) ===
           Number(this.selectedFilterServiceTypeId);
 
@@ -417,10 +410,8 @@ SaveServiceRequest(form: any): void {
       // Status Filter
       // =========================
       const matchesStatus =
-        this.selectedFilterStatusId === null ||
-        this.selectedFilterStatusId === '' ||
+        this.selectedFilterStatusId == null ||
         Number(type.status?.id) === Number(this.selectedFilterStatusId);
-
       // =========================
       // Final Result
       // =========================
@@ -446,19 +437,19 @@ SaveServiceRequest(form: any): void {
   }
 
   ClearForm(form: any): void {
-  this.serviceRerquestObj = {
-    priority: null as any,
-  };
+    this.serviceRerquestObj = {
+      priority: null as any,
+    };
 
-  this.isEditServiceRequest = false;
-  this.statusValue = null;
+    this.isEditServiceRequest = false;
+    this.statusValue = null;
 
-  this.selectedStatusId = null;
-  this.selectedCustomerId = null;
-  this.selectedPestTypeId = null;
-  this.selectedCustomerSiteId = null;
-  this.selectedServiceTypeId = null;
+    this.selectedStatusId = null;
+    this.selectedCustomerId = null;
+    this.selectedPestTypeId = null;
+    this.selectedCustomerSiteId = null;
+    this.selectedServiceTypeId = null;
 
-  form.resetForm();
-}
+    form.resetForm();
+  }
 }
