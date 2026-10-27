@@ -28,8 +28,9 @@ export class ServiceTypeComponent implements OnInit {
   // Search text for filtering customer sites
   searchText: string = '';
   allServiceTypes: Array<any> = [];
-  selectedFilterStatusId: string | null = null;
-  selectedFilterPestTypeId: string | null = null;
+
+  selectedFilterStatusId: number | null = null;
+  selectedFilterPestTypeId: number | null = null;
 
   type: string;
   statusValue: any;
@@ -71,90 +72,88 @@ export class ServiceTypeComponent implements OnInit {
     this.selectedStatusId = null;
   }
 
-
-SaveServiceType(form: any): void {
-  // 1. Validate form — unchanged
-  if (form.invalid) {
-    return;
-  }
-
-  // 2. Set status — unchanged
-  this.serviceTypeObj.status = {
-    id: Number(this.selectedStatusId),
-  };
-
-  // 3. Set pest type — unchanged
-  this.serviceTypeObj.pestType = {
-    id: Number(this.selectedPestTypeId),
-  };
-
-  // 4. Decide Add or Update — unchanged
-  this.type = this.isEditServiceType == false ? 'Add' : 'Update';
-
-  const isUpdate = this.type == 'Update';
-
-  // Confirmation dialog — consistent UI/UX
-  swal({
-    title: isUpdate ? 'Update Service Type?' : 'Add Service Type?',
-    text: isUpdate
-      ? 'Are you sure you want to update this service type?'
-      : 'Are you sure you want to add this service type?',
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: 'Cancel',
-        value: false,
-        visible: true,
-        closeModal: true,
-      },
-      confirm: {
-        text: isUpdate ? 'Yes, Update' : 'Yes, Add',
-        value: true,
-        visible: true,
-        closeModal: true,
-      },
-    },
-    dangerMode: false,
-  }).then((confirmed) => {
-    if (!confirmed) {
+  SaveServiceType(form: any): void {
+    // 1. Validate form — unchanged
+    if (form.invalid) {
       return;
     }
 
-    // Existing API call — unchanged
-    this.serviceTypeService
-      .createServiceType(this.serviceTypeObj, this.type)
-      .subscribe({
-        next: (result): void => {
-          this.GetAllServiceTypes();
-          this.ClearForm(form);
+    // 2. Set status — unchanged
+    this.serviceTypeObj.status = {
+      id: Number(this.selectedStatusId),
+    };
 
-          swal(
-            'Successful!',
-            isUpdate
-              ? 'Service type has been updated!'
-              : 'Service type has been added!',
-            'success',
-          );
+    // 3. Set pest type — unchanged
+    this.serviceTypeObj.pestType = {
+      id: Number(this.selectedPestTypeId),
+    };
+
+    // 4. Decide Add or Update — unchanged
+    this.type = this.isEditServiceType == false ? 'Add' : 'Update';
+
+    const isUpdate = this.type == 'Update';
+
+    // Confirmation dialog — consistent UI/UX
+    swal({
+      title: isUpdate ? 'Update Service Type?' : 'Add Service Type?',
+      text: isUpdate
+        ? 'Are you sure you want to update this service type?'
+        : 'Are you sure you want to add this service type?',
+      icon: 'warning',
+      buttons: {
+        cancel: {
+          text: 'Cancel',
+          value: false,
+          visible: true,
+          closeModal: true,
         },
-
-        error: (error): void => {
-          console.error(
-            `Failed to ${isUpdate ? 'update' : 'add'} service type:`,
-            error,
-          );
-
-          swal(
-            'Error!',
-            isUpdate
-              ? 'Failed to update service type.'
-              : 'Failed to add service type.',
-            'error',
-          );
+        confirm: {
+          text: isUpdate ? 'Yes, Update' : 'Yes, Add',
+          value: true,
+          visible: true,
+          closeModal: true,
         },
-      });
-  });
-}
+      },
+      dangerMode: false,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
+      // Existing API call — unchanged
+      this.serviceTypeService
+        .createServiceType(this.serviceTypeObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllServiceTypes();
+            this.ClearForm(form);
+
+            swal(
+              'Successful!',
+              isUpdate
+                ? 'Service type has been updated!'
+                : 'Service type has been added!',
+              'success',
+            );
+          },
+
+          error: (error): void => {
+            console.error(
+              `Failed to ${isUpdate ? 'update' : 'add'} service type:`,
+              error,
+            );
+
+            swal(
+              'Error!',
+              isUpdate
+                ? 'Failed to update service type.'
+                : 'Failed to add service type.',
+              'error',
+            );
+          },
+        });
+    });
+  }
 
   GetServiceTypeById(ID: any) {
     this.serviceTypeService.GetServiceTypeById(ID).subscribe((allData) => {
@@ -264,14 +263,13 @@ SaveServiceType(form: any): void {
 
       // Status Filter Condition
       const matchesStatus =
-        this.selectedFilterStatusId === null ||
-        this.selectedFilterStatusId === '' ||
-        Number(type.status?.id) === Number(this.selectedFilterStatusId);
+        this.selectedFilterStatusId == null ||
+        Number(type.status?.id) === this.selectedFilterStatusId;
 
-      // Pest Type filter
+      // Pest Type Filter
       const matchesPestType =
-        this.selectedFilterPestTypeId === null ||
-        type.pestType?.id === this.selectedFilterPestTypeId;
+        this.selectedFilterPestTypeId == null ||
+        Number(type.pestType?.id) === this.selectedFilterPestTypeId;
 
       // Final Result
       return matchesSearch && matchesStatus && matchesPestType;

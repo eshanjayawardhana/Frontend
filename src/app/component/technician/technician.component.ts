@@ -21,9 +21,11 @@ export class TechnicianComponent implements OnInit {
 
   technicianObj: TechnicianRepresentation = { specialization: null as any };
   technicians: Array<any> = [];
+  allTechnicians: Array<any> = [];
   allStatus: any;
   selectedStatusId: number | null = null;
 
+  searchText = '';
   type: string;
   statusValue: any;
   isEditTechnician: boolean = false;
@@ -33,6 +35,9 @@ export class TechnicianComponent implements OnInit {
   canUpdate = false;
   canDelete = false;
   technicianSpecializationValue: any;
+
+  selectedFilterSpecialization: string | null = null;
+  selectedFilterStatusId: number | null = null;
 
   constructor(
     private technicianService: TechnicianService,
@@ -51,7 +56,11 @@ export class TechnicianComponent implements OnInit {
     this.GetAllTechnicians();
   }
 
-  SaveTechnician(): void {
+  SaveTechnician(form: any): void {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
     // Set technician status
     this.technicianObj.status = {
       id: Number(this.selectedStatusId),
@@ -111,7 +120,7 @@ export class TechnicianComponent implements OnInit {
               'success',
             );
 
-            this.ClearForm();
+            this.ClearForm(form);
           },
 
           error: (error): void => {
@@ -149,15 +158,53 @@ export class TechnicianComponent implements OnInit {
     });
   }
 
-  GetAllTechnicians() {
+  GetAllTechnicians(): void {
     this.technicianService.GetAllTechnicians().subscribe({
       next: (allData) => {
-        this.technicians = allData?.data?.dataList || [];
-        // console.log('Technicians:', this.technicians);
+        this.allTechnicians = allData?.data?.dataList || [];
+        this.SearchTechnicians();
       },
       error: (error) => {
         console.error('Failed to load technicians:', error);
       },
+    });
+  }
+
+  SearchTechnicians(): void {
+    const search = (this.searchText || '').toLowerCase().trim();
+
+    this.technicians = this.allTechnicians.filter((technician: any) => {
+      const code = String(
+        technician.technicianCode ?? technician.id ?? '',
+      ).toLowerCase();
+
+      const fullName = String(technician.fullName ?? '').toLowerCase();
+      const phone = String(technician.phone ?? '').toLowerCase();
+      const licenseNo = String(technician.licenseNo ?? '').toLowerCase();
+      const specialization = String(
+        technician.specialization ?? '',
+      ).toLowerCase();
+
+      const statusName = String(technician.status?.name ?? '').toLowerCase();
+
+      const matchesSearch =
+        !search ||
+        code.includes(search) ||
+        fullName.includes(search) ||
+        phone.includes(search) ||
+        licenseNo.includes(search) ||
+        specialization.includes(search) ||
+        statusName.includes(search);
+
+      const matchesSpecialization =
+        this.selectedFilterSpecialization == null ||
+        technician.specialization === this.selectedFilterSpecialization;
+
+      const matchesStatus =
+        this.selectedFilterStatusId == null ||
+        Number(technician.status?.id) === this.selectedFilterStatusId;
+
+      return matchesSearch && matchesSpecialization && matchesStatus;
     });
   }
 
@@ -193,7 +240,7 @@ export class TechnicianComponent implements OnInit {
     this.technicianObj.specialization = selectedType;
   }
 
-  ClearForm(): void {
+  ClearForm(form?: any): void {
     this.technicianObj = {
       specialization: null as any,
     };
@@ -202,5 +249,15 @@ export class TechnicianComponent implements OnInit {
     this.statusValue = null;
     this.technicianSpecializationValue = null;
     this.selectedStatusId = null;
+
+    if (form) {
+      form.resetForm({
+        fullName: '',
+        phone: '',
+        licenseNo: '',
+        specialization: null,
+        status: null,
+      });
+    }
   }
 }

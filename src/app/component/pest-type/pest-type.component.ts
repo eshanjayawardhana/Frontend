@@ -15,7 +15,14 @@ import swal from 'sweetalert';
   styleUrls: ['./pest-type.component.scss'],
 })
 export class PestTypeComponent implements OnInit {
-  pestTypeObj: PestTypeRepresentation = { severityLevel: '' };
+
+  severityLevel: string[] = [
+    'Low',
+    'Medium',
+    'High',
+  ];
+
+  pestTypeObj: PestTypeRepresentation = { severityLevel:null as any };
   pestTypes: Array<any> = [];
 
   type: string;
@@ -30,7 +37,7 @@ export class PestTypeComponent implements OnInit {
   canUpdate = false;
   canDelete = false;
   severityLevelValue: any;
-  selectedFilterSeverityLevelId: any = null;
+  selectedFilterSeverityLevelId: string | null = null;
 
   constructor(
     private pestTypeService: PestTypeService,
@@ -202,14 +209,14 @@ SavePestType(form: any): void {
 
   ClearForm(form: any): void {
     this.pestTypeObj = {
-      severityLevel: '',
+      severityLevel: null as any,
     };
 
     this.isEditPestType = false;
     this.severityLevelValue = null;
 
     form.resetForm({
-      severityLevel: '',
+      severityLevel: null as any,
     });
   }
 }

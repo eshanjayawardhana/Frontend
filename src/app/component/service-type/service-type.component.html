@@ -20,7 +20,7 @@
             >
               <!-- Service Code -->
               <div class="form-group mt-3">
-                <label for="serviceCode">Service Code <span>*</span></label>
+                <label for="serviceCode">Service Code</label>
 
                 <input
                   type="text"
@@ -29,11 +29,10 @@
                   name="serviceCode"
                   [(ngModel)]="serviceTypeObj.serviceCode"
                   #serviceCode="ngModel"
-                  required
                   minlength="2"
                   maxlength="100"
                   pattern=".*\S.*"
-                  placeholder="Enter Service Code"
+                  placeholder="Enter Service Code (optional)"
                 />
 
                 <div
@@ -236,26 +235,22 @@
               </div>
 
               <!-- Pest Type -->
-              <div class="form-group">
+              <div class="form-group mt-3">
                 <label for="pestType">Pest Type <span>*</span></label>
 
-                <select
-                  class="form-control form-select"
-                  id="pestType"
-                  name="pestType"
+                <ng-select
+                  [items]="allPestTypes"
+                  bindLabel="pestName"
+                  bindValue="id"
                   [(ngModel)]="selectedPestTypeId"
+                  name="pestType"
+                  placeholder="Select Pest Type"
+                  [clearable]="true"
+                  [searchable]="true"
                   #pestType="ngModel"
                   required
                 >
-                  <option [ngValue]="null" disabled>Select Pest Type</option>
-
-                  <option
-                    *ngFor="let pestType of allPestTypes"
-                    [value]="pestType.id"
-                  >
-                    {{ pestType.pestName }}
-                  </option>
-                </select>
+                </ng-select>
 
                 <div
                   class="text-danger mt-1"
@@ -272,24 +267,23 @@
                 </div>
               </div>
 
-              <!-- Status -->
+              <!-- Service Type Status -->
               <div class="form-group mt-3">
-                <label for="status"> Service Type Status <span>*</span> </label>
+                <label for="status">Service Type Status <span>*</span></label>
 
-                <select
-                  class="form-control form-select"
-                  id="status"
-                  name="status"
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
                   [(ngModel)]="selectedStatusId"
+                  name="status"
+                  placeholder="Select Status"
+                  [clearable]="true"
+                  [searchable]="true"
                   #status="ngModel"
                   required
                 >
-                  <option [ngValue]="null" disabled>Select Status</option>
-
-                  <option *ngFor="let status of allStatus" [value]="status.id">
-                    {{ status.name }}
-                  </option>
-                </select>
+                </ng-select>
 
                 <div
                   class="text-danger mt-1"
@@ -318,7 +312,19 @@
                   </button>
 
                   <button type="submit" class="btn btn-primary">
-                    {{ isEditServiceType == false ? "submit" : "update" }}
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditServiceType
+                          ? 'bi-check2-circle'
+                          : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{
+                      isEditServiceType
+                        ? "Update Service Type"
+                        : "Add Service Type"
+                    }}
                   </button>
                 </div>
               </div>
@@ -328,149 +334,211 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-12 mb-3">
-          <div class="card text-dark mb-3 h-100">
+        <div class="col-12 mb-4">
+          <div class="card service-type-table-card h-100">
+            <!-- Table Header -->
             <div class="card-header service-type-section-header">
-              Service Type Table
+              <div class="d-flex align-items-center gap-3">
+                <div class="service-type-header-icon">
+                  <i class="bi bi-clipboard2-check"></i>
+                </div>
+
+                <div>
+                  <h5 class="mb-1">Service Type Table</h5>
+                  <p class="mb-0">
+                    View, search, and manage service categories, pricing, and
+                    status.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div class="card-body overflow-auto">
-              <div class="input-group my-3">
-                <!-- Search -->
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search by Service code, Service Name, Description, Base Pri ..."
-                  aria-label="Search Service Types"
-                  [(ngModel)]="searchText"
-                  name="searchText"
-                  (input)="SearchServiceTypes()"
-                />
+
+            <div class="card-body service-type-table-body">
+              <!-- Search Toolbar -->
+              <div class="service-type-toolbar">
+                <div class="service-type-search">
+                  <i class="bi bi-search"></i>
+
+                  <input
+                    type="text"
+                    class="form-control service-type-search-input"
+                    placeholder="Search service types..."
+                    aria-label="Search Service Types"
+                    [(ngModel)]="searchText"
+                    name="searchText"
+                    (input)="SearchServiceTypes()"
+                  />
+                </div>
 
                 <!-- Pest Type Filter -->
-                <select
-                  class="form-select"
-                  style="max-width: 200px"
-                  [(ngModel)]="selectedFilterPestTypeId"
-                  name="selectedFilterPestTypeId"
-                  (change)="SearchServiceTypes()"
-                >
-                  <option [ngValue]="null">All Pest Types</option>
-
-                  <option
-                    *ngFor="let pestType of allPestTypes"
-                    [ngValue]="pestType.id"
+                <div class="service-type-filter service-type-filter--pest">
+                  <ng-select
+                    [items]="allPestTypes"
+                    bindLabel="pestName"
+                    bindValue="id"
+                    [(ngModel)]="selectedFilterPestTypeId"
+                    name="selectedFilterPestTypeId"
+                    placeholder="All Pest Types"
+                    [clearable]="true"
+                    [searchable]="true"
+                    (change)="SearchServiceTypes()"
                   >
-                    {{ pestType.pestName }}
-                  </option>
-                </select>
+                  </ng-select>
+                </div>
 
+                <!-- Status Filter -->
+                <div class="service-type-filter service-type-filter--status">
+                  <ng-select
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="selectedFilterStatusId"
+                    name="selectedFilterStatusId"
+                    placeholder="All Statuses"
+                    [clearable]="true"
+                    [searchable]="true"
+                    (change)="SearchServiceTypes()"
+                  >
+                  </ng-select>
+                </div>
+
+                <!-- Clear Filters -->
                 <button
-                  class="btn btn-secondary"
+                  class="btn service-type-clear-btn"
                   type="button"
+                  title="Clear search and filters"
+                  aria-label="Clear search and filters"
                   (click)="
                     searchText = '';
                     selectedFilterPestTypeId = null;
-                    SearchServiceTypes()
-                  "
-                >
-                  <i class="bi bi-x-lg"></i>
-                </button>
-
-                <!-- Status Filter -->
-                <select
-                  class="form-select"
-                  style="max-width: 200px"
-                  [(ngModel)]="selectedFilterStatusId"
-                  name="selectedFilterStatusId"
-                  (change)="SearchServiceTypes()"
-                >
-                  <option [ngValue]="null">All Status</option>
-
-                  <option
-                    *ngFor="let status of allStatus"
-                    [ngValue]="status.id"
-                  >
-                    {{ status.name }}
-                  </option>
-                </select>
-
-                <button
-                  class="btn btn-secondary"
-                  type="button"
-                  (click)="
-                    searchText = '';
                     selectedFilterStatusId = null;
                     SearchServiceTypes()
                   "
                 >
-                  <i class="bi bi-x-lg"></i>
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                  <span>Clear</span>
                 </button>
 
-                <button
-                  class="btn btn-info"
+                <!-- Search Button -->
+                <!-- <button
+                  class="btn service-type-search-btn"
                   type="button"
                   (click)="SearchServiceTypes()"
                 >
                   <i class="bi bi-search"></i>
-                </button>
+                  <span>Search</span>
+                </button> -->
               </div>
 
-              <table class="table table-striped table-bordered table-wrapper">
-                <thead>
-                  <tr>
-                    <th>Service Code</th>
-                    <th>Service Name</th>
-                    <th>Description</th>
-                    <th>Base Price</th>
-                    <th>Estimated Duration (Hours)</th>
-                    <th>Pest Type</th>
-                    <th>Status</th>
-                    <th class="text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="serviceTypes.length === 0">
-                    <td
-                      [attr.colspan]="serviceTypeColumns.length"
-                      class="text-center text-muted py-4"
-                    >
-                      No service types found.
-                    </td>
-                  </tr>
-                  <tr *ngFor="let serviceTypeObj of serviceTypes">
-                    <td>
-                      {{ serviceTypeObj.serviceCode || serviceTypeObj.id }}
-                    </td>
-                    <td>{{ serviceTypeObj.serviceName }}</td>
-                    <td>{{ serviceTypeObj.description }}</td>
-                    <td>{{ serviceTypeObj.basePrice | number: "1.2-2" }}</td>
-                    <td>
-                      {{ formatDuration(serviceTypeObj.estimatedDurationHrs) }}
-                    </td>
-                    <td>{{ serviceTypeObj.pestType?.pestName }}</td>
-                    <td>
-                      <app-status-badge
-                        [status]="serviceTypeObj.status?.name"
-                      ></app-status-badge>
-                    </td>
+              <!-- Table -->
+              <div class="table-responsive service-type-table-responsive">
+                <table class="table service-type-table align-middle">
+                  <thead>
+                    <tr>
+                      <th>Service Code</th>
+                      <th>Service Name</th>
+                      <th>Description</th>
+                      <th>Base Price</th>
+                      <th>Estimated Duration</th>
+                      <th>Pest Type</th>
+                      <th>Status</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
 
-                    <td class="text-center">
-                      <button
-                        class="btn btn-warning me-1"
-                        (click)="GetServiceTypeById(serviceTypeObj.id)"
-                      >
-                        <i class="bi bi-pencil-square"></i>
-                      </button>
-                      <button
-                        class="btn btn-danger me-1"
-                        (click)="DeleteServiceTypeById(serviceTypeObj.id)"
-                      >
-                        <i class="bi bi-archive"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  <tbody>
+                    <!-- Empty State -->
+                    <tr *ngIf="serviceTypes.length === 0">
+                      <td [attr.colspan]="serviceTypeColumns.length">
+                        <div class="service-type-empty-state">
+                          <div class="service-type-empty-icon">
+                            <i class="bi bi-clipboard2-x"></i>
+                          </div>
+                          <h6>No service types found</h6>
+                          <p>
+                            Try changing your search text or filter criteria.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!-- Service Type Rows -->
+                    <tr *ngFor="let serviceTypeObj of serviceTypes">
+                      <td>
+                        <span class="service-type-code">
+                          {{ serviceTypeObj.serviceCode || serviceTypeObj.id }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-name">
+                          {{ serviceTypeObj.serviceName }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div
+                          class="service-type-description"
+                          [title]="serviceTypeObj.description"
+                        >
+                          {{ serviceTypeObj.description }}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span class="service-type-price">
+                          {{ serviceTypeObj.basePrice | number: "1.2-2" }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-duration">
+                          <i class="bi bi-clock"></i>
+                          {{
+                            formatDuration(serviceTypeObj.estimatedDurationHrs)
+                          }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-pest">
+                          {{ serviceTypeObj.pestType?.pestName || "—" }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <app-status-badge
+                          [status]="serviceTypeObj.status?.name"
+                        ></app-status-badge>
+                      </td>
+
+                      <td>
+                        <div class="service-type-actions">
+                          <button
+                            class="btn service-type-action-btn service-type-edit-btn"
+                            type="button"
+                            title="Edit service type"
+                            aria-label="Edit service type"
+                            (click)="GetServiceTypeById(serviceTypeObj.id)"
+                          >
+                            <i class="bi bi-pencil-square"></i>
+                          </button>
+
+                          <button
+                            class="btn service-type-action-btn service-type-delete-btn"
+                            type="button"
+                            title="Delete service type"
+                            aria-label="Delete service type"
+                            (click)="DeleteServiceTypeById(serviceTypeObj.id)"
+                          >
+                            <i class="bi bi-trash3"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
