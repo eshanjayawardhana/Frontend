@@ -34,7 +34,7 @@ export class AppComponent {
         { label: 'Chemicals', icon: 'bi-droplet', route: '/chemical' },
         { label: 'Notifications', icon: 'bi-bell', route: '/notification' },
         { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' },
-        { label: 'Inspection', icon: 'bi-file-earmark-text', route: '/inspection' },
+        { label: 'Inspection', icon: 'bi-clipboard2-pulse', route: '/inspection' },
       ]
     },
     {
