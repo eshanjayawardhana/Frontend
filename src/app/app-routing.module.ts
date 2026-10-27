@@ -19,6 +19,7 @@ import { PestTypeComponent } from './component/pest-type/pest-type.component';
 import { NotificationComponent } from './component/notification/notification.component';
 import { ServiceTypeComponent } from './component/service-type/service-type.component';
 import { ServiceRequestComponent } from './component/service-request/service-request.component';
+import { InspectionComponent } from './component/inspection/inspection.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -57,9 +58,16 @@ const routes: Routes = [
     component: ServiceTypeComponent,
     canActivate: [AuthGuard],
   },
-  {path: 'service-request',
+  {
+    path: 'service-request',
     component: ServiceRequestComponent,
-    canActivate: [AuthGuard],},
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'inspection',
+    component: InspectionComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'qualification',
     component: QualificationComponent,

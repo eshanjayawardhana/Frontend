@@ -39,7 +39,7 @@ export class ServiceRequestComponent implements OnInit {
   selectedCustomerId: number | null = null;
   selectedCustomerSiteId: number | null = null;
 
-  // Search text for filtering customer sites
+  // Search text for filtering service requests
   searchText: string = '';
   allServiceRequests: Array<any> = [];
 
@@ -54,18 +54,18 @@ export class ServiceRequestComponent implements OnInit {
   isEditServiceRequest: boolean = false;
   dtDynamicVerticalScrollExample: any;
 
-  ServiceRequestColumns = [
-    'requestCode',
-    'requestDate',
-    'preferredDate',
-    'problemDescription',
-    'priority',
-    'customer',
-    'customerSite',
-    'pestType',
-    'serviceType',
-    'Actions',
-  ];
+  // ServiceRequestColumns = [
+  //   'requestCode',
+  //   'requestDate',
+  //   'preferredDate',
+  //   'problemDescription',
+  //   'priority',
+  //   'customer',
+  //   'customerSite',
+  //   'pestType',
+  //   'serviceType',
+  //   'Actions',
+  // ];
 
   canCreate = false;
   canUpdate = false;

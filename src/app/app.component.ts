@@ -33,7 +33,8 @@ export class AppComponent {
         { label: 'Customer Sites', icon: 'bi-geo-alt', route: '/customer-site' },
         { label: 'Chemicals', icon: 'bi-droplet', route: '/chemical' },
         { label: 'Notifications', icon: 'bi-bell', route: '/notification' },
-        { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' }
+        { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' },
+        { label: 'Inspection', icon: 'bi-file-earmark-text', route: '/inspection' },
       ]
     },
     {

@@ -31,6 +31,7 @@ import { PageHeaderComponent } from './component/page-header/page-header.compone
 import { StatCardComponent } from './component/stat-card/stat-card.component';
 import { StatusBadgeComponent } from './component/status-badge/status-badge.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { InspectionComponent } from './component/inspection/inspection.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PageHeaderComponent,
     StatCardComponent,
     StatusBadgeComponent,
+    InspectionComponent,
   ],
   imports: [
     BrowserModule,
