@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class StatusService {
+
   private baseUrl: string = 'http://localhost:8010/api/v1';
 
   constructor(private http: HttpClient) {}
@@ -40,5 +41,9 @@ export class StatusService {
 
   GetAllInspectionStatus(): Observable<any> {
     return this.http.get(`${this.baseUrl}/inspection-status`);
+  }
+
+  GetAllTreatmentJobStatus(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/treatment-job-status`);
   }
 }

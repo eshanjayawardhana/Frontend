@@ -79,12 +79,16 @@ export const AuthIds = {
   INSPECTIONS_UPDATE: 122,
   INSPECTIONS_DELETE: 123,
 
+  // Treatment Job module
+  TREATMENT_JOBS_VIEW: 130,
+  TREATMENT_JOBS_CREATE: 131,
+  TREATMENT_JOBS_UPDATE: 132,
+  TREATMENT_JOBS_DELETE: 133,
 } as const;
 
 @Injectable({ providedIn: 'root' })
 export class PermissionHelperService {
-
-  constructor(private userAuthService: UserAuthService) { }
+  constructor(private userAuthService: UserAuthService) {}
 
   /** True if the logged-in user has this privilege auth_id. */
   has(authId: number): boolean {
@@ -93,6 +97,6 @@ export class PermissionHelperService {
 
   hasAny(...authIds: number[]): boolean {
     const mine = this.userAuthService.getAuthIds();
-    return authIds.some(id => mine.includes(id));
+    return authIds.some((id) => mine.includes(id));
   }
 }

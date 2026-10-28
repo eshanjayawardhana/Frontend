@@ -20,6 +20,7 @@ import { NotificationComponent } from './component/notification/notification.com
 import { ServiceTypeComponent } from './component/service-type/service-type.component';
 import { ServiceRequestComponent } from './component/service-request/service-request.component';
 import { InspectionComponent } from './component/inspection/inspection.component';
+import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -66,6 +67,11 @@ const routes: Routes = [
   {
     path: 'inspection',
     component: InspectionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'treatment-job',
+    component: TreatmentJobComponent,
     canActivate: [AuthGuard],
   },
   {

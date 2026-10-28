@@ -1,0 +1,849 @@
+
+<main class="pt-3 treatment-job-page">
+  <div class="container-fluid">
+    <!-- =========================
+         Treatment Job Form
+    ========================== -->
+    <app-page-header
+      title="Treatment Jobs Registration"
+      description="Manage scheduled treatment jobs, completed work, assigned technicians, customer sites, and treatment status."
+    ></app-page-header>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header treatment-job-section-header">
+            Treatment Job Form
+          </div>
+
+          <div class="card-body">
+            <form
+              #treatmentJobForm="ngForm"
+              (ngSubmit)="SaveTreatmentJob(treatmentJobForm)"
+              novalidate
+            >
+              <!-- Job Code -->
+              <div class="form-group mt-3">
+                <label for="jobCode">Job Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="jobCode"
+                  name="jobCode"
+                  [(ngModel)]="treatmentJobObj.jobCode"
+                  #jobCode="ngModel"
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Job Code"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    jobCode.invalid &&
+                    (jobCode.touched ||
+                      jobCode.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="jobCode.errors?.['minlength']">
+                    Job Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="jobCode.errors?.['maxlength']">
+                    Job Code cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="jobCode.errors?.['pattern']">
+                    Job Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Scheduled Date -->
+              <div class="form-group mt-3">
+                <label for="scheduledDate">
+                  Scheduled Date <span>*</span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="scheduledDate"
+                  name="scheduledDate"
+                  [(ngModel)]="treatmentJobObj.scheduledDate"
+                  #scheduledDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    scheduledDate.invalid &&
+                    (scheduledDate.touched ||
+                      scheduledDate.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="scheduledDate.errors?.['required']">
+                    Scheduled Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Completed Date -->
+              <div class="form-group mt-3">
+                <label for="completedDate">Completed Date</label>
+
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="completedDate"
+                  name="completedDate"
+                  [(ngModel)]="treatmentJobObj.completedDate"
+                  #completedDate="ngModel"
+                />
+              </div>
+
+              <!-- Work Done -->
+              <div class="form-group mt-3">
+                <label for="workDone">
+                  Work Done <span>*</span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  id="workDone"
+                  name="workDone"
+                  [(ngModel)]="treatmentJobObj.workDone"
+                  #workDone="ngModel"
+                  required
+                  maxlength="2000"
+                  pattern=".*\S.*"
+                  rows="3"
+                  placeholder="Enter Work Done Details"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    workDone.invalid &&
+                    (workDone.touched ||
+                      workDone.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="workDone.errors?.['required']">
+                    Work Done is required.
+                  </small>
+
+                  <small *ngIf="workDone.errors?.['maxlength']">
+                    Work Done cannot exceed 2000 characters.
+                  </small>
+
+                  <small *ngIf="workDone.errors?.['pattern']">
+                    Work Done cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Hours Spent -->
+              <div class="form-group mt-3">
+                <label for="hoursSpent">
+                  Hours Spent <span>*</span>
+                </label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="hoursSpent"
+                  name="hoursSpent"
+                  [(ngModel)]="treatmentJobObj.hoursSpent"
+                  #hoursSpent="ngModel"
+                  required
+                  min="0.1"
+                  max="999.9"
+                  step="0.1"
+                  placeholder="Enter Hours Spent"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    hoursSpent.invalid &&
+                    (hoursSpent.touched ||
+                      hoursSpent.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="hoursSpent.errors?.['required']">
+                    Hours Spent is required.
+                  </small>
+
+                  <small *ngIf="hoursSpent.errors?.['min']">
+                    Hours Spent must be greater than 0.
+                  </small>
+
+                  <small *ngIf="hoursSpent.errors?.['max']">
+                    Hours Spent cannot exceed 999.9.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer Signature -->
+              <div class="form-group mt-3">
+                <label for="customerSignature">Customer Signature</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="customerSignature"
+                  name="customerSignature"
+                  [(ngModel)]="treatmentJobObj.customerSignature"
+                  #customerSignature="ngModel"
+                  maxlength="255"
+                  pattern=".*\S.*"
+                  placeholder="Enter Customer Signature Reference"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerSignature.invalid &&
+                    (customerSignature.touched ||
+                      customerSignature.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="customerSignature.errors?.['maxlength']">
+                    Customer Signature cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="customerSignature.errors?.['pattern']">
+                    Customer Signature cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Request -->
+              <div class="form-group mt-3">
+                <label for="serviceRequestId">
+                  Service Request <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allServiceRequests"
+                  bindLabel="requestCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedServiceRequestId"
+                  name="serviceRequestId"
+                  placeholder="Select Service Request"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #serviceRequestIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceRequestIdModel.invalid &&
+                    (serviceRequestIdModel.touched ||
+                      serviceRequestIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small
+                    *ngIf="serviceRequestIdModel.errors?.['required']"
+                  >
+                    Service Request is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Inspection -->
+              <div class="form-group mt-3">
+                <label for="inspectionId">
+                  Inspection <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allInspections"
+                  bindLabel="inspectionCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedInspectionId"
+                  name="inspectionId"
+                  placeholder="Select Inspection"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #inspectionIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    inspectionIdModel.invalid &&
+                    (inspectionIdModel.touched ||
+                      inspectionIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="inspectionIdModel.errors?.['required']">
+                    Inspection is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Contract -->
+              <div class="form-group mt-3">
+                <label for="serviceContractId">Service Contract</label>
+
+                <ng-select
+                  [items]="allServiceContracts"
+                  bindLabel="contractCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedServiceContractId"
+                  name="serviceContractId"
+                  placeholder="Select Service Contract (Optional)"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #serviceContractIdModel="ngModel"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Customer Site -->
+              <div class="form-group mt-3">
+                <label for="customerSiteId">
+                  Customer Site <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedCustomerSitesId"
+                  name="customerSiteId"
+                  placeholder="Select Customer Site"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #customerSiteIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerSiteIdModel.invalid &&
+                    (customerSiteIdModel.touched ||
+                      customerSiteIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small
+                    *ngIf="customerSiteIdModel.errors?.['required']"
+                  >
+                    Customer Site is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Technician -->
+              <div class="form-group mt-3">
+                <label for="technicianId">
+                  Technician <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allTechnicians"
+                  bindLabel="fullName"
+                  bindValue="id"
+                  [(ngModel)]="selectedTechniciansId"
+                  name="technicianId"
+                  placeholder="Select Technician"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #technicianIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    technicianIdModel.invalid &&
+                    (technicianIdModel.touched ||
+                      technicianIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="technicianIdModel.errors?.['required']">
+                    Technician is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Type -->
+              <div class="form-group mt-3">
+                <label for="serviceTypeId">
+                  Service Type <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allServiceTypes"
+                  bindLabel="serviceName"
+                  bindValue="id"
+                  [(ngModel)]="selectedServiceTypeId"
+                  name="serviceTypeId"
+                  placeholder="Select Service Type"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #serviceTypeIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceTypeIdModel.invalid &&
+                    (serviceTypeIdModel.touched ||
+                      serviceTypeIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                    Service Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="statusId">Status <span>*</span></label>
+
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedStatusId"
+                  name="statusId"
+                  placeholder="Select Status"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #statusIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    statusIdModel.invalid &&
+                    (statusIdModel.touched ||
+                      statusIdModel.dirty ||
+                      treatmentJobForm.submitted)
+                  "
+                >
+                  <small *ngIf="statusIdModel.errors?.['required']">
+                    Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(treatmentJobForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditTreatmentJob
+                          ? 'bi-check2-circle'
+                          : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{
+                      isEditTreatmentJob
+                        ? "Update Treatment Job"
+                        : "Add Treatment Job"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         Treatment Job Table
+    ========================== -->
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card treatment-job-table-card h-100">
+          <!-- Header -->
+          <div class="card-header treatment-job-table-header">
+            <div class="d-flex align-items-center gap-3">
+              <div class="treatment-job-header-icon">
+                <i class="bi bi-clipboard2-check"></i>
+              </div>
+
+              <div>
+                <h5 class="mb-1">Treatment Job Table</h5>
+                <p class="mb-0">
+                  Search, filter, and manage treatment job records.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body treatment-job-table-body">
+            <!-- Search and Filters -->
+            <div class="treatment-job-toolbar">
+              <!-- Search -->
+              <div class="treatment-job-search">
+                <i class="bi bi-search"></i>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search treatment jobs..."
+                  aria-label="Search Treatment Jobs"
+                  [(ngModel)]="searchText"
+                  name="searchText"
+                  (input)="SearchTreatmentJobs()"
+                />
+              </div>
+
+              <!-- Service Request Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--service-request"
+              >
+                <ng-select
+                  [items]="allServiceRequests"
+                  bindLabel="requestCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterServiceRequestId"
+                  name="selectedFilterServiceRequestId"
+                  placeholder="All Service Requests"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Inspection Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--inspection"
+              >
+                <ng-select
+                  [items]="allInspections"
+                  bindLabel="inspectionCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterInspectionId"
+                  name="selectedFilterInspectionId"
+                  placeholder="All Inspections"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Service Contract Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--service-contract"
+              >
+                <ng-select
+                  [items]="allServiceContracts"
+                  bindLabel="contractCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterServiceContractId"
+                  name="selectedFilterServiceContractId"
+                  placeholder="All Service Contracts"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Customer Site Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--site"
+              >
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterCustomerSitesId"
+                  name="selectedFilterCustomerSitesId"
+                  placeholder="All Customer Sites"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Technician Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--technician"
+              >
+                <ng-select
+                  [items]="allTechnicians"
+                  bindLabel="fullName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterTechniciansId"
+                  name="selectedFilterTechniciansId"
+                  placeholder="All Technicians"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Service Type Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--service-type"
+              >
+                <ng-select
+                  [items]="allServiceTypes"
+                  bindLabel="serviceName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterServiceTypeId"
+                  name="selectedFilterServiceTypeId"
+                  placeholder="All Service Types"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Status Filter -->
+              <div
+                class="treatment-job-filter treatment-job-filter--status"
+              >
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterStatusId"
+                  name="selectedFilterStatusId"
+                  placeholder="All Statuses"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchTreatmentJobs()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Clear Filters -->
+              <button
+                class="btn treatment-job-clear-btn"
+                type="button"
+                title="Clear all filters"
+                (click)="
+                  searchText = '';
+                  selectedFilterServiceRequestId = null;
+                  selectedFilterInspectionId = null;
+                  selectedFilterServiceContractId = null;
+                  selectedFilterCustomerSitesId = null;
+                  selectedFilterTechniciansId = null;
+                  selectedFilterServiceTypeId = null;
+                  selectedFilterStatusId = null;
+                  SearchTreatmentJobs()
+                "
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <!-- Responsive Table -->
+            <div class="table-responsive treatment-job-table-responsive">
+              <table class="table treatment-job-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Job Code</th>
+                    <th>Scheduled Date</th>
+                    <th>Completed Date</th>
+                    <th>Work Done</th>
+                    <th>Hours Spent</th>
+                    <th>Customer Signature</th>
+                    <th>Service Request</th>
+                    <th>Inspection</th>
+                    <th>Service Contract</th>
+                    <th>Customer Site</th>
+                    <th>Technician</th>
+                    <th>Service Type</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!-- Empty State -->
+                  <tr *ngIf="treatmentJobs.length === 0">
+                    <td colspan="14">
+                      <div class="treatment-job-empty-state">
+                        <div class="treatment-job-empty-icon">
+                          <i class="bi bi-clipboard2-x"></i>
+                        </div>
+
+                        <h6>No treatment jobs found</h6>
+
+                        <p>
+                          Try changing your search or filter criteria.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Treatment Job Rows -->
+                  <tr *ngFor="let treatmentJob of treatmentJobs">
+                    <td>
+                      <span class="treatment-job-code">
+                        {{ treatmentJob.jobCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-date">
+                        {{
+                          treatmentJob.scheduledDate
+                            | date: "MMM dd, yyyy, h:mm a"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-date">
+                        {{
+                          treatmentJob.completedDate
+                            ? (treatmentJob.completedDate
+                                | date: "MMM dd, yyyy, h:mm a")
+                            : "—"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <div
+                        class="treatment-job-description"
+                        [title]="treatmentJob.workDone"
+                      >
+                        {{ treatmentJob.workDone || "—" }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{
+                          treatmentJob.hoursSpent != null
+                            ? treatmentJob.hoursSpent
+                            : "—"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.customerSignature || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.serviceRequest?.requestCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.inspection?.inspectionCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.serviceContract?.contractCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.customerSite?.siteName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.technician?.fullName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="treatment-job-related-name">
+                        {{ treatmentJob.serviceType?.serviceName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <app-status-badge
+                        [status]="treatmentJob.status?.name"
+                      ></app-status-badge>
+                    </td>
+
+                    <td>
+                      <div class="treatment-job-actions">
+                        <button
+                          class="btn treatment-job-action-btn treatment-job-edit-btn"
+                          type="button"
+                          title="Edit treatment job"
+                          aria-label="Edit treatment job"
+                          (click)="GetTreatmentJobById(treatmentJob.id)"
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button
+                          class="btn treatment-job-action-btn treatment-job-delete-btn"
+                          type="button"
+                          title="Delete treatment job"
+                          aria-label="Delete treatment job"
+                          (click)="DeleteTreatmentJobById(treatmentJob.id)"
+                        >
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
