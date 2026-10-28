@@ -46,4 +46,8 @@ export class StatusService {
   GetAllTreatmentJobStatus(): Observable<any> {
     return this.http.get(`${this.baseUrl}/treatment-job-status`);
   }
+
+  GetAllServiceContractStatus(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/service-contract-status`);
+  }
 }

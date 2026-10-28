@@ -1,9 +1,3 @@
-
-/* ========================================
-   AGROSOLE - NOTIFICATION MODULE
-   Premium SaaS UI
-======================================== */
-
 .notification-page {
   --notification-forest: #245b3a;
   --notification-leaf: #367c50;
@@ -14,9 +8,8 @@
   --notification-radius: 12px;
 }
 
-/* ========================================
-   CARD & SECTION HEADER
-======================================== */
+/*
+   CARD & SECTION HEADER */
 
 .notification-page .card,
 .notification-table-card {
@@ -89,9 +82,8 @@
   overflow: visible;
 }
 
-/* ========================================
-   NOTIFICATION TABLE TOOLBAR
-======================================== */
+/*
+   NOTIFICATION TABLE TOOLBAR */
 
 .notification-toolbar {
   display: flex;
@@ -252,9 +244,8 @@
   }
 }
 
-/* ========================================
-   NG-SELECT - TABLE FILTERS
-======================================== */
+/*
+   NG-SELECT - TABLE FILTERS */
 
 :host ::ng-deep .notification-filter .ng-select {
   width: 100%;
@@ -352,9 +343,8 @@
   background: #f1f6f0;
 }
 
-/* ========================================
-   NOTIFICATION TABLE
-======================================== */
+/*
+   NOTIFICATION TABLE */
 
 .notification-table-responsive {
   width: 100%;
@@ -477,9 +467,8 @@
   }
 }
 
-/* ========================================
-   READ / UNREAD STATUS
-======================================== */
+/*
+   READ / UNREAD STATUS */
 
 .notification-status {
   display: inline-flex;
@@ -503,9 +492,8 @@
   background: #fff3cf;
 }
 
-/* ========================================
-   TABLE ACTION BUTTONS
-======================================== */
+/*
+   TABLE ACTION BUTTONS */
 
 .notification-actions {
   display: flex;
@@ -564,9 +552,8 @@
   }
 }
 
-/* ========================================
-   EMPTY STATE
-======================================== */
+/*
+   EMPTY STATE */
 
 .notification-empty-state {
   display: flex;
@@ -603,9 +590,8 @@
   font-size: 1.4rem;
 }
 
-/* ========================================
-   NOTIFICATION FORM
-======================================== */
+/*
+   NOTIFICATION FORM */
 
 /* Labels */
 
@@ -707,9 +693,8 @@
   line-height: 1.5;
 }
 
-/* ========================================
-   FORM BUTTONS
-======================================== */
+/*
+   FORM BUTTONS */
 
 .notification-page .btn {
   min-height: 40px;
@@ -783,9 +768,8 @@
   outline-offset: 2px;
 }
 
-/* ========================================
-   RESPONSIVE
-======================================== */
+/*
+   RESPONSIVE */
 
 @media (max-width: 1200px) {
   .notification-search {

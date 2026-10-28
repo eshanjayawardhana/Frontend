@@ -296,15 +296,12 @@ export class InspectionComponent implements OnInit {
   }
 
   // Search and Filter
-
-  // Search and Filter
   SearchInspections(): void {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.inspections = this.allInspections.filter((type: any) => {
-      // =========================
+      
       // Search Fields
-      // =========================
       const inspectionCode =
         type.inspectionCode?.toString().toLowerCase() || '';
 
@@ -332,9 +329,7 @@ export class InspectionComponent implements OnInit {
 
       const status = type.status?.name?.toString().toLowerCase() || '';
 
-      // =========================
       // Search Condition
-      // =========================
       const matchesSearch =
         !search ||
         inspectionCode.includes(search) ||
@@ -348,40 +343,30 @@ export class InspectionComponent implements OnInit {
         technician.includes(search) ||
         status.includes(search);
 
-      // =========================
       // Service Request Filter
-      // =========================
       const matchesServiceRequest =
         this.selectedFilterServiceRequestId == null ||
         Number(type.serviceRequest?.id) ===
           Number(this.selectedFilterServiceRequestId);
 
-      // =========================
       // Customer Site Filter
-      // =========================
       const matchesCustomerSite =
         this.selectedFilterCustomerSitesId == null ||
         Number(type.customerSite?.id) ===
           Number(this.selectedFilterCustomerSitesId);
 
-      // =========================
       // Technician Filter
-      // =========================
       const matchesTechnician =
         this.selectedFilterTechniciansId == null ||
         Number(type.technician?.id) ===
           Number(this.selectedFilterTechniciansId);
 
-      // =========================
       // Status Filter
-      // =========================
       const matchesStatus =
         this.selectedFilterStatusId == null ||
         Number(type.status?.id) === Number(this.selectedFilterStatusId);
 
-      // =========================
       // Final Result
-      // =========================
       return (
         matchesSearch &&
         matchesServiceRequest &&

@@ -1,0 +1,706 @@
+
+<main class="pt-3 service-contract-page">
+  <div class="container-fluid">
+    
+    <!--
+         Service Contract Form
+    = -->
+    <app-page-header
+      title="Service Contracts Registration"
+      description="Manage service contracts, contract periods, visit schedules, contract values, and service status."
+    ></app-page-header>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header service-contract-section-header">
+            Service Contract Form
+          </div>
+
+          <div class="card-body">
+            <form
+              #serviceContractForm="ngForm"
+              (ngSubmit)="SaveServiceContract(serviceContractForm)"
+              novalidate
+            >
+              <!-- Contract Code -->
+              <div class="form-group mt-3">
+                <label for="contractCode">Contract Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contractCode"
+                  name="contractCode"
+                  [(ngModel)]="serviceContractObj.contractCode"
+                  #contractCode="ngModel"
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Contract Code"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    contractCode.invalid &&
+                    (contractCode.touched ||
+                      contractCode.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="contractCode.errors?.['minlength']">
+                    Contract Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="contractCode.errors?.['maxlength']">
+                    Contract Code cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="contractCode.errors?.['pattern']">
+                    Contract Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Start Date -->
+              <div class="form-group mt-3">
+                <label for="startDate">
+                  Start Date <span>*</span>
+                </label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  id="startDate"
+                  name="startDate"
+                  [(ngModel)]="serviceContractObj.startDate"
+                  #startDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    startDate.invalid &&
+                    (startDate.touched ||
+                      startDate.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="startDate.errors?.['required']">
+                    Start Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- End Date -->
+              <div class="form-group mt-3">
+                <label for="endDate">
+                  End Date <span>*</span>
+                </label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  id="endDate"
+                  name="endDate"
+                  [(ngModel)]="serviceContractObj.endDate"
+                  #endDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    endDate.invalid &&
+                    (endDate.touched ||
+                      endDate.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="endDate.errors?.['required']">
+                    End Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Visit Frequency -->
+              <div class="form-group mt-3">
+                <label for="visitFrequency">
+                  Visit Frequency <span>*</span>
+                </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="visitFrequency"
+                  name="visitFrequency"
+                  [(ngModel)]="serviceContractObj.visitFrequency"
+                  #visitFrequency="ngModel"
+                  required
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Visit Frequency"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    visitFrequency.invalid &&
+                    (visitFrequency.touched ||
+                      visitFrequency.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="visitFrequency.errors?.['required']">
+                    Visit Frequency is required.
+                  </small>
+
+                  <small *ngIf="visitFrequency.errors?.['maxlength']">
+                    Visit Frequency cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="visitFrequency.errors?.['pattern']">
+                    Visit Frequency cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Contract Amount -->
+              <div class="form-group mt-3">
+                <label for="contractAmount">
+                  Contract Amount <span>*</span>
+                </label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="contractAmount"
+                  name="contractAmount"
+                  [(ngModel)]="serviceContractObj.contractAmount"
+                  #contractAmount="ngModel"
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="Enter Contract Amount"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    contractAmount.invalid &&
+                    (contractAmount.touched ||
+                      contractAmount.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="contractAmount.errors?.['required']">
+                    Contract Amount is required.
+                  </small>
+
+                  <small *ngIf="contractAmount.errors?.['min']">
+                    Contract Amount cannot be negative.
+                  </small>
+
+                  <small *ngIf="contractAmount.errors?.['step']">
+                    Enter a valid amount with up to two decimal places.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Terms -->
+              <div class="form-group mt-3">
+                <label for="terms">
+                  Terms <span>*</span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  id="terms"
+                  name="terms"
+                  [(ngModel)]="serviceContractObj.terms"
+                  #terms="ngModel"
+                  required
+                  maxlength="2000"
+                  pattern=".*\S.*"
+                  rows="3"
+                  placeholder="Enter Contract Terms"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    terms.invalid &&
+                    (terms.touched ||
+                      terms.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="terms.errors?.['required']">
+                    Contract Terms are required.
+                  </small>
+
+                  <small *ngIf="terms.errors?.['maxlength']">
+                    Contract Terms cannot exceed 2000 characters.
+                  </small>
+
+                  <small *ngIf="terms.errors?.['pattern']">
+                    Contract Terms cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer -->
+              <div class="form-group mt-3">
+                <label for="customerId">
+                  Customer <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allCustomers"
+                  bindLabel="customerName"
+                  bindValue="id"
+                  [(ngModel)]="selectedCustomerId"
+                  name="customerId"
+                  placeholder="Select Customer"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #customerIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerIdModel.invalid &&
+                    (customerIdModel.touched ||
+                      customerIdModel.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="customerIdModel.errors?.['required']">
+                    Customer is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer Site -->
+              <div class="form-group mt-3">
+                <label for="customerSiteId">
+                  Customer Site <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedCustomerSiteId"
+                  name="customerSiteId"
+                  placeholder="Select Customer Site"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #customerSiteIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerSiteIdModel.invalid &&
+                    (customerSiteIdModel.touched ||
+                      customerSiteIdModel.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="customerSiteIdModel.errors?.['required']">
+                    Customer Site is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Type -->
+              <div class="form-group mt-3">
+                <label for="serviceTypeId">
+                  Service Type <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allServiceTypes"
+                  bindLabel="serviceName"
+                  bindValue="id"
+                  [(ngModel)]="selectedServiceTypeId"
+                  name="serviceTypeId"
+                  placeholder="Select Service Type"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #serviceTypeIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceTypeIdModel.invalid &&
+                    (serviceTypeIdModel.touched ||
+                      serviceTypeIdModel.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                    Service Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="statusId">Status <span>*</span></label>
+
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedStatusId"
+                  name="statusId"
+                  placeholder="Select Status"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #statusIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    statusIdModel.invalid &&
+                    (statusIdModel.touched ||
+                      statusIdModel.dirty ||
+                      serviceContractForm.submitted)
+                  "
+                >
+                  <small *ngIf="statusIdModel.errors?.['required']">
+                    Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(serviceContractForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditServiceContract
+                          ? 'bi-check2-circle'
+                          : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{
+                      isEditServiceContract
+                        ? "Update Service Contract"
+                        : "Add Service Contract"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+         Service Contract Table
+    = -->
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card service-contract-table-card h-100">
+          <!-- Header -->
+          <div class="card-header service-contract-table-header">
+            <div class="d-flex align-items-center gap-3">
+              <div class="service-contract-header-icon">
+                <i class="bi bi-file-earmark-text"></i>
+              </div>
+
+              <div>
+                <h5 class="mb-1">Service Contract Table</h5>
+                <p class="mb-0">
+                  Search, filter, and manage service contract records.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body service-contract-table-body">
+            <!-- Search and Filters -->
+            <div class="service-contract-toolbar">
+              <!-- Search -->
+              <div class="service-contract-search">
+                <i class="bi bi-search"></i>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search service contracts..."
+                  aria-label="Search Service Contracts"
+                  [(ngModel)]="searchText"
+                  name="searchText"
+                  (input)="SearchServiceContracts()"
+                />
+              </div>
+
+              <!-- Customer Filter -->
+              <div
+                class="service-contract-filter service-contract-filter--customer"
+              >
+                <ng-select
+                  [items]="allCustomers"
+                  bindLabel="customerName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterCustomerId"
+                  name="selectedFilterCustomerId"
+                  placeholder="All Customers"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchServiceContracts()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Customer Site Filter -->
+              <div
+                class="service-contract-filter service-contract-filter--site"
+              >
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterCustomerSiteId"
+                  name="selectedFilterCustomerSiteId"
+                  placeholder="All Customer Sites"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchServiceContracts()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Service Type Filter -->
+              <div
+                class="service-contract-filter service-contract-filter--service-type"
+              >
+                <ng-select
+                  [items]="allServiceTypes"
+                  bindLabel="serviceName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterServiceTypeId"
+                  name="selectedFilterServiceTypeId"
+                  placeholder="All Service Types"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchServiceContracts()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Status Filter -->
+              <div
+                class="service-contract-filter service-contract-filter--status"
+              >
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterStatusId"
+                  name="selectedFilterStatusId"
+                  placeholder="All Statuses"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchServiceContracts()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Clear Filters -->
+              <button
+                class="btn service-contract-clear-btn"
+                type="button"
+                title="Clear all filters"
+                (click)="
+                  searchText = '';
+                  selectedFilterCustomerId = null;
+                  selectedFilterCustomerSiteId = null;
+                  selectedFilterServiceTypeId = null;
+                  selectedFilterStatusId = null;
+                  SearchServiceContracts()
+                "
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <!-- Responsive Table -->
+            <div
+              class="table-responsive service-contract-table-responsive"
+            >
+              <table class="table service-contract-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Contract Code</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Visit Frequency</th>
+                    <th>Contract Amount</th>
+                    <th>Terms</th>
+                    <th>Customer</th>
+                    <th>Customer Site</th>
+                    <th>Service Type</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!-- Empty State -->
+                  <tr *ngIf="serviceContracts.length === 0">
+                    <td colspan="11">
+                      <div class="service-contract-empty-state">
+                        <div class="service-contract-empty-icon">
+                          <i class="bi bi-clipboard2-x"></i>
+                        </div>
+
+                        <h6>No service contracts found</h6>
+
+                        <p>
+                          Try changing your search or filter criteria.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Service Contract Rows -->
+                  <tr *ngFor="let serviceContract of serviceContracts">
+                    <td>
+                      <span class="service-contract-code">
+                        {{ serviceContract.contractCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-date">
+                        {{
+                          serviceContract.startDate
+                            | date: "MMM dd, yyyy"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-date">
+                        {{
+                          serviceContract.endDate
+                            | date: "MMM dd, yyyy"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-related-name">
+                        {{ serviceContract.visitFrequency || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-related-name">
+                        {{
+                          serviceContract.contractAmount != null
+                            ? (serviceContract.contractAmount
+                              | number: "1.2-2")
+                            : "—"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <div
+                        class="service-contract-description"
+                        [title]="serviceContract.terms"
+                      >
+                        {{ serviceContract.terms || "—" }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-related-name">
+                        {{ serviceContract.customer?.customerName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-related-name">
+                        {{ serviceContract.customerSite?.siteName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="service-contract-related-name">
+                        {{
+                          serviceContract.serviceType?.serviceName || "—"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <app-status-badge
+                        [status]="serviceContract.status?.name"
+                      ></app-status-badge>
+                    </td>
+
+                    <td>
+                      <div class="service-contract-actions">
+                        <button
+                          class="btn service-contract-action-btn service-contract-edit-btn"
+                          type="button"
+                          title="Edit service contract"
+                          aria-label="Edit service contract"
+                          (click)="GetServiceContractById(serviceContract.id)"
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button
+                          class="btn service-contract-action-btn service-contract-delete-btn"
+                          type="button"
+                          title="Delete service contract"
+                          aria-label="Delete service contract"
+                          (click)="DeleteServiceContractById(serviceContract.id)"
+                        >
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
