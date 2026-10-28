@@ -7,7 +7,7 @@
   --service-contract-muted: #7a877d;
 }
 
-/* 
+/*
    CARDS & HEADERS
  */
 
@@ -81,7 +81,7 @@
   overflow: visible;
 }
 
-/* 
+/*
    FORM STYLING
  */
 
@@ -215,7 +215,7 @@
   background: #f1f6f0;
 }
 
-/* 
+/*
    FORM BUTTONS
  */
 
@@ -291,7 +291,7 @@
   outline-offset: 2px;
 }
 
-/* 
+/*
    SEARCH & FILTER TOOLBAR
  */
 
@@ -444,7 +444,7 @@
   }
 }
 
-/* 
+/*
    SERVICE CONTRACT TABLE
  */
 
@@ -537,7 +537,7 @@
   font-weight: 600;
 }
 
-/* 
+/*
    TABLE ACTION BUTTONS
  */
 
@@ -598,7 +598,7 @@
   }
 }
 
-/* 
+/*
    EMPTY STATE
  */
 
@@ -637,7 +637,7 @@
   font-size: 1.4rem;
 }
 
-/* 
+/*
    RESPONSIVE
  */
 
@@ -723,4 +723,16 @@
   .service-contract-table-header p {
     font-size: 0.75rem;
   }
+}
+
+/* Prevent ng-select dropdown options from being clipped */
+.service-contract-page .service-contract-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .service-contract-page
+  .ng-dropdown-panel {
+  z-index: 1050;
 }
