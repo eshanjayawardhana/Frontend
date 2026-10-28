@@ -333,9 +333,8 @@ export class ServiceRequestComponent implements OnInit {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.serviceRequests = this.allServiceRequests.filter((type: any) => {
-      // =========================
+      
       // Search Fields
-      // =========================
       const requestCode = type.requestCode?.toString().toLowerCase() || '';
 
       const requestDate = type.requestDate?.toString().toLowerCase() || '';
@@ -360,9 +359,7 @@ export class ServiceRequestComponent implements OnInit {
 
       const status = type.status?.name?.toString().toLowerCase() || '';
 
-      // =========================
       // Search Condition
-      // =========================
       const matchesSearch =
         !search ||
         requestCode.includes(search) ||
@@ -376,45 +373,33 @@ export class ServiceRequestComponent implements OnInit {
         serviceType.includes(search) ||
         status.includes(search);
 
-      // =========================
       // Customer Filter
-      // =========================
       const matchesCustomer =
         this.selectedFilterCustomerId == null ||
         Number(type.customer?.id) === Number(this.selectedFilterCustomerId);
 
-      // =========================
       // Customer Site Filter
-      // =========================
       const matchesCustomerSite =
         this.selectedFilterCustomerSiteId == null ||
         Number(type.customerSite?.id) ===
           Number(this.selectedFilterCustomerSiteId);
 
-      // =========================
       // Pest Type Filter
-      // =========================
       const matchesPestType =
         this.selectedFilterPestTypeId == null ||
         Number(type.pestType?.id) === Number(this.selectedFilterPestTypeId);
 
-      // =========================
       // Service Type Filter
-      // =========================
       const matchesServiceType =
         this.selectedFilterServiceTypeId == null ||
         Number(type.serviceType?.id) ===
           Number(this.selectedFilterServiceTypeId);
 
-      // =========================
       // Status Filter
-      // =========================
       const matchesStatus =
         this.selectedFilterStatusId == null ||
         Number(type.status?.id) === Number(this.selectedFilterStatusId);
-      // =========================
       // Final Result
-      // =========================
       return (
         matchesSearch &&
         matchesCustomer &&

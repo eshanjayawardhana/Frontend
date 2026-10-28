@@ -84,6 +84,12 @@ export const AuthIds = {
   TREATMENT_JOBS_CREATE: 131,
   TREATMENT_JOBS_UPDATE: 132,
   TREATMENT_JOBS_DELETE: 133,
+
+  // Service Contract module
+  SERVICE_CONTRACTS_VIEW: 140,
+  SERVICE_CONTRACTS_CREATE: 141,
+  SERVICE_CONTRACTS_UPDATE: 142,
+  SERVICE_CONTRACTS_DELETE: 143,
 } as const;
 
 @Injectable({ providedIn: 'root' })

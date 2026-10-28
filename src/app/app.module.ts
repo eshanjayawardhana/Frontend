@@ -33,6 +33,7 @@ import { StatusBadgeComponent } from './component/status-badge/status-badge.comp
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InspectionComponent } from './component/inspection/inspection.component';
 import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
+import { ServiceContractComponent } from './component/service-contract/service-contract.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { TreatmentJobComponent } from './component/treatment-job/treatment-job.c
     StatusBadgeComponent,
     InspectionComponent,
     TreatmentJobComponent,
+    ServiceContractComponent,
   ],
   imports: [
     BrowserModule,

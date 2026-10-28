@@ -423,7 +423,7 @@ export class TreatmentJobComponent implements OnInit {
         type.technician?.fullName?.toString().toLowerCase() || '';
 
       const serviceType =
-        type.serviceType?.serviceTypeName?.toString().toLowerCase() || '';
+        type.serviceType?.serviceName?.toString().toLowerCase() || '';
 
       const status = type.status?.name?.toString().toLowerCase() || '';
 
