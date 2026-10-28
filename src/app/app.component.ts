@@ -36,7 +36,7 @@ export class AppComponent {
         { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' },
         { label: 'Inspection', icon: 'bi-clipboard2-pulse', route: '/inspection' },
         { label: 'Treatment Job', icon: 'bi-clipboard-check', route: '/treatment-job' },
-        { label: 'Service Contract', icon: 'bi-clipboard-check', route: '/service-contract' },
+        { label: 'Service Contract', icon: 'bi bi-file-earmark-check', route: '/service-contract' },
       ]
     },
     {
