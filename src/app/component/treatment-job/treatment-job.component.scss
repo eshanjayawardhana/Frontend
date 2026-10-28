@@ -747,3 +747,15 @@
     font-size: 0.75rem;
   }
 }
+
+/* Prevent ng-select dropdown options from being clipped */
+.treatment-job-page .treatment-job-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+}

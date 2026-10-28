@@ -853,3 +853,22 @@
     font-size: 0.75rem;
   }
 }
+
+/* Prevent ng-select dropdown options from being clipped */
+.notification-page .notification-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .notification-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+}
+
+/* Match Chemical dropdown option font size with Service Contract */
+:host ::ng-deep .notification-page .ng-dropdown-panel .ng-option {
+  font-family: var(--font-family-base);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}

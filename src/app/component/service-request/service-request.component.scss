@@ -772,3 +772,15 @@
     font-size: 0.75rem;
   }
 }
+
+/* Prevent ng-select dropdown options from being clipped */
+.service-request-page .service-request-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .service-request-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+}

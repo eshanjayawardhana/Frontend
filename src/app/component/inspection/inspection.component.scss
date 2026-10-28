@@ -7,7 +7,7 @@
   --inspection-muted: #7a877d;
 }
 
-/* 
+/*
    CARDS & HEADERS
  */
 
@@ -81,7 +81,7 @@
   overflow: visible;
 }
 
-/* 
+/*
    FORM STYLING
  */
 
@@ -215,7 +215,7 @@
   background: #f1f6f0;
 }
 
-/* 
+/*
    FORM BUTTONS
  */
 
@@ -291,7 +291,7 @@
   outline-offset: 2px;
 }
 
-/* 
+/*
    SEARCH & FILTER TOOLBAR
  */
 
@@ -444,7 +444,7 @@
   }
 }
 
-/* 
+/*
    INSPECTION TABLE
  */
 
@@ -537,7 +537,7 @@
   font-weight: 600;
 }
 
-/* 
+/*
    INFESTATION LEVEL BADGES
  */
 
@@ -574,7 +574,7 @@
   background: #ffebea;
 }
 
-/* 
+/*
    TABLE ACTION BUTTONS
  */
 
@@ -635,7 +635,7 @@
   }
 }
 
-/* 
+/*
    EMPTY STATE
  */
 
@@ -674,7 +674,7 @@
   font-size: 1.4rem;
 }
 
-/* 
+/*
    RESPONSIVE
  */
 
@@ -760,4 +760,16 @@
   .inspection-table-header p {
     font-size: 0.75rem;
   }
+}
+
+/* Prevent ng-select dropdown options from being clipped */
+.inspection-page .inspection-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .inspection-page
+  .ng-dropdown-panel {
+  z-index: 1050;
 }
