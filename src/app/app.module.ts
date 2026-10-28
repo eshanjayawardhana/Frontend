@@ -32,6 +32,7 @@ import { StatCardComponent } from './component/stat-card/stat-card.component';
 import { StatusBadgeComponent } from './component/status-badge/status-badge.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InspectionComponent } from './component/inspection/inspection.component';
+import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { InspectionComponent } from './component/inspection/inspection.component
     StatCardComponent,
     StatusBadgeComponent,
     InspectionComponent,
+    TreatmentJobComponent,
   ],
   imports: [
     BrowserModule,

@@ -35,6 +35,7 @@ export class AppComponent {
         { label: 'Notifications', icon: 'bi-bell', route: '/notification' },
         { label: 'Service Requests', icon: 'bi-file-earmark-text', route: '/service-request' },
         { label: 'Inspection', icon: 'bi-clipboard2-pulse', route: '/inspection' },
+        { label: 'Treatment Job', icon: 'bi-clipboard-check', route: '/treatment-job' },
       ]
     },
     {
