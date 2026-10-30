@@ -1,0 +1,322 @@
+<main class="pt-3 pest-type-page">
+  <div class="container-fluid">
+    <app-page-header
+      title="Pest Types Registration"
+      description="Manage pest categories, pest information, and active status."
+    ></app-page-header>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header pest-type-section-header">Pest Type Form</div>
+
+          <div class="card-body">
+            <form
+              #pestTypeForm="ngForm"
+              (ngSubmit)="SavePestType(pestTypeForm)"
+              novalidate
+            >
+              <!-- pestName -->
+              <div class="form-group mt-3">
+                <label for="pestName">Pest Name <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pestName"
+                  name="pestName"
+                  [(ngModel)]="pestTypeObj.pestName"
+                  #pestName="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Pest Name"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    pestName.invalid &&
+                    (pestName.touched ||
+                      pestName.dirty ||
+                      pestTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="pestName.errors?.['minlength']">
+                    Pest Name must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="pestName.errors?.['maxlength']">
+                    Pest Name cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="pestName.errors?.['pattern']">
+                    Pest Name cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- description -->
+              <div class="form-group mt-3">
+                <label for="description">Description <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  [(ngModel)]="pestTypeObj.description"
+                  #description="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Description"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    description.invalid &&
+                    (description.touched ||
+                      description.dirty ||
+                      pestTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="description.errors?.['required']">
+                    Description is required.
+                  </small>
+
+                  <small *ngIf="description.errors?.['minlength']">
+                    Description must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="description.errors?.['maxlength']">
+                    Description cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="description.errors?.['pattern']">
+                    Description cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- severityLevel -->
+              <div class="form-group mt-3">
+                <label for="severityLevel">Severity Level <span>*</span></label>
+                <ng-select
+                  class="mt-2"
+                  [items]="severityLevel"
+                  [(ngModel)]="pestTypeObj.severityLevel"
+                  name="severityLevel"
+                  placeholder="Select Severity Level"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #severityLevelModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    severityLevelModel.invalid &&
+                    (severityLevelModel.touched ||
+                      severityLevelModel.dirty ||
+                      pestTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="severityLevelModel.errors?.['required']">
+                    Severity Level is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(pestTypeForm)"
+                  >
+                    Clear
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditPestType ? 'bi-check2-circle' : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{ isEditPestType ? "Update Pest Type" : "Add Pest Type" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card pest-type-table-card h-100">
+          <!-- Table Header -->
+          <div class="card-header pest-type-section-header">
+            <div class="d-flex align-items-center gap-3">
+              <div class="pest-type-header-icon">
+                <i class="bi bi-bug"></i>
+              </div>
+
+              <div>
+                <h5 class="mb-1">Pest Type Table</h5>
+                <p class="mb-0">
+                  View, search, and manage pest categories and severity levels.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body pest-type-table-body">
+            <!-- Search Toolbar -->
+            <div class="pest-type-toolbar">
+              <!-- Search Input -->
+              <div class="pest-type-search">
+                <i class="bi bi-search"></i>
+
+                <input
+                  type="text"
+                  class="form-control pest-type-search-input"
+                  placeholder="Search pest types..."
+                  aria-label="Search Pest Types"
+                  [(ngModel)]="searchText"
+                  name="searchText"
+                  (input)="SearchPestTypes()"
+                />
+              </div>
+
+              <!-- Severity Level Filter -->
+              <div class="pest-type-filter">
+                <ng-select
+                  [items]="severityLevel"
+                  [(ngModel)]="selectedFilterSeverityLevelId"
+                  name="selectedFilterSeverityLevelId"
+                  placeholder="All Severity Levels"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchPestTypes()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Clear Filters -->
+              <button
+                class="btn pest-type-clear-btn"
+                type="button"
+                title="Clear search and filters"
+                aria-label="Clear search and filters"
+                (click)="
+                  searchText = '';
+                  selectedFilterSeverityLevelId = null;
+                  SearchPestTypes()
+                "
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Clear</span>
+              </button>
+
+              <!-- Search Button -->
+              <!-- <button
+                class="btn pest-type-search-btn"
+                type="button"
+                (click)="SearchPestTypes()"
+              >
+                <i class="bi bi-search"></i>
+                <span>Search</span>
+              </button> -->
+            </div>
+
+            <!-- Pest Type Table -->
+            <div class="table-responsive pest-type-table-responsive">
+              <table class="table pest-type-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Pest Name</th>
+                    <th>Description</th>
+                    <th>Severity Level</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!-- Empty State -->
+                  <tr *ngIf="pestTypes.length === 0">
+                    <td colspan="4">
+                      <div class="pest-type-empty-state">
+                        <div class="pest-type-empty-icon">
+                          <i class="bi bi-bug"></i>
+                        </div>
+                        <h6>No pest types found</h6>
+                        <p>Try changing your search or severity filter.</p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Pest Type Rows -->
+                  <tr *ngFor="let pestType of pestTypes">
+                    <td>
+                      <span class="pest-type-name">
+                        {{ pestType.pestName }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <div
+                        class="pest-type-description"
+                        [title]="pestType.description"
+                      >
+                        {{ pestType.description }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <app-status-badge
+                        [status]="pestType.severityLevel"
+                      ></app-status-badge>
+                    </td>
+
+                    <td>
+                      <div class="pest-type-actions">
+                        <button
+                          class="btn pest-type-action-btn pest-type-edit-btn"
+                          type="button"
+                          title="Edit pest type"
+                          aria-label="Edit pest type"
+                          (click)="GetPestTypeById(pestType.id)"
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button
+                          class="btn pest-type-action-btn pest-type-delete-btn"
+                          type="button"
+                          title="Delete pest type"
+                          aria-label="Delete pest type"
+                          (click)="DeletePestTypeById(pestType.id)"
+                        >
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

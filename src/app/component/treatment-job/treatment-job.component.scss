@@ -1,0 +1,761 @@
+
+/* ========================================
+   AGROSOLE - TREATMENT JOB MODULE
+======================================== */
+
+.treatment-job-page {
+  --treatment-job-forest: #245b3a;
+  --treatment-job-leaf: #367c50;
+  --treatment-job-canvas: #f7f8f4;
+  --treatment-job-border: #e1e8df;
+  --treatment-job-text: #26332b;
+  --treatment-job-muted: #7a877d;
+}
+
+/* ========================================
+   CARDS & HEADERS
+======================================== */
+
+.treatment-job-page .card {
+  overflow: hidden;
+  border: 1px solid var(--treatment-job-border);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
+}
+
+.treatment-job-section-header {
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: var(--treatment-job-forest);
+  border-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.treatment-job-page .card-body {
+  padding: 1.25rem;
+}
+
+/* Table card header */
+
+.treatment-job-table-card {
+  overflow: visible !important;
+}
+
+.treatment-job-table-header {
+  display: flex;
+  align-items: center;
+  padding: 1.15rem 1.5rem;
+  background: #ffffff;
+  color: var(--treatment-job-text);
+  border-bottom: 1px solid #edf0eb;
+}
+
+.treatment-job-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #eaf3ec;
+  color: var(--treatment-job-forest);
+  font-size: 1.3rem;
+}
+
+.treatment-job-table-header h5 {
+  margin: 0;
+  color: var(--treatment-job-text);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.treatment-job-table-header p {
+  margin-top: 0.25rem;
+  color: var(--treatment-job-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.treatment-job-table-body {
+  padding: 1.25rem;
+  overflow: visible;
+}
+
+/* ========================================
+   FORM STYLING
+======================================== */
+
+.treatment-job-page .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--treatment-job-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.treatment-job-page .form-group label span {
+  color: #c0392b;
+}
+
+.treatment-job-page .form-control,
+.treatment-job-page .form-select {
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  color: var(--treatment-job-text);
+  background-color: #ffffff;
+  border: 1px solid #d8e1d7;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.treatment-job-page textarea.form-control {
+  min-height: auto;
+  resize: vertical;
+}
+
+.treatment-job-page .form-control::placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+.treatment-job-page .form-control:focus,
+.treatment-job-page .form-select:focus {
+  border-color: var(--treatment-job-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+  outline: none;
+}
+
+.treatment-job-page .text-danger {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Form ng-select */
+
+:host ::ng-deep .treatment-job-page .ng-select {
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-select
+  .ng-select-container {
+  min-height: 44px;
+  border: 1px solid #d8e1d7;
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--treatment-job-text);
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-select.ng-select-single
+  .ng-select-container {
+  height: 44px;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-select
+  .ng-placeholder {
+  color: #8b968d;
+  opacity: 1;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-select.ng-select-focused
+  .ng-select-container {
+  border-color: var(--treatment-job-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+  overflow: hidden;
+  border: 1px solid var(--treatment-job-border);
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(36, 60, 40, 0.12);
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel
+  .ng-option {
+  padding: 0.65rem 0.8rem;
+  color: #344239;
+  font-size: 0.84rem;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel
+  .ng-option.ng-option-selected {
+  color: var(--treatment-job-forest);
+  background: #eaf3ec;
+  font-weight: 600;
+}
+
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel
+  .ng-option.ng-option-marked {
+  color: var(--treatment-job-forest);
+  background: #f1f6f0;
+}
+
+/* ========================================
+   FORM BUTTONS
+======================================== */
+
+.treatment-job-page .btn {
+  min-height: 40px;
+  padding: 0.55rem 1rem;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.treatment-job-page .btn:hover {
+  transform: translateY(-1px);
+}
+
+.treatment-job-page .btn-primary,
+.treatment-job-page .btn-info {
+  color: #ffffff;
+  background-color: var(--treatment-job-forest);
+  border-color: var(--treatment-job-forest);
+}
+
+.treatment-job-page .btn-primary:hover,
+.treatment-job-page .btn-info:hover {
+  color: #ffffff;
+  background-color: var(--treatment-job-leaf);
+  border-color: var(--treatment-job-leaf);
+  box-shadow: 0 4px 10px rgba(36, 91, 58, 0.15);
+}
+
+.treatment-job-page .btn-secondary {
+  color: var(--treatment-job-text);
+  background-color: #edf1eb;
+  border-color: #d8e1d7;
+}
+
+.treatment-job-page .btn-secondary:hover {
+  color: var(--treatment-job-forest);
+  background-color: #dfe9dd;
+  border-color: #c7d8c6;
+}
+
+.treatment-job-page .btn-warning {
+  color: #49360a;
+  background-color: #edba42;
+  border-color: #edba42;
+}
+
+.treatment-job-page .btn-warning:hover {
+  color: #49360a;
+  background-color: #f5c147;
+  border-color: #f5c147;
+}
+
+.treatment-job-page .btn-danger {
+  color: #ffffff;
+  background-color: #e22e2e;
+  border-color: #e22e2e;
+}
+
+.treatment-job-page .btn-danger:hover {
+  background-color: #c92424;
+  border-color: #c92424;
+}
+
+.treatment-job-page .btn:focus-visible {
+  outline: 3px solid rgba(54, 124, 80, 0.3);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   SEARCH & FILTER TOOLBAR
+======================================== */
+
+.treatment-job-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.treatment-job-search {
+  position: relative;
+  flex: 1 1 230px;
+  min-width: 200px;
+
+  > i {
+    position: absolute;
+    top: 50%;
+    left: 0.9rem;
+    z-index: 2;
+    color: #89958b;
+    font-size: 0.9rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .form-control {
+    width: 100%;
+    height: 43px;
+    min-height: 43px;
+    padding: 0.65rem 0.85rem 0.65rem 2.5rem;
+    border: 1px solid #d8e1d7;
+    border-radius: 9px;
+    background: #ffffff;
+    font-size: 0.84rem;
+    box-shadow: none;
+
+    &:focus {
+      border-color: var(--treatment-job-leaf);
+      box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+    }
+  }
+}
+
+.treatment-job-filter {
+  flex: 0 1 auto;
+  min-width: 0;
+
+  &--service-request {
+    width: 200px;
+  }
+
+  &--inspection {
+    width: 185px;
+  }
+
+  &--service-contract {
+    width: 200px;
+  }
+
+  &--site {
+    width: 195px;
+  }
+
+  &--technician {
+    width: 175px;
+  }
+
+  &--service-type {
+    width: 185px;
+  }
+
+  &--status {
+    width: 155px;
+  }
+}
+
+/* Toolbar ng-select sizing */
+
+:host ::ng-deep
+  .treatment-job-filter
+  .ng-select
+  .ng-select-container {
+  min-height: 43px;
+  height: 43px;
+  border: 1px solid #d8e1d7;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: none;
+  font-size: 0.84rem;
+}
+
+:host ::ng-deep
+  .treatment-job-filter
+  .ng-select.ng-select-single
+  .ng-select-container {
+  height: 43px;
+}
+
+:host ::ng-deep
+  .treatment-job-filter
+  .ng-select
+  .ng-value-container {
+  padding-left: 0.7rem;
+}
+
+:host ::ng-deep
+  .treatment-job-filter
+  .ng-select.ng-select-focused
+  .ng-select-container {
+  border-color: var(--treatment-job-leaf);
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.12);
+}
+
+:host ::ng-deep
+  .treatment-job-filter
+  .ng-select
+  .ng-placeholder {
+  color: #7a877d;
+}
+
+.treatment-job-clear-btn,
+.treatment-job-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 0.45rem;
+  height: 43px;
+  min-height: 43px;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.treatment-job-clear-btn {
+  color: #465449;
+  background: #ffffff;
+  border-color: #d8e1d7;
+
+  &:hover {
+    color: var(--treatment-job-forest);
+    background: #f1f6f0;
+    border-color: #c7d8c6;
+  }
+}
+
+.treatment-job-search-btn {
+  color: #ffffff;
+  background: var(--treatment-job-forest);
+  border-color: var(--treatment-job-forest);
+
+  &:hover {
+    color: #ffffff;
+    background: var(--treatment-job-leaf);
+    border-color: var(--treatment-job-leaf);
+  }
+}
+
+/* ========================================
+   TREATMENT JOB TABLE
+======================================== */
+
+.treatment-job-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e5ebe3;
+  border-radius: 10px;
+}
+
+.treatment-job-table {
+  width: 100%;
+  min-width: 2000px;
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+  color: #344239;
+  font-size: 0.84rem;
+
+  thead th {
+    padding: 0.95rem 0.85rem;
+    color: #59675b;
+    background: #f0f4ed;
+    border-bottom: 1px solid #e1e8df;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.9rem 0.85rem;
+    color: #344239;
+    background: #ffffff;
+    border-bottom: 1px solid #edf0eb;
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody tr:hover td {
+    background: #f7faf6;
+  }
+}
+
+/* Treatment Job code */
+
+.treatment-job-code {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid #e2e9df;
+  border-radius: 7px;
+  color: #426449;
+  background: #f5f8f3;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Treatment Job dates */
+
+.treatment-job-date {
+  color: #758076;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+/* Treatment Job descriptions */
+
+.treatment-job-description {
+  display: -webkit-box;
+  max-width: 240px;
+  overflow: hidden;
+  color: #4c594f;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Related service request / inspection / contract / site / technician / service type */
+
+.treatment-job-related-name {
+  color: #344d3a;
+  font-weight: 600;
+}
+
+/* ========================================
+   TABLE ACTION BUTTONS
+======================================== */
+
+.treatment-job-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.treatment-job-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  min-height: 35px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(54, 124, 80, 0.3);
+    outline-offset: 2px;
+  }
+}
+
+.treatment-job-edit-btn {
+  color: #856016;
+  background: #fff7e5;
+  border-color: #f0dfb9;
+
+  &:hover {
+    color: #6e4c0c;
+    background: #f8e8c3;
+    border-color: #e7cb8f;
+  }
+}
+
+.treatment-job-delete-btn {
+  color: #b5423d;
+  background: #fff0ef;
+  border-color: #f0d2d0;
+
+  &:hover {
+    color: #982f2a;
+    background: #fbe0de;
+    border-color: #e7b2ae;
+  }
+}
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.treatment-job-empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 210px;
+  padding: 2rem 1rem;
+  text-align: center;
+
+  h6 {
+    margin: 0.9rem 0 0.4rem;
+    color: #344239;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: #879188;
+    font-size: 0.82rem;
+  }
+}
+
+.treatment-job-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  background: #edf4ed;
+  color: #63896b;
+  font-size: 1.4rem;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1200px) {
+  .treatment-job-search {
+    flex: 1 1 100%;
+  }
+
+  .treatment-job-filter {
+    flex: 1 1 180px;
+  }
+
+  .treatment-job-filter--service-request,
+  .treatment-job-filter--inspection,
+  .treatment-job-filter--service-contract,
+  .treatment-job-filter--site,
+  .treatment-job-filter--technician,
+  .treatment-job-filter--service-type,
+  .treatment-job-filter--status {
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .treatment-job-page .card-body,
+  .treatment-job-table-body {
+    padding: 0.9rem;
+  }
+
+  .treatment-job-table-header {
+    padding: 1rem;
+  }
+
+  .treatment-job-header-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .treatment-job-toolbar {
+    gap: 0.6rem;
+  }
+
+  .treatment-job-search {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  .treatment-job-filter,
+  .treatment-job-filter--service-request,
+  .treatment-job-filter--inspection,
+  .treatment-job-filter--service-contract,
+  .treatment-job-filter--site,
+  .treatment-job-filter--technician,
+  .treatment-job-filter--service-type,
+  .treatment-job-filter--status {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .treatment-job-clear-btn,
+  .treatment-job-search-btn {
+    flex: 1 1 0;
+  }
+
+  .treatment-job-table-responsive {
+    border-radius: 8px;
+  }
+
+  .treatment-job-table {
+    min-width: 2000px;
+  }
+}
+
+@media (max-width: 576px) {
+  .treatment-job-page .form-group {
+    margin-top: 1rem;
+  }
+
+  .treatment-job-page .btn {
+    min-height: 42px;
+  }
+
+  .treatment-job-table-header h5 {
+    font-size: 0.94rem;
+  }
+
+  .treatment-job-table-header p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Prevent ng-select dropdown options from being clipped */
+.treatment-job-page .treatment-job-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .treatment-job-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+}

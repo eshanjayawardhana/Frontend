@@ -1,0 +1,41 @@
+<header class="page-header">
+
+  <div class="page-header__content">
+
+    <h1 class="page-header__title">
+      {{ title }}
+    </h1>
+
+    <p
+      class="page-header__description"
+      *ngIf="description"
+    >
+      {{ description }}
+    </p>
+
+  </div>
+
+  <div
+    class="page-header__actions"
+    *ngIf="actionLabel"
+  >
+
+    <button
+      type="button"
+      class="page-header__action-button"
+      (click)="actionClicked.emit()"
+    >
+
+      <i
+        class="bi"
+        [ngClass]="actionIcon"
+        aria-hidden="true"
+      ></i>
+
+      <span>{{ actionLabel }}</span>
+
+    </button>
+
+  </div>
+
+</header>

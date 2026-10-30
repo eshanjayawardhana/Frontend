@@ -1,56 +1,150 @@
+<!-- Toast Notifications -->
 <div class="toast-host" *ngIf="toastService.toasts.length">
   <div class="app-toast" *ngFor="let t of toastService.toasts" [class]="t.kind">
     <div class="flex-grow-1">{{ t.message }}</div>
-    <button type="button" class="btn-close btn-sm" (click)="toastService.dismiss(t.id)"></button>
+
+    <button
+      type="button"
+      class="btn-close btn-sm"
+      aria-label="Dismiss notification"
+      (click)="toastService.dismiss(t.id)"
+    ></button>
   </div>
 </div>
 
+<!-- Authenticated Application Layout -->
 <div class="app-frame" *ngIf="isLoggedIn(); else guestView">
-  <aside class="side-nav">
+  <!-- Mobile Sidebar Overlay -->
+  <button
+    *ngIf="isMobileMenuOpen"
+    type="button"
+    class="sidebar-overlay"
+    aria-label="Close navigation menu"
+    (click)="closeMobileMenu()"
+  ></button>
+
+  <!-- Sidebar -->
+  <aside
+    class="side-nav"
+    [class.collapsed]="isSidebarCollapsed"
+    [class.mobile-open]="isMobileMenuOpen"
+    id="app-sidebar"
+  >
+    <!-- Brand -->
     <div class="side-brand">
-      <span class="brand-mark">H</span>
-      <div>
-        <div class="brand-name">Humber</div>
-        <div class="brand-tag">Institute Portal</div>
+      <img src="assets/pest_logo.png" alt="Agrosole Logo" class="brand-logo" />
+
+      <div class="brand-text">
+        <div class="brand-name">Agrosole</div>
+        <div class="brand-tag">Smart Pest Control System</div>
       </div>
+
+      <!-- Mobile Close Button -->
+      <button
+        type="button"
+        class="sidebar-toggle mobile-sidebar-close"
+        (click)="closeMobileMenu()"
+        aria-label="Close navigation menu"
+        title="Close menu"
+      >
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
     </div>
 
-    <nav class="side-menu">
-      <p class="menu-label">Core</p>
-      <a routerLink="/dashboard" routerLinkActive="active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <!-- Navigation -->
+    <nav class="side-menu" aria-label="Main navigation">
+      <ng-container *ngFor="let group of navigationGroups">
+        <p class="menu-label">
+          {{ group.label }}
+        </p>
 
-      <p class="menu-label">Management</p>
-      <a routerLink="/student" routerLinkActive="active"><i class="bi bi-people"></i> Students</a>
-      <a routerLink="/teacher" routerLinkActive="active"><i class="bi bi-person-video3"></i> Teachers</a>
-      <a routerLink="/course" routerLinkActive="active"><i class="bi bi-journal-bookmark"></i> Courses</a>
-      <a routerLink="/qualification" routerLinkActive="active"><i class="bi bi-award"></i> Qualifications</a>
-      <a routerLink="/class" routerLinkActive="active"><i class="bi bi-building"></i> Classes</a>
-      <a routerLink="/technician" routerLinkActive="active"><i class="bi bi-wrench"></i> Technicians</a>
-      <p class="menu-label">Administration</p>
+        <a
+          *ngFor="let item of group.items"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [title]="isSidebarCollapsed ? item.label : ''"
+          [attr.aria-label]="item.label"
+          (click)="closeMobileMenu()"
+        >
+          <i [class]="'bi ' + item.icon" aria-hidden="true"></i>
 
-      <a routerLink="/privilege" routerLinkActive="active"><i class="bi bi-shield-lock"></i> Privileges</a>
+          <span class="menu-item-label">
+            {{ item.label }}
+          </span>
+        </a>
+      </ng-container>
     </nav>
   </aside>
 
+  <!-- Main Content -->
   <div class="main-pane">
+    <!-- Top Bar -->
     <header class="top-bar">
-      <div>
-        <div class="top-greeting">{{ displayName || 'Administrator' }}</div>
-        <div class="top-meta" *ngIf="userId">User ID · {{ userId }}</div>
+      <div class="topbar-left">
+        <!-- Mobile Hamburger -->
+        <button
+          type="button"
+          class="sidebar-toggle mobile-menu-toggle"
+          (click)="toggleMobileMenu()"
+          [attr.aria-expanded]="isMobileMenuOpen"
+          aria-controls="app-sidebar"
+          aria-label="Open navigation menu"
+          title="Open menu"
+        >
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+
+        <!-- Desktop Sidebar Toggle -->
+        <button
+          type="button"
+          class="sidebar-toggle topbar-sidebar-toggle"
+          (click)="toggleSidebar()"
+          [attr.aria-expanded]="!isSidebarCollapsed"
+          [attr.aria-label]="
+            isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+          "
+          title="Toggle sidebar"
+        >
+          <i
+            class="bi"
+            [ngClass]="
+              isSidebarCollapsed
+                ? 'bi-layout-sidebar'
+                : 'bi-layout-sidebar-inset'
+            "
+            aria-hidden="true"
+          ></i>
+        </button>
+
+        <div class="top-user-info">
+          <div class="top-greeting">
+            {{ displayName || "Administrator" }}
+          </div>
+        </div>
       </div>
+
+      <!-- Top Bar Actions -->
       <div class="top-actions">
-        <button type="button" class="btn btn-outline-ink btn-sm" (click)="logOut()">
-          <i class="bi bi-box-arrow-right"></i> Sign out
+        <button
+          type="button"
+          class="btn btn-outline-ink btn-sm"
+          (click)="logOut()"
+        >
+          <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+          <span>Sign out</span>
         </button>
       </div>
     </header>
 
+    <!-- Routed Pages -->
     <main class="content-pane">
       <router-outlet></router-outlet>
     </main>
   </div>
 </div>
 
+<!-- Guest / Login Layout -->
 <ng-template #guestView>
   <div class="guest-shell">
     <router-outlet></router-outlet>

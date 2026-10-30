@@ -1,4 +1,4 @@
 export interface StatusRepresentation {
-    id?:string,
+    id?:any,
     name?:string,
 }

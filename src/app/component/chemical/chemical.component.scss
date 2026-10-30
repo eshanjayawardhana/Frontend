@@ -1,0 +1,830 @@
+.chemical-section-header {
+  padding: 1rem 1.25rem;
+  color: #ffffff;
+  background: #245b3a;
+  border-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  // border-radius: 19px 19px 0 0;
+}
+
+.chemical-page .card {
+  overflow: hidden;
+  border: 1px solid #e1e8df;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(36, 91, 58, 0.05);
+}
+
+/* Edit button - Harvest Gold */
+.chemical-page .btn-warning {
+  color: #49360a;
+  background-color: #edba42;
+  border-color: #edba42;
+}
+
+.chemical-page .btn-warning:hover {
+  color: #49360a;
+  background-color: #f5c147;
+  border-color: #f5c147;
+}
+
+/* Delete button */
+.chemical-page .btn-danger {
+  color: #ffffff;
+  background-color: #e22e2e;
+  border-color: #e22e2e;
+}
+
+.chemical-page .btn-danger:hover {
+  background-color: #f32525;
+  border-color: #f32525;
+}
+
+////////////////////
+
+/* Match ng-select with standard form-control inputs */
+:host ::ng-deep .ng-select .ng-select-container {
+  min-height: 43px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background-color: var(--color-white);
+  box-shadow: none;
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Keep single-select text vertically aligned */
+:host ::ng-deep .ng-select.ng-select-single .ng-select-container {
+  height: 45px;
+}
+
+/* Placeholder appearance */
+:host ::ng-deep .ng-select .ng-placeholder {
+  color: #7a877d;
+  opacity: 1;
+}
+
+/* Focus state */
+:host ::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+/* Prevent Bootstrap-like square corners */
+:host ::ng-deep .ng-select .ng-select-container:hover {
+  border-color: var(--color-border-strong);
+}
+
+/*
+   CHEMICAL TABLE — SEARCH & FILTER TOOLBAR
+   */
+
+.chemical-toolbar {
+  width: 100%;
+}
+
+.chemical-search {
+  flex: 1 1 320px;
+  min-width: 220px;
+}
+
+.chemical-search .input-group {
+  width: 100%;
+}
+
+.chemical-search .form-control {
+  min-width: 0;
+  min-height: 43px;
+  border-radius: var(--radius-control) 0 0 var(--radius-control);
+}
+
+.chemical-search-btn {
+  min-width: 46px;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+}
+
+.chemical-status-filter {
+  flex: 0 1 210px;
+  min-width: 180px;
+}
+
+/* Match the shared Agrosole form-control styling */
+:host ::ng-deep .chemical-status-filter .ng-select .ng-select-container {
+  min-height: 43px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background-color: var(--color-white);
+  box-shadow: none;
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+}
+
+:host
+  ::ng-deep
+  .chemical-status-filter
+  .ng-select.ng-select-single
+  .ng-select-container {
+  height: 43px;
+}
+
+:host
+  ::ng-deep
+  .chemical-status-filter
+  .ng-select.ng-select-focused
+  .ng-select-container {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+:host ::ng-deep .chemical-status-filter .ng-select .ng-placeholder {
+  color: #7a877d;
+}
+
+.chemical-clear-btn {
+  min-height: 43px;
+  padding-inline: 16px;
+  white-space: nowrap;
+  border-radius: var(--radius-control);
+}
+
+/* ---------- CHEMICAL TABLE ------------ */
+
+.chemical-table-wrapper {
+  width: 100%;
+  border-radius: var(--radius-control);
+}
+
+.chemical-table-wrapper .table {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.chemical-table-wrapper th,
+.chemical-table-wrapper td {
+  vertical-align: middle;
+}
+
+.chemical-table-wrapper th {
+  white-space: nowrap;
+}
+
+/*------------RESPONSIVE LAYOUT-----------*/
+
+@media (max-width: 767.98px) {
+  .chemical-search {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  .chemical-status-filter {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .chemical-clear-btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* ------- Chemical form layout improvements ------------*/
+.chemical-page .form-group label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.chemical-page .form-group label span {
+  color: #dc3545;
+}
+
+.chemical-page .form-control {
+  min-height: 43px;
+  border-radius: var(--radius-control);
+  border-color: var(--color-border-strong);
+  font-family: var(--font-family-base);
+  font-size: 0.9rem;
+}
+
+.chemical-page textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.chemical-page .form-control:focus {
+  border-color: var(--color-leaf-green);
+  box-shadow: var(--focus-ring);
+}
+
+.chemical-page .form-control.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.chemical-page .btn-primary {
+  background-color: #245b3a;
+  border-color: #245b3a;
+}
+
+.chemical-page .btn-primary:hover:not(:disabled) {
+  background-color: #367c50;
+  border-color: #367c50;
+}
+
+.chemical-page .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.chemical-page .chemical-table-wrapper .table thead th {
+  background-color: #f1f5ef;
+  color: #26332b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chemical-page .chemical-table-wrapper .table tbody td {
+  font-size: 0.875rem;
+}
+
+/*-------------------- CHEMICAL INVENTORY TABLE ---------------*/
+
+.chemical-page {
+  .chemical-table-card {
+    border: 1px solid #e5ebe3;
+    border-radius: 16px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(36, 91, 58, 0.045);
+  }
+
+  .chemical-table-card > .chemical-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 20px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e9eee7;
+  }
+
+  .chemical-header-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    color: #245b3a;
+    background: #edf5ed;
+    font-size: 1.3rem;
+  }
+
+  .chemical-section-header h5 {
+    color: #26332b;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .chemical-section-header p {
+    color: #7a877d;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .chemical-record-count {
+    padding: 8px 13px;
+    border: 1px solid #dfe9dd;
+    border-radius: 9px;
+    color: #245b3a;
+    background: #f5f9f3;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .chemical-table-card .card-body {
+    padding: 24px;
+  }
+
+  /* ------------------- Search and filter toolbar -----------------*/
+
+  .chemical-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  .chemical-search {
+    position: relative;
+    flex: 1 1 280px;
+    min-width: 220px;
+  }
+
+  .chemical-search .form-control {
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px 10px 43px;
+    border: 1px solid #dfe6dc;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #26332b;
+    font-size: 0.87rem;
+    box-shadow: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .chemical-search .form-control::placeholder {
+    color: #9aa49a;
+  }
+
+  .chemical-search .form-control:focus {
+    border-color: #367c50;
+    box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.11);
+  }
+
+  .chemical-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    z-index: 2;
+    transform: translateY(-50%);
+    color: #7a897c;
+    font-size: 0.95rem;
+    pointer-events: none;
+  }
+
+  .chemical-status-filter {
+    flex: 0 0 180px;
+    min-width: 160px;
+  }
+
+  .chemical-status-filter .ng-select .ng-select-container {
+    min-height: 44px;
+    border: 1px solid #dfe6dc;
+    border-radius: 10px;
+    box-shadow: none;
+    color: #26332b;
+    font-size: 0.87rem;
+  }
+
+  .chemical-status-filter .ng-select.ng-select-focused .ng-select-container {
+    border-color: #367c50;
+    box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.11);
+  }
+
+  .chemical-toolbar .chemical-search-btn,
+  .chemical-toolbar .chemical-clear-btn {
+    height: 44px;
+    padding: 0 17px;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .chemical-toolbar .chemical-search-btn {
+    border: 1px solid #245b3a;
+    color: #ffffff;
+    background: #245b3a;
+  }
+
+  .chemical-toolbar .chemical-search-btn:hover {
+    border-color: #367c50;
+    background: #367c50;
+  }
+
+  .chemical-toolbar .chemical-clear-btn {
+    border: 1px solid #dfe6dc;
+    color: #526052;
+    background: #ffffff;
+  }
+
+  .chemical-toolbar .chemical-clear-btn:hover {
+    border-color: #cbd8c8;
+    color: #245b3a;
+    background: #f5f9f3;
+  }
+
+  /* ----------Table information row ---------*/
+
+  .chemical-table-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    color: #7a877d;
+    font-size: 0.79rem;
+  }
+
+  .chemical-table-info > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chemical-info-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #367c50;
+  }
+
+  /* ------------- Table wrapper ------------- */
+
+  .chemical-table-wrapper {
+    width: 100%;
+    border: 1px solid #e7ece5;
+    border-radius: 12px;
+    overflow-x: auto;
+    background: #ffffff;
+  }
+
+  .chemical-table {
+    width: 100%;
+    min-width: 1250px;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: #344136;
+    vertical-align: middle;
+  }
+
+  .chemical-table > thead > tr > th {
+    padding: 15px 14px;
+    border: 0;
+    border-bottom: 1px solid #e4eae1;
+    background: #f5f8f3;
+    color: #718071;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    white-space: nowrap;
+  }
+
+  .chemical-table > tbody > tr > td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #edf0eb;
+    background: #ffffff;
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+
+  .chemical-table > tbody > tr:last-child > td {
+    border-bottom: 0;
+  }
+
+  .chemical-table > tbody > tr:not(:has(.chemical-empty-state)):hover > td {
+    background: #f9fbf7;
+  }
+
+  .chemical-code-column {
+    width: 115px;
+  }
+
+  .chemical-actions-column {
+    width: 100px;
+  }
+
+  /* --------------- Chemical name and code -------------*/
+
+  .chemical-code {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 8px;
+    border: 1px solid #e2e9df;
+    border-radius: 7px;
+    color: #426449;
+    background: #f5f8f3;
+    font-size: 0.76rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .chemical-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 190px;
+  }
+
+  .chemical-product-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #367c50;
+    background: #edf5ed;
+    font-size: 1.1rem;
+  }
+
+  .chemical-product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .chemical-product-name {
+    color: #29372c;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .chemical-product-details small {
+    color: #879187;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  .chemical-ingredient {
+    display: inline-block;
+    max-width: 180px;
+    color: #5e6c5f;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .chemical-unit {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: #59685a;
+    background: #f2f5f0;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  /* ------------- Stock and reorder values --------------*/
+
+  .chemical-stock-value,
+  .chemical-reorder-value {
+    display: inline-block;
+    min-width: 32px;
+    color: #344136;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .chemical-stock-value.chemical-stock-low {
+    padding: 5px 8px;
+    border-radius: 7px;
+    color: #a65b12;
+    background: #fff4df;
+  }
+
+  .chemical-expiry-date {
+    color: #59675b;
+    white-space: nowrap;
+  }
+
+  .chemical-safety-notes {
+    display: inline-block;
+    max-width: 190px;
+    color: #718071;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  /* -------------- Row actions ----------------*/
+
+  .chemical-action-buttons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .chemical-action-btn {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .chemical-edit-btn {
+    border-color: #dce9d9;
+    color: #367c50;
+    background: #f0f7ee;
+  }
+
+  .chemical-edit-btn:hover {
+    border-color: #367c50;
+    color: #ffffff;
+    background: #367c50;
+  }
+
+  .chemical-delete-btn {
+    border-color: #f1dddd;
+    color: #c34d4d;
+    background: #fff3f2;
+  }
+
+  .chemical-delete-btn:hover {
+    border-color: #c34d4d;
+    color: #ffffff;
+    background: #c34d4d;
+  }
+
+  .chemical-no-actions {
+    color: #9aa49a;
+    font-size: 0.75rem;
+  }
+
+  /* Empty state */
+
+  .chemical-empty-state {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 45px 20px;
+    text-align: center;
+  }
+
+  .chemical-empty-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    color: #6e8c70;
+    background: #eff5ed;
+    font-size: 1.6rem;
+  }
+
+  .chemical-empty-state h6 {
+    margin-bottom: 7px;
+    color: #344136;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .chemical-empty-state p {
+    margin-bottom: 17px;
+    color: #879187;
+    font-size: 0.82rem;
+  }
+
+  .chemical-empty-clear-btn {
+    padding: 8px 13px;
+    border: 1px solid #dce8d9;
+    border-radius: 8px;
+    color: #367c50;
+    background: #f5f9f3;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .chemical-empty-clear-btn:hover {
+    color: #ffffff;
+    background: #367c50;
+  }
+
+  /*-------------- Table footer --------------*/
+
+  .chemical-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #edf0eb;
+    color: #849083;
+    font-size: 0.78rem;
+  }
+
+  .chemical-table-footer i {
+    color: #367c50;
+  }
+
+  .chemical-table-footer strong {
+    color: #344136;
+  }
+}
+
+/* -------------- Responsive layout ---------------*/
+
+@media (max-width: 768px) {
+  .chemical-page {
+    .chemical-table-card > .chemical-section-header {
+      padding: 17px;
+    }
+
+    .chemical-table-card .card-body {
+      padding: 16px;
+    }
+
+    .chemical-toolbar {
+      align-items: stretch;
+    }
+
+    .chemical-search {
+      flex-basis: 100%;
+      min-width: 100%;
+    }
+
+    .chemical-status-filter {
+      flex: 1 1 100%;
+      min-width: 100%;
+    }
+
+    .chemical-toolbar .chemical-search-btn,
+    .chemical-toolbar .chemical-clear-btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .chemical-table-footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+}
+
+/* ----------------- Chemical Form - Clear Button -------------*/
+.chemical-page form .btn-secondary {
+  min-height: 40px;
+  padding: 0.55rem 1rem;
+
+  color: #465449;
+  background-color: #edf1eb;
+  border: 1px solid #d8e1d7;
+  border-radius: 9px;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.chemical-page form .btn-secondary:hover {
+  color: #245b3a;
+  background-color: #dfe9dd;
+  border-color: #c7d8c6;
+}
+
+.chemical-page form .btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(54, 124, 80, 0.15);
+}
+
+.chemical-page form .btn-secondary:active {
+  background-color: #d5e2d3;
+  border-color: #bdcfba;
+}
+
+/* Prevent ng-select dropdown options from being clipped */
+.chemical-page .chemical-form-card {
+  overflow: visible !important;
+}
+
+/* Keep the dropdown above nearby form elements */
+:host ::ng-deep
+  .chemical-page
+  .ng-dropdown-panel {
+  z-index: 1050;
+}
+
+/* Match Chemical dropdown option font size with Service Contract */
+:host ::ng-deep .chemical-page .ng-dropdown-panel .ng-option {
+  font-family: var(--font-family-base);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}

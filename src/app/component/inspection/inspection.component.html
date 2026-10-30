@@ -1,0 +1,709 @@
+
+<main class="pt-3 inspection-page">
+  <div class="container-fluid">
+
+    <!-- Inspection Form -->
+    <app-page-header
+      title="Inspections Registration"
+      description="Manage site inspections, infestation findings, recommendations, assigned technicians, and inspection status."
+    ></app-page-header>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100 inspection-form-card">
+          <div class="card-header inspection-section-header">
+            Inspection Form
+          </div>
+
+          <div class="card-body">
+            <form
+              #inspectionForm="ngForm"
+              (ngSubmit)="SaveInspection(inspectionForm)"
+              novalidate
+            >
+              <!-- Inspection Code -->
+              <div class="form-group mt-3">
+                <label for="inspectionCode">Inspection Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inspectionCode"
+                  name="inspectionCode"
+                  [(ngModel)]="inspectionObj.inspectionCode"
+                  #inspectionCode="ngModel"
+                  minlength="2"
+                  maxlength="50"
+                  pattern=".*\S.*"
+                  placeholder="Enter Inspection Code"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    inspectionCode.invalid &&
+                    (inspectionCode.touched ||
+                      inspectionCode.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="inspectionCode.errors?.['minlength']">
+                    Inspection Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="inspectionCode.errors?.['maxlength']">
+                    Inspection Code cannot exceed 50 characters.
+                  </small>
+
+                  <small *ngIf="inspectionCode.errors?.['pattern']">
+                    Inspection Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Inspection Date -->
+              <div class="form-group mt-3">
+                <label for="inspectionDate">
+                  Inspection Date <span>*</span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="inspectionDate"
+                  name="inspectionDate"
+                  [(ngModel)]="inspectionObj.inspectionDate"
+                  #inspectionDate="ngModel"
+                  required
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    inspectionDate.invalid &&
+                    (inspectionDate.touched ||
+                      inspectionDate.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="inspectionDate.errors?.['required']">
+                    Inspection Date is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Infestation Level -->
+              <div class="form-group mt-3">
+                <label for="infestationLevel">
+                  Infestation Level <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="infestationLevel"
+                  [(ngModel)]="inspectionObj.infestationLevel"
+                  name="infestationLevel"
+                  placeholder="Select Infestation Level"
+                  [clearable]="true"
+                  [searchable]="false"
+                  #infestationLevelModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    infestationLevelModel.invalid &&
+                    (infestationLevelModel.touched ||
+                      infestationLevelModel.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small
+                    *ngIf="infestationLevelModel.errors?.['required']"
+                  >
+                    Infestation Level is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Affected Areas -->
+              <div class="form-group mt-3">
+                <label for="affectedAreas">
+                  Affected Areas <span>*</span>
+                </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="affectedAreas"
+                  name="affectedAreas"
+                  [(ngModel)]="inspectionObj.affectedAreas"
+                  #affectedAreas="ngModel"
+                  required
+                  maxlength="500"
+                  pattern=".*\S.*"
+                  placeholder="Enter Affected Areas"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    affectedAreas.invalid &&
+                    (affectedAreas.touched ||
+                      affectedAreas.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="affectedAreas.errors?.['required']">
+                    Affected Areas is required.
+                  </small>
+
+                  <small *ngIf="affectedAreas.errors?.['maxlength']">
+                    Affected Areas cannot exceed 500 characters.
+                  </small>
+
+                  <small *ngIf="affectedAreas.errors?.['pattern']">
+                    Affected Areas cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Findings -->
+              <div class="form-group mt-3">
+                <label for="findings">
+                  Findings <span>*</span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  id="findings"
+                  name="findings"
+                  [(ngModel)]="inspectionObj.findings"
+                  #findings="ngModel"
+                  required
+                  maxlength="2000"
+                  pattern=".*\S.*"
+                  rows="3"
+                  placeholder="Enter Inspection Findings"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    findings.invalid &&
+                    (findings.touched ||
+                      findings.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="findings.errors?.['required']">
+                    Findings are required.
+                  </small>
+
+                  <small *ngIf="findings.errors?.['maxlength']">
+                    Findings cannot exceed 2000 characters.
+                  </small>
+
+                  <small *ngIf="findings.errors?.['pattern']">
+                    Findings cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Recommendation -->
+              <div class="form-group mt-3">
+                <label for="recommendation">
+                  Recommendation <span>*</span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  id="recommendation"
+                  name="recommendation"
+                  [(ngModel)]="inspectionObj.recommendation"
+                  #recommendation="ngModel"
+                  required
+                  maxlength="2000"
+                  pattern=".*\S.*"
+                  rows="3"
+                  placeholder="Enter Recommendations"
+                ></textarea>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    recommendation.invalid &&
+                    (recommendation.touched ||
+                      recommendation.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="recommendation.errors?.['required']">
+                    Recommendation is required.
+                  </small>
+
+                  <small *ngIf="recommendation.errors?.['maxlength']">
+                    Recommendation cannot exceed 2000 characters.
+                  </small>
+
+                  <small *ngIf="recommendation.errors?.['pattern']">
+                    Recommendation cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Request -->
+              <div class="form-group mt-3">
+                <label for="serviceRequestId">
+                  Service Request <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allServiceRequests"
+                  bindLabel="requestCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedServiceRequestId"
+                  name="serviceRequestId"
+                  placeholder="Select Service Request"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #serviceRequestIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceRequestIdModel.invalid &&
+                    (serviceRequestIdModel.touched ||
+                      serviceRequestIdModel.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small
+                    *ngIf="serviceRequestIdModel.errors?.['required']"
+                  >
+                    Service Request is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Customer Site -->
+              <div class="form-group mt-3">
+                <label for="customerSiteId">
+                  Customer Site <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedCustomerSitesId"
+                  name="customerSiteId"
+                  placeholder="Select Customer Site"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #customerSiteIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    customerSiteIdModel.invalid &&
+                    (customerSiteIdModel.touched ||
+                      customerSiteIdModel.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small
+                    *ngIf="customerSiteIdModel.errors?.['required']"
+                  >
+                    Customer Site is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Technician -->
+              <div class="form-group mt-3">
+                <label for="technicianId">
+                  Technician <span>*</span>
+                </label>
+
+                <ng-select
+                  [items]="allTechnicians"
+                  bindLabel="fullName"
+                  bindValue="id"
+                  [(ngModel)]="selectedTechniciansId"
+                  name="technicianId"
+                  placeholder="Select Technician"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #technicianIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    technicianIdModel.invalid &&
+                    (technicianIdModel.touched ||
+                      technicianIdModel.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="technicianIdModel.errors?.['required']">
+                    Technician is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group mt-3">
+                <label for="statusId">Status <span>*</span></label>
+
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedStatusId"
+                  name="statusId"
+                  placeholder="Select Status"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #statusIdModel="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    statusIdModel.invalid &&
+                    (statusIdModel.touched ||
+                      statusIdModel.dirty ||
+                      inspectionForm.submitted)
+                  "
+                >
+                  <small *ngIf="statusIdModel.errors?.['required']">
+                    Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(inspectionForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditInspection
+                          ? 'bi-check2-circle'
+                          : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{
+                      isEditInspection
+                        ? "Update Inspection"
+                        : "Add Inspection"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspection Table -->
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card inspection-table-card h-100">
+          <!-- Header -->
+          <div class="card-header inspection-table-header">
+            <div class="d-flex align-items-center gap-3">
+              <div class="inspection-header-icon">
+                <i class="bi bi-clipboard2-check"></i>
+              </div>
+
+              <div>
+                <h5 class="mb-1">Inspection Table</h5>
+                <p class="mb-0">
+                  Search, filter, and manage site inspection records.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body inspection-table-body">
+            <!-- Search and Filters -->
+            <div class="inspection-toolbar">
+              <!-- Search -->
+              <div class="inspection-search">
+                <i class="bi bi-search"></i>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search inspections..."
+                  aria-label="Search Inspections"
+                  [(ngModel)]="searchText"
+                  name="searchText"
+                  (input)="SearchInspections()"
+                />
+              </div>
+
+              <!-- Service Request Filter -->
+              <div
+                class="inspection-filter inspection-filter--service-request"
+              >
+                <ng-select
+                  [items]="allServiceRequests"
+                  bindLabel="requestCode"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterServiceRequestId"
+                  name="selectedFilterServiceRequestId"
+                  placeholder="All Service Requests"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchInspections()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Customer Site Filter -->
+              <div class="inspection-filter inspection-filter--site">
+                <ng-select
+                  [items]="allCustomerSites"
+                  bindLabel="siteName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterCustomerSitesId"
+                  name="selectedFilterCustomerSitesId"
+                  placeholder="All Customer Sites"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchInspections()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Technician Filter -->
+              <div class="inspection-filter inspection-filter--technician">
+                <ng-select
+                  [items]="allTechnicians"
+                  bindLabel="fullName"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterTechniciansId"
+                  name="selectedFilterTechniciansId"
+                  placeholder="All Technicians"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchInspections()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Status Filter -->
+              <div class="inspection-filter inspection-filter--status">
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedFilterStatusId"
+                  name="selectedFilterStatusId"
+                  placeholder="All Statuses"
+                  [clearable]="true"
+                  [searchable]="true"
+                  (change)="SearchInspections()"
+                >
+                </ng-select>
+              </div>
+
+              <!-- Clear Filters -->
+              <button
+                class="btn inspection-clear-btn"
+                type="button"
+                title="Clear all filters"
+                (click)="
+                  searchText = '';
+                  selectedFilterServiceRequestId = null;
+                  selectedFilterCustomerSitesId = null;
+                  selectedFilterTechniciansId = null;
+                  selectedFilterStatusId = null;
+                  SearchInspections()
+                "
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <!-- Responsive Table -->
+            <div class="table-responsive inspection-table-responsive">
+              <table class="table inspection-table align-middle">
+                <thead>
+                  <tr>
+                    <th>Inspection Code</th>
+                    <th>Inspection Date</th>
+                    <th>Infestation Level</th>
+                    <th>Affected Areas</th>
+                    <th>Findings</th>
+                    <th>Recommendation</th>
+                    <th>Service Request</th>
+                    <th>Customer Site</th>
+                    <th>Technician</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!-- Empty State -->
+                  <tr *ngIf="inspections.length === 0">
+                    <td colspan="11">
+                      <div class="inspection-empty-state">
+                        <div class="inspection-empty-icon">
+                          <i class="bi bi-clipboard2-x"></i>
+                        </div>
+
+                        <h6>No inspections found</h6>
+
+                        <p>
+                          Try changing your search or filter criteria.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Inspection Rows -->
+                  <tr *ngFor="let inspection of inspections">
+                    <td>
+                      <span class="inspection-code">
+                        {{ inspection.inspectionCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="inspection-date">
+                        {{
+                          inspection.inspectionDate
+                            | date: "MMM dd, yyyy, h:mm a"
+                        }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span
+                        class="inspection-infestation-level"
+                        [ngClass]="{
+                          'inspection-infestation-level--low':
+                            inspection.infestationLevel === 'Low',
+                          'inspection-infestation-level--medium':
+                            inspection.infestationLevel === 'Medium',
+                          'inspection-infestation-level--severe':
+                            inspection.infestationLevel === 'Severe'
+                        }"
+                      >
+                        <span class="inspection-infestation-dot"></span>
+                        {{ inspection.infestationLevel || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <div
+                        class="inspection-description"
+                        [title]="inspection.affectedAreas"
+                      >
+                        {{ inspection.affectedAreas || "—" }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <div
+                        class="inspection-description"
+                        [title]="inspection.findings"
+                      >
+                        {{ inspection.findings || "—" }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <div
+                        class="inspection-description"
+                        [title]="inspection.recommendation"
+                      >
+                        {{ inspection.recommendation || "—" }}
+                      </div>
+                    </td>
+
+                    <td>
+                      <span class="inspection-related-name">
+                        {{ inspection.serviceRequest?.requestCode || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="inspection-related-name">
+                        {{ inspection.customerSite?.siteName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="inspection-related-name">
+                        {{ inspection.technician?.fullName || "—" }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <app-status-badge
+                        [status]="inspection.status?.name"
+                      ></app-status-badge>
+                    </td>
+
+                    <td>
+                      <div class="inspection-actions">
+                        <button
+                          class="btn inspection-action-btn inspection-edit-btn"
+                          type="button"
+                          title="Edit inspection"
+                          aria-label="Edit inspection"
+                          (click)="GetInspectionById(inspection.id)"
+                        >
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button
+                          class="btn inspection-action-btn inspection-delete-btn"
+                          type="button"
+                          title="Delete inspection"
+                          aria-label="Delete inspection"
+                          (click)="DeleteInspectionById(inspection.id)"
+                        >
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

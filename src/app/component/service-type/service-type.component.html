@@ -1,0 +1,548 @@
+<main class="pt-3 service-type-page">
+  <div class="container-fluid">
+    <app-page-header
+      title="Service Types Registration"
+      description="Manage pest control service categories, related pest types, and service status."
+    ></app-page-header>
+
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card text-dark mb-3 h-100">
+          <div class="card-header service-type-section-header">
+            Service Type Form
+          </div>
+
+          <div class="card-body">
+            <form
+              #serviceTypeForm="ngForm"
+              (ngSubmit)="SaveServiceType(serviceTypeForm)"
+              novalidate
+            >
+              <!-- Service Code -->
+              <div class="form-group mt-3">
+                <label for="serviceCode">Service Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serviceCode"
+                  name="serviceCode"
+                  [(ngModel)]="serviceTypeObj.serviceCode"
+                  #serviceCode="ngModel"
+                  minlength="2"
+                  maxlength="100"
+                  pattern=".*\S.*"
+                  placeholder="Enter Service Code (optional)"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceCode.invalid &&
+                    (serviceCode.touched ||
+                      serviceCode.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="serviceCode.errors?.['required']">
+                    Service Code is required.
+                  </small>
+
+                  <small *ngIf="serviceCode.errors?.['minlength']">
+                    Service Code must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="serviceCode.errors?.['maxlength']">
+                    Service Code cannot exceed 100 characters.
+                  </small>
+
+                  <small *ngIf="serviceCode.errors?.['pattern']">
+                    Service Code cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Name -->
+              <div class="form-group mt-3">
+                <label for="serviceName">Service Name <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serviceName"
+                  name="serviceName"
+                  [(ngModel)]="serviceTypeObj.serviceName"
+                  #serviceName="ngModel"
+                  required
+                  minlength="5"
+                  maxlength="255"
+                  pattern=".*\S.*"
+                  placeholder="Enter Service Name"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    serviceName.invalid &&
+                    (serviceName.touched ||
+                      serviceName.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="serviceName.errors?.['required']">
+                    Service Name is required.
+                  </small>
+
+                  <small *ngIf="serviceName.errors?.['minlength']">
+                    Service Name must be at least 5 characters.
+                  </small>
+
+                  <small *ngIf="serviceName.errors?.['maxlength']">
+                    Service Name cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="serviceName.errors?.['pattern']">
+                    Service Name cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group mt-3">
+                <label for="description">Description <span>*</span></label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  [(ngModel)]="serviceTypeObj.description"
+                  #description="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="255"
+                  pattern=".*\S.*"
+                  placeholder="Enter Description"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    description.invalid &&
+                    (description.touched ||
+                      description.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="description.errors?.['required']">
+                    Description is required.
+                  </small>
+
+                  <small *ngIf="description.errors?.['minlength']">
+                    Description must be at least 2 characters.
+                  </small>
+
+                  <small *ngIf="description.errors?.['maxlength']">
+                    Description cannot exceed 255 characters.
+                  </small>
+
+                  <small *ngIf="description.errors?.['pattern']">
+                    Description cannot contain only spaces.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Base Price -->
+              <div class="form-group mt-3">
+                <label for="basePrice">Base Price <span>*</span></label>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="basePrice"
+                  name="basePrice"
+                  [(ngModel)]="serviceTypeObj.basePrice"
+                  #basePrice="ngModel"
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="Enter Base Price"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    basePrice.invalid &&
+                    (basePrice.touched ||
+                      basePrice.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="basePrice.errors?.['required']">
+                    Base Price is required.
+                  </small>
+
+                  <small *ngIf="basePrice.errors?.['min']">
+                    Base Price must be a positive number.
+                  </small>
+
+                  <small *ngIf="basePrice.errors?.['pattern']">
+                    Base Price must be a valid number.
+                  </small>
+                </div>
+              </div>
+
+              <!-- BigDecimal Estimated DurationHrs; -->
+              <div class="form-group mt-3">
+                <label for="estimatedDurationHrs"
+                  >Estimated Duration (Hours) <span>*</span></label
+                >
+
+                <input
+                  type="number"
+                  class="form-control"
+                  id="estimatedDurationHrs"
+                  name="estimatedDurationHrs"
+                  [(ngModel)]="serviceTypeObj.estimatedDurationHrs"
+                  #estimatedDurationHrs="ngModel"
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="Enter Estimated Duration (Hours)"
+                />
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    estimatedDurationHrs.invalid &&
+                    (estimatedDurationHrs.touched ||
+                      estimatedDurationHrs.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="estimatedDurationHrs.errors?.['required']">
+                    Estimated Duration (Hours) is required.
+                  </small>
+
+                  <small *ngIf="estimatedDurationHrs.errors?.['min']">
+                    Estimated Duration (Hours) must be a positive number.
+                  </small>
+
+                  <small *ngIf="estimatedDurationHrs.errors?.['pattern']">
+                    Estimated Duration (Hours) must be a valid number.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Pest Type -->
+              <div class="form-group mt-3">
+                <label for="pestType">Pest Type <span>*</span></label>
+
+                <ng-select
+                  [items]="allPestTypes"
+                  bindLabel="pestName"
+                  bindValue="id"
+                  [(ngModel)]="selectedPestTypeId"
+                  name="pestType"
+                  placeholder="Select Pest Type"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #pestType="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    pestType.invalid &&
+                    (pestType.touched ||
+                      pestType.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="pestType.errors?.['required']">
+                    Pest Type is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Service Type Status -->
+              <div class="form-group mt-3">
+                <label for="status">Service Type Status <span>*</span></label>
+
+                <ng-select
+                  [items]="allStatus"
+                  bindLabel="name"
+                  bindValue="id"
+                  [(ngModel)]="selectedStatusId"
+                  name="status"
+                  placeholder="Select Status"
+                  [clearable]="true"
+                  [searchable]="true"
+                  #status="ngModel"
+                  required
+                >
+                </ng-select>
+
+                <div
+                  class="text-danger mt-1"
+                  *ngIf="
+                    status.invalid &&
+                    (status.touched ||
+                      status.dirty ||
+                      serviceTypeForm.submitted)
+                  "
+                >
+                  <small *ngIf="status.errors?.['required']">
+                    Service Type Status is required.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-group mt-4">
+                <div class="text-end ms-auto">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="ClearForm(serviceTypeForm)"
+                  >
+                    Clear
+                  </button>
+
+                  <button type="submit" class="btn btn-primary">
+                    <i
+                      class="bi me-1"
+                      [ngClass]="
+                        isEditServiceType
+                          ? 'bi-check2-circle'
+                          : 'bi-plus-circle'
+                      "
+                    ></i>
+                    {{
+                      isEditServiceType
+                        ? "Update Service Type"
+                        : "Add Service Type"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="card service-type-table-card h-100">
+            <!-- Table Header -->
+            <div class="card-header service-type-section-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="service-type-header-icon">
+                  <i class="bi bi-clipboard2-check"></i>
+                </div>
+
+                <div>
+                  <h5 class="mb-1">Service Type Table</h5>
+                  <p class="mb-0">
+                    View, search, and manage service categories, pricing, and
+                    status.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body service-type-table-body">
+              <!-- Search Toolbar -->
+              <div class="service-type-toolbar">
+                <div class="service-type-search">
+                  <i class="bi bi-search"></i>
+
+                  <input
+                    type="text"
+                    class="form-control service-type-search-input"
+                    placeholder="Search service types..."
+                    aria-label="Search Service Types"
+                    [(ngModel)]="searchText"
+                    name="searchText"
+                    (input)="SearchServiceTypes()"
+                  />
+                </div>
+
+                <!-- Pest Type Filter -->
+                <div class="service-type-filter service-type-filter--pest">
+                  <ng-select
+                    [items]="allPestTypes"
+                    bindLabel="pestName"
+                    bindValue="id"
+                    [(ngModel)]="selectedFilterPestTypeId"
+                    name="selectedFilterPestTypeId"
+                    placeholder="All Pest Types"
+                    [clearable]="true"
+                    [searchable]="true"
+                    (change)="SearchServiceTypes()"
+                  >
+                  </ng-select>
+                </div>
+
+                <!-- Status Filter -->
+                <div class="service-type-filter service-type-filter--status">
+                  <ng-select
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="selectedFilterStatusId"
+                    name="selectedFilterStatusId"
+                    placeholder="All Statuses"
+                    [clearable]="true"
+                    [searchable]="true"
+                    (change)="SearchServiceTypes()"
+                  >
+                  </ng-select>
+                </div>
+
+                <!-- Clear Filters -->
+                <button
+                  class="btn service-type-clear-btn"
+                  type="button"
+                  title="Clear search and filters"
+                  aria-label="Clear search and filters"
+                  (click)="
+                    searchText = '';
+                    selectedFilterPestTypeId = null;
+                    selectedFilterStatusId = null;
+                    SearchServiceTypes()
+                  "
+                >
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                  <span>Clear</span>
+                </button>
+
+                <!-- Search Button -->
+                <!-- <button
+                  class="btn service-type-search-btn"
+                  type="button"
+                  (click)="SearchServiceTypes()"
+                >
+                  <i class="bi bi-search"></i>
+                  <span>Search</span>
+                </button> -->
+              </div>
+
+              <!-- Table -->
+              <div class="table-responsive service-type-table-responsive">
+                <table class="table service-type-table align-middle">
+                  <thead>
+                    <tr>
+                      <th>Service Code</th>
+                      <th>Service Name</th>
+                      <th>Description</th>
+                      <th>Base Price</th>
+                      <th>Estimated Duration</th>
+                      <th>Pest Type</th>
+                      <th>Status</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <!-- Empty State -->
+                    <tr *ngIf="serviceTypes.length === 0">
+                      <td [attr.colspan]="serviceTypeColumns.length">
+                        <div class="service-type-empty-state">
+                          <div class="service-type-empty-icon">
+                            <i class="bi bi-clipboard2-x"></i>
+                          </div>
+                          <h6>No service types found</h6>
+                          <p>
+                            Try changing your search text or filter criteria.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!-- Service Type Rows -->
+                    <tr *ngFor="let serviceTypeObj of serviceTypes">
+                      <td>
+                        <span class="service-type-code">
+                          {{ serviceTypeObj.serviceCode || serviceTypeObj.id }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-name">
+                          {{ serviceTypeObj.serviceName }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div
+                          class="service-type-description"
+                          [title]="serviceTypeObj.description"
+                        >
+                          {{ serviceTypeObj.description }}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span class="service-type-price">
+                          {{ serviceTypeObj.basePrice | number: "1.2-2" }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-duration">
+                          <i class="bi bi-clock"></i>
+                          {{
+                            formatDuration(serviceTypeObj.estimatedDurationHrs)
+                          }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span class="service-type-pest">
+                          {{ serviceTypeObj.pestType?.pestName || "—" }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <app-status-badge
+                          [status]="serviceTypeObj.status?.name"
+                        ></app-status-badge>
+                      </td>
+
+                      <td>
+                        <div class="service-type-actions">
+                          <button
+                            class="btn service-type-action-btn service-type-edit-btn"
+                            type="button"
+                            title="Edit service type"
+                            aria-label="Edit service type"
+                            (click)="GetServiceTypeById(serviceTypeObj.id)"
+                          >
+                            <i class="bi bi-pencil-square"></i>
+                          </button>
+
+                          <button
+                            class="btn service-type-action-btn service-type-delete-btn"
+                            type="button"
+                            title="Delete service type"
+                            aria-label="Delete service type"
+                            (click)="DeleteServiceTypeById(serviceTypeObj.id)"
+                          >
+                            <i class="bi bi-trash3"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

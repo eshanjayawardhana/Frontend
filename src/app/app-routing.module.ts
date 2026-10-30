@@ -12,6 +12,16 @@ import { AuthGuard } from './component/auth/auth.guard';
 import { PrivilegeComponent } from './component/privilege/privilege.component';
 import { QualificationComponent } from './component/qualification/qualification.component';
 import { TechnicianComponent } from './component/technician/technician.component';
+import { CustomerComponent } from './component/customer/customer.component';
+import { CustomerSiteComponent } from './component/customer-site/customer-site.component';
+import { ChemicalComponent } from './component/chemical/chemical.component';
+import { PestTypeComponent } from './component/pest-type/pest-type.component';
+import { NotificationComponent } from './component/notification/notification.component';
+import { ServiceTypeComponent } from './component/service-type/service-type.component';
+import { ServiceRequestComponent } from './component/service-request/service-request.component';
+import { InspectionComponent } from './component/inspection/inspection.component';
+import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
+import { ServiceContractComponent } from './component/service-contract/service-contract.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -19,20 +29,74 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forbidden', component: ForbiddenComponent },
 
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'student', component: StudentComponent, canActivate: [AuthGuard] },
   { path: 'course', component: CourseComponent, canActivate: [AuthGuard] },
   { path: 'teacher', component: TeacherComponent, canActivate: [AuthGuard] },
-  { path: 'technician', component: TechnicianComponent, canActivate: [AuthGuard] },
-  { path: 'qualification', component: QualificationComponent, canActivate: [AuthGuard] },
+  {
+    path: 'technician',
+    component: TechnicianComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'customer', component: CustomerComponent, canActivate: [AuthGuard] },
+  {
+    path: 'customer-site',
+    component: CustomerSiteComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'chemical', component: ChemicalComponent, canActivate: [AuthGuard] },
+  { path: 'pest-type', component: PestTypeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'notification',
+    component: NotificationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'service-type',
+    component: ServiceTypeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'service-request',
+    component: ServiceRequestComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'inspection',
+    component: InspectionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'treatment-job',
+    component: TreatmentJobComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'service-contract',
+    component: ServiceContractComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'qualification',
+    component: QualificationComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'class', component: ClassComponent, canActivate: [AuthGuard] },
-  { path: 'privilege', component: PrivilegeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'privilege',
+    component: PrivilegeComponent,
+    canActivate: [AuthGuard],
+  },
 
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
