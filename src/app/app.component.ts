@@ -28,6 +28,7 @@ export class AppComponent {
     {
       label: 'Management',
       items: [
+        { label: 'Students', icon: 'bi-wrench', route: '/student' },
         { label: 'Technicians', icon: 'bi-wrench', route: '/technician' },
         { label: 'Customers', icon: 'bi-people', route: '/customer' },
         { label: 'Customer Sites', icon: 'bi-geo-alt', route: '/customer-site' },
