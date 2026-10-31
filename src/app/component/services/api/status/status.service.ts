@@ -12,7 +12,7 @@ export class StatusService {
   constructor(private http: HttpClient) {}
 
   GetAllStatus(): Observable<any> {
-    return this.http.get(this.baseUrl);
+    return this.http.get(`${this.baseUrl}/student-status`);
   }
 
   GetAllTechnicianStatus(): Observable<any> {
