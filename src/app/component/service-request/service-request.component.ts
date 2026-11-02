@@ -238,7 +238,6 @@ export class ServiceRequestComponent implements OnInit {
       next: (allData) => {
         this.serviceRequests = allData?.data?.dataList || [];
         this.allServiceRequests = [...this.serviceRequests];
-        console.log('Service Requests:', this.serviceRequests);
       },
       error: (error) => {
         console.error('Failed to load customer sites:', error);
@@ -333,7 +332,7 @@ export class ServiceRequestComponent implements OnInit {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.serviceRequests = this.allServiceRequests.filter((type: any) => {
-      
+
       // Search Fields
       const requestCode = type.requestCode?.toString().toLowerCase() || '';
 

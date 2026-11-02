@@ -1,4 +1,3 @@
-
 <main class="pt-3 treatment-job-page">
   <div class="container-fluid">
     <!--
@@ -10,7 +9,7 @@
     ></app-page-header>
 
     <div class="row">
-      <div class="col-lg-12 mb-3">
+      <div class="col-12 mb-3">
         <div class="card text-dark mb-3 h-100 treatment-job-form-card">
           <div class="card-header treatment-job-section-header">
             Treatment Job Form
@@ -22,438 +21,619 @@
               (ngSubmit)="SaveTreatmentJob(treatmentJobForm)"
               novalidate
             >
-              <!-- Job Code -->
-              <div class="form-group mt-3">
-                <label for="jobCode">Job Code</label>
+              <div class="row">
+                <!-- Job Code -->
+                <!-- <div class="col-md-6 form-group mt-3">
+                  <label for="jobCode">Job Code</label>
 
-                <input
-                  type="text"
-                  class="form-control"
-                  id="jobCode"
-                  name="jobCode"
-                  [(ngModel)]="treatmentJobObj.jobCode"
-                  #jobCode="ngModel"
-                  minlength="2"
-                  maxlength="50"
-                  pattern=".*\S.*"
-                  placeholder="Enter Job Code"
-                />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="jobCode"
+                    name="jobCode"
+                    [(ngModel)]="treatmentJobObj.jobCode"
+                    #jobCode="ngModel"
+                    minlength="2"
+                    maxlength="50"
+                    pattern=".*\S.*"
+                    placeholder="Enter Job Code"
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    jobCode.invalid &&
-                    (jobCode.touched ||
-                      jobCode.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="jobCode.errors?.['minlength']">
-                    Job Code must be at least 2 characters.
-                  </small>
-
-                  <small *ngIf="jobCode.errors?.['maxlength']">
-                    Job Code cannot exceed 50 characters.
-                  </small>
-
-                  <small *ngIf="jobCode.errors?.['pattern']">
-                    Job Code cannot contain only spaces.
-                  </small>
-                </div>
-              </div>
-
-              <!-- Scheduled Date -->
-              <div class="form-group mt-3">
-                <label for="scheduledDate">
-                  Scheduled Date <span>*</span>
-                </label>
-
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="scheduledDate"
-                  name="scheduledDate"
-                  [(ngModel)]="treatmentJobObj.scheduledDate"
-                  #scheduledDate="ngModel"
-                  required
-                />
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    scheduledDate.invalid &&
-                    (scheduledDate.touched ||
-                      scheduledDate.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="scheduledDate.errors?.['required']">
-                    Scheduled Date is required.
-                  </small>
-                </div>
-              </div>
-
-              <!-- Completed Date -->
-              <div class="form-group mt-3">
-                <label for="completedDate">Completed Date</label>
-
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="completedDate"
-                  name="completedDate"
-                  [(ngModel)]="treatmentJobObj.completedDate"
-                  #completedDate="ngModel"
-                />
-              </div>
-
-              <!-- Work Done -->
-              <div class="form-group mt-3">
-                <label for="workDone">
-                  Work Done <span>*</span>
-                </label>
-
-                <textarea
-                  class="form-control"
-                  id="workDone"
-                  name="workDone"
-                  [(ngModel)]="treatmentJobObj.workDone"
-                  #workDone="ngModel"
-                  required
-                  maxlength="2000"
-                  pattern=".*\S.*"
-                  rows="3"
-                  placeholder="Enter Work Done Details"
-                ></textarea>
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    workDone.invalid &&
-                    (workDone.touched ||
-                      workDone.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="workDone.errors?.['required']">
-                    Work Done is required.
-                  </small>
-
-                  <small *ngIf="workDone.errors?.['maxlength']">
-                    Work Done cannot exceed 2000 characters.
-                  </small>
-
-                  <small *ngIf="workDone.errors?.['pattern']">
-                    Work Done cannot contain only spaces.
-                  </small>
-                </div>
-              </div>
-
-              <!-- Hours Spent -->
-              <div class="form-group mt-3">
-                <label for="hoursSpent">
-                  Hours Spent <span>*</span>
-                </label>
-
-                <input
-                  type="number"
-                  class="form-control"
-                  id="hoursSpent"
-                  name="hoursSpent"
-                  [(ngModel)]="treatmentJobObj.hoursSpent"
-                  #hoursSpent="ngModel"
-                  required
-                  min="0.1"
-                  max="999.9"
-                  step="0.1"
-                  placeholder="Enter Hours Spent"
-                />
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    hoursSpent.invalid &&
-                    (hoursSpent.touched ||
-                      hoursSpent.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="hoursSpent.errors?.['required']">
-                    Hours Spent is required.
-                  </small>
-
-                  <small *ngIf="hoursSpent.errors?.['min']">
-                    Hours Spent must be greater than 0.
-                  </small>
-
-                  <small *ngIf="hoursSpent.errors?.['max']">
-                    Hours Spent cannot exceed 999.9.
-                  </small>
-                </div>
-              </div>
-
-              <!-- Customer Signature -->
-              <div class="form-group mt-3">
-                <label for="customerSignature">Customer Signature</label>
-
-                <input
-                  type="text"
-                  class="form-control"
-                  id="customerSignature"
-                  name="customerSignature"
-                  [(ngModel)]="treatmentJobObj.customerSignature"
-                  #customerSignature="ngModel"
-                  maxlength="255"
-                  pattern=".*\S.*"
-                  placeholder="Enter Customer Signature Reference"
-                />
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerSignature.invalid &&
-                    (customerSignature.touched ||
-                      customerSignature.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="customerSignature.errors?.['maxlength']">
-                    Customer Signature cannot exceed 255 characters.
-                  </small>
-
-                  <small *ngIf="customerSignature.errors?.['pattern']">
-                    Customer Signature cannot contain only spaces.
-                  </small>
-                </div>
-              </div>
-
-              <!-- Service Request -->
-              <div class="form-group mt-3">
-                <label for="serviceRequestId">
-                  Service Request <span>*</span>
-                </label>
-
-                <ng-select
-                  [items]="allServiceRequests"
-                  bindLabel="requestCode"
-                  bindValue="id"
-                  [(ngModel)]="selectedServiceRequestId"
-                  name="serviceRequestId"
-                  placeholder="Select Service Request"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #serviceRequestIdModel="ngModel"
-                  required
-                >
-                </ng-select>
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    serviceRequestIdModel.invalid &&
-                    (serviceRequestIdModel.touched ||
-                      serviceRequestIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small
-                    *ngIf="serviceRequestIdModel.errors?.['required']"
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      jobCode.invalid &&
+                      (jobCode.touched ||
+                        jobCode.dirty ||
+                        treatmentJobForm.submitted)
+                    "
                   >
-                    Service Request is required.
-                  </small>
-                </div>
-              </div>
+                    <small *ngIf="jobCode.errors?.['minlength']">
+                      Job Code must be at least 2 characters.
+                    </small>
 
-              <!-- Inspection -->
-              <div class="form-group mt-3">
-                <label for="inspectionId">
-                  Inspection <span>*</span>
-                </label>
+                    <small *ngIf="jobCode.errors?.['maxlength']">
+                      Job Code cannot exceed 50 characters.
+                    </small>
 
-                <ng-select
-                  [items]="allInspections"
-                  bindLabel="inspectionCode"
-                  bindValue="id"
-                  [(ngModel)]="selectedInspectionId"
-                  name="inspectionId"
-                  placeholder="Select Inspection"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #inspectionIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                    <small *ngIf="jobCode.errors?.['pattern']">
+                      Job Code cannot contain only spaces.
+                    </small>
+                  </div>
+                </div> -->
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    inspectionIdModel.invalid &&
-                    (inspectionIdModel.touched ||
-                      inspectionIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="inspectionIdModel.errors?.['required']">
-                    Inspection is required.
-                  </small>
-                </div>
-              </div>
+                <!-- Scheduled Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="scheduledDate">
+                    Scheduled Date <span>*</span>
+                  </label>
 
-              <!-- Service Contract -->
-              <div class="form-group mt-3">
-                <label for="serviceContractId">Service Contract</label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="scheduledDate"
+                    name="scheduledDate"
+                    [(ngModel)]="treatmentJobObj.scheduledDate"
+                    #scheduledDate="ngModel"
+                    required
+                  />
 
-                <ng-select
-                  [items]="allServiceContracts"
-                  bindLabel="contractCode"
-                  bindValue="id"
-                  [(ngModel)]="selectedServiceContractId"
-                  name="serviceContractId"
-                  placeholder="Select Service Contract (Optional)"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #serviceContractIdModel="ngModel"
-                >
-                </ng-select>
-              </div>
-
-              <!-- Customer Site -->
-              <div class="form-group mt-3">
-                <label for="customerSiteId">
-                  Customer Site <span>*</span>
-                </label>
-
-                <ng-select
-                  [items]="allCustomerSites"
-                  bindLabel="siteName"
-                  bindValue="id"
-                  [(ngModel)]="selectedCustomerSitesId"
-                  name="customerSiteId"
-                  placeholder="Select Customer Site"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #customerSiteIdModel="ngModel"
-                  required
-                >
-                </ng-select>
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerSiteIdModel.invalid &&
-                    (customerSiteIdModel.touched ||
-                      customerSiteIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small
-                    *ngIf="customerSiteIdModel.errors?.['required']"
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      scheduledDate.invalid &&
+                      (scheduledDate.touched ||
+                        scheduledDate.dirty ||
+                        treatmentJobForm.submitted)
+                    "
                   >
-                    Customer Site is required.
-                  </small>
+                    <small *ngIf="scheduledDate.errors?.['required']">
+                      Scheduled Date is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Technician -->
-              <div class="form-group mt-3">
-                <label for="technicianId">
-                  Technician <span>*</span>
-                </label>
+                <!-- Completed Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="completedDate">Completed Date</label>
 
-                <ng-select
-                  [items]="allTechnicians"
-                  bindLabel="fullName"
-                  bindValue="id"
-                  [(ngModel)]="selectedTechniciansId"
-                  name="technicianId"
-                  placeholder="Select Technician"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #technicianIdModel="ngModel"
-                  required
-                >
-                </ng-select>
-
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    technicianIdModel.invalid &&
-                    (technicianIdModel.touched ||
-                      technicianIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="technicianIdModel.errors?.['required']">
-                    Technician is required.
-                  </small>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="completedDate"
+                    name="completedDate"
+                    [(ngModel)]="treatmentJobObj.completedDate"
+                    #completedDate="ngModel"
+                  />
                 </div>
-              </div>
 
-              <!-- Service Type -->
-              <div class="form-group mt-3">
-                <label for="serviceTypeId">
-                  Service Type <span>*</span>
-                </label>
+                <!-- Work Done -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="workDone"> Work Done <span>*</span> </label>
 
-                <ng-select
-                  [items]="allServiceTypes"
-                  bindLabel="serviceName"
-                  bindValue="id"
-                  [(ngModel)]="selectedServiceTypeId"
-                  name="serviceTypeId"
-                  placeholder="Select Service Type"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #serviceTypeIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <textarea
+                    class="form-control"
+                    id="workDone"
+                    name="workDone"
+                    [(ngModel)]="treatmentJobObj.workDone"
+                    #workDone="ngModel"
+                    required
+                    maxlength="2000"
+                    pattern=".*\S.*"
+                    rows="1"
+                    placeholder="Enter Work Done Details"
+                  ></textarea>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    serviceTypeIdModel.invalid &&
-                    (serviceTypeIdModel.touched ||
-                      serviceTypeIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
-                >
-                  <small *ngIf="serviceTypeIdModel.errors?.['required']">
-                    Service Type is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      workDone.invalid &&
+                      (workDone.touched ||
+                        workDone.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="workDone.errors?.['required']">
+                      Work Done is required.
+                    </small>
+
+                    <small *ngIf="workDone.errors?.['maxlength']">
+                      Work Done cannot exceed 2000 characters.
+                    </small>
+
+                    <small *ngIf="workDone.errors?.['pattern']">
+                      Work Done cannot contain only spaces.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Status -->
-              <div class="form-group mt-3">
-                <label for="statusId">Status <span>*</span></label>
+                <!-- Hours Spent -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="hoursSpent"> Hours Spent <span>*</span> </label>
 
-                <ng-select
-                  [items]="allStatus"
-                  bindLabel="name"
-                  bindValue="id"
-                  [(ngModel)]="selectedStatusId"
-                  name="statusId"
-                  placeholder="Select Status"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #statusIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="hoursSpent"
+                    name="hoursSpent"
+                    [(ngModel)]="treatmentJobObj.hoursSpent"
+                    #hoursSpent="ngModel"
+                    required
+                    min="0.1"
+                    max="999.9"
+                    step="0.1"
+                    placeholder="Enter Hours Spent"
+                  />
 
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      hoursSpent.invalid &&
+                      (hoursSpent.touched ||
+                        hoursSpent.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="hoursSpent.errors?.['required']">
+                      Hours Spent is required.
+                    </small>
+
+                    <small *ngIf="hoursSpent.errors?.['min']">
+                      Hours Spent must be greater than 0.
+                    </small>
+
+                    <small *ngIf="hoursSpent.errors?.['max']">
+                      Hours Spent cannot exceed 999.9.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Customer Signature -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSignature">Customer Signature</label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="customerSignature"
+                    name="customerSignature"
+                    [(ngModel)]="treatmentJobObj.customerSignature"
+                    #customerSignature="ngModel"
+                    maxlength="255"
+                    pattern=".*\S.*"
+                    placeholder="Enter Customer Signature Reference"
+                  />
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSignature.invalid &&
+                      (customerSignature.touched ||
+                        customerSignature.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSignature.errors?.['maxlength']">
+                      Customer Signature cannot exceed 255 characters.
+                    </small>
+
+                    <small *ngIf="customerSignature.errors?.['pattern']">
+                      Customer Signature cannot contain only spaces.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Inspection -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="inspectionId"> Inspection <span>*</span> </label>
+
+                  <ng-select
+                    [items]="allInspections"
+                    bindLabel="inspectionCode"
+                    bindValue="id"
+                    [(ngModel)]="selectedInspectionId"
+                    name="inspectionId"
+                    placeholder="Select Inspection"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #inspectionIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      inspectionIdModel.invalid &&
+                      (inspectionIdModel.touched ||
+                        inspectionIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="inspectionIdModel.errors?.['required']">
+                      Inspection is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Service Contract -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceContractId">Service Contract</label>
+
+                  <ng-select
+                    [items]="allServiceContracts"
+                    bindLabel="contractCode"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceContractId"
+                    name="serviceContractId"
+                    placeholder="Select Service Contract (Optional)"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #serviceContractIdModel="ngModel"
+                  >
+                  </ng-select>
+                </div>
+
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId">
+                    Customer Site <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="allCustomerSites"
+                    bindLabel="siteName"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerSitesId"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Technician -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="technicianId"> Technician <span>*</span> </label>
+
+                  <ng-select
+                    [items]="allTechnicians"
+                    bindLabel="fullName"
+                    bindValue="id"
+                    [(ngModel)]="selectedTechniciansId"
+                    name="technicianId"
+                    placeholder="Select Technician"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #technicianIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      technicianIdModel.invalid &&
+                      (technicianIdModel.touched ||
+                        technicianIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="technicianIdModel.errors?.['required']">
+                      Technician is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Service Type -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceTypeId">
+                    Service Type <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="allServiceTypes"
+                    bindLabel="serviceName"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceTypeId"
+                    name="serviceTypeId"
+                    placeholder="Select Service Type"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #serviceTypeIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceTypeIdModel.invalid &&
+                      (serviceTypeIdModel.touched ||
+                        serviceTypeIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                      Service Type is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Service Request -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceRequestId">
+                    Service Request <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="allServiceRequests"
+                    bindLabel="requestCode"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceRequestId"
+                    name="serviceRequestId"
+                    placeholder="Select Service Request"
+                    [clearable]="true"
+                    [searchable]="true"
+                    (change)="
+                      getCusDetailsBySelectedServiceReq(
+                        selectedServiceRequestId
+                      )
+                    "
+                    #serviceRequestIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceRequestIdModel.invalid &&
+                      (serviceRequestIdModel.touched ||
+                        serviceRequestIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceRequestIdModel.errors?.['required']">
+                      Service Request is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="statusId">Status <span>*</span></label>
+
+                  <ng-select
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="selectedStatusId"
+                    name="statusId"
+                    placeholder="Select Status"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #statusIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      statusIdModel.invalid &&
+                      (statusIdModel.touched ||
+                        statusIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="statusIdModel.errors?.['required']">
+                      Status is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!----------------- Selected Service Request Details Card -------------------->
                 <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    statusIdModel.invalid &&
-                    (statusIdModel.touched ||
-                      statusIdModel.dirty ||
-                      treatmentJobForm.submitted)
-                  "
+                  class="col-12 mt-4"
+                  *ngIf="selectedServiceRequestData as data"
                 >
-                  <small *ngIf="statusIdModel.errors?.['required']">
-                    Status is required.
-                  </small>
+                  <div class="treatment-job-sr-panel">
+                    <!-- Header (Uses your existing table-header & icon charm) -->
+                    <div class="treatment-job-sr-header">
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="treatment-job-header-icon">
+                          <i class="bi bi-file-earmark-text"></i>
+                        </div>
+
+                        <div>
+                          <h5 class="mb-1">Selected Service Request Details</h5>
+                          <p class="mb-0">
+                            Customer, site location, and pest treatment details
+                            linked to this request.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="d-flex align-items-center flex-wrap gap-2">
+                        <span class="treatment-job-code">
+                          {{ data.requestCode || "—" }}
+                        </span>
+
+                        <!-- Dynamic Priority Badge -->
+                        <span
+                          class="service-request-priority"
+                          [ngClass]="{
+                            'service-request-priority--low':
+                              data.priority?.toLowerCase() === 'low',
+                            'service-request-priority--normal':
+                              data.priority?.toLowerCase() === 'normal',
+                            'service-request-priority--high':
+                              data.priority?.toLowerCase() === 'high',
+                          }"
+                        >
+                          Priority: {{ data.priority || "—" }}
+                        </span>
+
+                        <app-status-badge
+                          [status]="data.status?.name"
+                        ></app-status-badge>
+                      </div>
+                    </div>
+
+                    <!-- Full-Width Details Grid -->
+                    <div class="treatment-job-sr-body">
+                      <div class="row g-3">
+                        <!-- 1. Customer Name -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">Customer</span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customer?.customerName || "—" }}
+                              <small class="text-muted">
+                                ({{ data.customer?.customerType || "—" }})
+                              </small>
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 2. Customer Contact -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Customer Phone & Email
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customer?.phone || "—" }} /
+                              {{ data.customer?.email || "—" }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 3. Customer Site -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Customer Site & City
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customerSite?.siteName || "—" }} -
+                              {{ data.customerSite?.city || "—" }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 4. Site Contact Person -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Site Contact Person
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customerSite?.contactPerson || "—" }}
+                              ({{ data.customerSite?.contactPhone || "—" }})
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 5. Site Address -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Site Address
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customerSite?.address || "—" }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 6. Service Type -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Service Type
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.serviceType?.serviceName || "—" }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 7. Pest Type & Severity -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Target Pest & Severity
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.pestType?.pestName || "—" }}
+                              (Severity:
+                              {{ data.pestType?.severityLevel || "—" }})
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 8. Preferred Date & Est. Hours -->
+                        <div class="col-lg-3 col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Preferred Date & Est. Hours
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{
+                                (data.preferredDate | date: "MMM dd, yyyy") ||
+                                  "—"
+                              }}
+                              ({{ data.serviceType?.estimatedDurationHrs || 0 }}
+                              hrs)
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 9. Problem Description -->
+                        <div class="col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Problem Description
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.problemDescription || "—" }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- 10. Site Access Notes -->
+                        <div class="col-md-6">
+                          <div class="treatment-job-sr-item">
+                            <span class="treatment-job-sr-label">
+                              Site Notes
+                            </span>
+                            <span class="treatment-job-sr-value">
+                              {{ data.customerSite?.siteNotes || "—" }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -586,9 +766,7 @@
               </div>
 
               <!-- Customer Site Filter -->
-              <div
-                class="treatment-job-filter treatment-job-filter--site"
-              >
+              <div class="treatment-job-filter treatment-job-filter--site">
                 <ng-select
                   [items]="allCustomerSites"
                   bindLabel="siteName"
@@ -640,9 +818,7 @@
               </div>
 
               <!-- Status Filter -->
-              <div
-                class="treatment-job-filter treatment-job-filter--status"
-              >
+              <div class="treatment-job-filter treatment-job-filter--status">
                 <ng-select
                   [items]="allStatus"
                   bindLabel="name"
@@ -712,9 +888,7 @@
 
                         <h6>No treatment jobs found</h6>
 
-                        <p>
-                          Try changing your search or filter criteria.
-                        </p>
+                        <p>Try changing your search or filter criteria.</p>
                       </div>
                     </td>
                   </tr>
@@ -741,7 +915,7 @@
                         {{
                           treatmentJob.completedDate
                             ? (treatmentJob.completedDate
-                                | date: "MMM dd, yyyy, h:mm a")
+                              | date: "MMM dd, yyyy, h:mm a")
                             : "—"
                         }}
                       </span>

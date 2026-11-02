@@ -162,7 +162,6 @@ export class ChemicalComponent implements OnInit {
       next: (allData) => {
         this.chemicals = allData?.data?.dataList || [];
         this.allChemicals = [...this.chemicals];
-        console.log('Chemicals:', this.chemicals);
       },
       error: (error) => {
         console.error('Failed to load chemicals:', error);

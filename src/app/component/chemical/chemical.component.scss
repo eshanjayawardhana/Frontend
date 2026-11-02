@@ -6,7 +6,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.2px;
-  // border-radius: 19px 19px 0 0;
+  border-radius: 14px 14px 0 0;
 }
 
 .chemical-page .card {
@@ -827,4 +827,13 @@
   font-family: var(--font-family-base);
   font-size: 0.84rem;
   line-height: 1.4;
+}
+
+
+.chemical-page .chemical-form-card {
+  background-color: #ffffff;
+}
+
+.chemical-page .chemical-form-card > .card-body {
+  background-color: #ffffff;
 }

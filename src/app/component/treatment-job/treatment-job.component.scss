@@ -759,3 +759,102 @@
   .ng-dropdown-panel {
   z-index: 1050;
 }
+
+
+
+/////////////////////////
+/* ========================================
+   SELECTED SERVICE REQUEST PANEL
+======================================== */
+
+.treatment-job-sr-panel {
+  border: 1px solid var(--treatment-job-border);
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.treatment-job-sr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f0f4ed;
+  border-bottom: 1px solid var(--treatment-job-border);
+
+  h5 {
+    margin: 0;
+    color: var(--treatment-job-text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  p {
+    margin-top: 0.2rem;
+    color: var(--treatment-job-muted);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+}
+
+.treatment-job-sr-body {
+  padding: 1.25rem;
+  background: #ffffff;
+}
+
+.treatment-job-sr-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #e5ebe3;
+  border-radius: 10px;
+  background: #f7faf6;
+}
+
+.treatment-job-sr-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #59675b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.treatment-job-sr-value {
+  color: var(--treatment-job-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Priority Badges for Selected Service Request */
+.service-request-priority {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.service-request-priority--low {
+  color: #367c50;
+  background: #e7f4e9;
+}
+
+.service-request-priority--normal {
+  color: #89631b;
+  background: #fff3d7;
+}
+
+.service-request-priority--high {
+  color: #b53a35;
+  background: #ffebea;
+}
