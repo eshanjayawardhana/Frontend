@@ -18,10 +18,9 @@ import { ServiceContracService } from '../services/api/service-contract/service-
 @Component({
   selector: 'app-treatment-job',
   templateUrl: './treatment-job.component.html',
-  styleUrls: ['./treatment-job.component.scss']
+  styleUrls: ['./treatment-job.component.scss'],
 })
 export class TreatmentJobComponent implements OnInit {
-
   treatmentJobObj: TreatmentJobRepresentation = {};
   treatmentJobs: Array<any> = [];
 
@@ -55,6 +54,8 @@ export class TreatmentJobComponent implements OnInit {
   selectedFilterTechniciansId: number | null = null;
   selectedFilterServiceTypeId: number | null = null;
   selectedFilterStatusId: number | null = null;
+
+  selectedServiceRequestData: any = null;
 
   type: string;
   statusValue: any;
@@ -125,9 +126,10 @@ export class TreatmentJobComponent implements OnInit {
 
     // Set Service Contract
     // Service Contract is optional
-    this.treatmentJobObj.serviceContract = this.selectedServiceContractId == null
-      ? undefined
-      : { id: Number(this.selectedServiceContractId) };
+    this.treatmentJobObj.serviceContract =
+      this.selectedServiceContractId == null
+        ? undefined
+        : { id: Number(this.selectedServiceContractId) };
 
     // Set Customer Site
     this.treatmentJobObj.customerSite = {
@@ -188,20 +190,12 @@ export class TreatmentJobComponent implements OnInit {
               this.ClearForm(form);
               this.GetAllTreatmentJobs();
 
-              swal(
-                'Successful!',
-                'Treatment Job has been updated!',
-                'success'
-              );
+              swal('Successful!', 'Treatment Job has been updated!', 'success');
             } else {
               this.GetAllTreatmentJobs();
               this.ClearForm(form);
 
-              swal(
-                'Successful!',
-                'Treatment Job has been added!',
-                'success'
-              );
+              swal('Successful!', 'Treatment Job has been added!', 'success');
             }
           },
 
@@ -237,6 +231,11 @@ export class TreatmentJobComponent implements OnInit {
 
         // Set dropdown values
         this.selectedServiceRequestId = data.serviceRequest?.id ?? null;
+
+        if (this.selectedServiceRequestId) {
+          this.getCusDetailsBySelectedServiceReq(this.selectedServiceRequestId);
+        }
+
         this.selectedInspectionId = data.inspection?.id ?? null;
         this.selectedServiceContractId = data.serviceContract?.id ?? null;
         this.selectedCustomerSitesId = data.customerSite?.id ?? null;
@@ -303,7 +302,12 @@ export class TreatmentJobComponent implements OnInit {
   GetAllServiceRequests() {
     this.serviceRequestService.GetAllServiceRequests().subscribe({
       next: (allData) => {
-        this.allServiceRequests = allData?.data?.dataList || [];
+        // only return service requests that have status "New"
+        this.allServiceRequests = allData?.data?.dataList.filter(
+          (serviceRequest: any) =>
+            serviceRequest.status?.name?.toLowerCase() === 'new',
+        );
+        // this.allServiceRequests = allData?.data?.dataList || [];
       },
       error: (error) => {
         console.error('Failed to load Service Requests:', error);
@@ -383,22 +387,48 @@ export class TreatmentJobComponent implements OnInit {
     });
   }
 
+  // 8. selected service request by id
+  GetServiceRequestById(ID: any) {}
+
+  getCusDetailsBySelectedServiceReq(ID: any) {
+    if (!ID) {
+      this.selectedServiceRequestData = null;
+      return;
+    }
+
+    this.serviceRequestService.GetServiceRequestById(ID).subscribe({
+      next: (allData) => {
+        const data = allData?.data?.dataList?.[0];
+
+        if (!data) {
+          console.error('Service Request not found');
+          return;
+        }
+
+        this.selectedServiceRequestId = data.id ?? null;
+
+        this.selectedServiceRequestData = data;
+      },
+
+      error: (error) => {
+        console.error('Failed to load Service Request:', error);
+      },
+    });
+  }
+
   // Search and Filter
   SearchTreatmentJobs(): void {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.treatmentJobs = this.allTreatmentJobs.filter((type: any) => {
-
       // =========================
       // Search Fields
       // =========================
       const jobCode = type.jobCode?.toString().toLowerCase() || '';
 
-      const scheduledDate =
-        type.scheduledDate?.toString().toLowerCase() || '';
+      const scheduledDate = type.scheduledDate?.toString().toLowerCase() || '';
 
-      const completedDate =
-        type.completedDate?.toString().toLowerCase() || '';
+      const completedDate = type.completedDate?.toString().toLowerCase() || '';
 
       const workDone = type.workDone?.toString().toLowerCase() || '';
 
@@ -459,8 +489,7 @@ export class TreatmentJobComponent implements OnInit {
       // =========================
       const matchesInspection =
         this.selectedFilterInspectionId == null ||
-        Number(type.inspection?.id) ===
-          Number(this.selectedFilterInspectionId);
+        Number(type.inspection?.id) === Number(this.selectedFilterInspectionId);
 
       // =========================
       // Service Contract Filter
@@ -535,6 +564,8 @@ export class TreatmentJobComponent implements OnInit {
     this.selectedTechniciansId = null;
     this.selectedServiceTypeId = null;
     this.selectedStatusId = null;
+
+    this.selectedServiceRequestData = null;
 
     form.resetForm();
   }

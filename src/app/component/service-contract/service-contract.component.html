@@ -1,7 +1,5 @@
-
 <main class="pt-3 service-contract-page">
   <div class="container-fluid">
-
     <!--
          Service Contract Form
     = -->
@@ -23,8 +21,9 @@
               (ngSubmit)="SaveServiceContract(serviceContractForm)"
               novalidate
             >
-              <!-- Contract Code
-              <div class="form-group mt-3">
+              <div class="row">
+                <!-- Contract Code
+              <div class="col-md-6 form-group mt-3">
                 <label for="contractCode">Contract Code</label>
 
                 <input
@@ -63,329 +62,322 @@
                 </div>
               </div> -->
 
-              <!-- Start Date -->
-              <div class="form-group mt-3">
-                <label for="startDate">
-                  Start Date <span>*</span>
-                </label>
+                <!-- Start Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="startDate"> Start Date <span>*</span> </label>
 
-                <input
-                  type="date"
-                  class="form-control"
-                  id="startDate"
-                  name="startDate"
-                  [(ngModel)]="serviceContractObj.startDate"
-                  #startDate="ngModel"
-                  required
-                />
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    [(ngModel)]="serviceContractObj.startDate"
+                    #startDate="ngModel"
+                    required
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    startDate.invalid &&
-                    (startDate.touched ||
-                      startDate.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="startDate.errors?.['required']">
-                    Start Date is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      startDate.invalid &&
+                      (startDate.touched ||
+                        startDate.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="startDate.errors?.['required']">
+                      Start Date is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- End Date -->
-              <div class="form-group mt-3">
-                <label for="endDate">
-                  End Date <span>*</span>
-                </label>
+                <!-- End Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="endDate"> End Date <span>*</span> </label>
 
-                <input
-                  type="date"
-                  class="form-control"
-                  id="endDate"
-                  name="endDate"
-                  [(ngModel)]="serviceContractObj.endDate"
-                  #endDate="ngModel"
-                  required
-                />
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    [(ngModel)]="serviceContractObj.endDate"
+                    #endDate="ngModel"
+                    required
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    endDate.invalid &&
-                    (endDate.touched ||
-                      endDate.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="endDate.errors?.['required']">
-                    End Date is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      endDate.invalid &&
+                      (endDate.touched ||
+                        endDate.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="endDate.errors?.['required']">
+                      End Date is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Visit Frequency -->
-              <div class="form-group mt-3">
-                <label for="visitFrequency">
-                  Visit Frequency <span>*</span>
-                </label>
+                <!-- Visit Frequency -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="visitFrequency">
+                    Visit Frequency <span>*</span>
+                  </label>
 
-                <input
-                  type="text"
-                  class="form-control"
-                  id="visitFrequency"
-                  name="visitFrequency"
-                  [(ngModel)]="serviceContractObj.visitFrequency"
-                  #visitFrequency="ngModel"
-                  required
-                  maxlength="100"
-                  pattern=".*\S.*"
-                  placeholder="Enter Visit Frequency"
-                />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="visitFrequency"
+                    name="visitFrequency"
+                    [(ngModel)]="serviceContractObj.visitFrequency"
+                    #visitFrequency="ngModel"
+                    required
+                    maxlength="100"
+                    pattern=".*\S.*"
+                    placeholder="Enter Visit Frequency"
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    visitFrequency.invalid &&
-                    (visitFrequency.touched ||
-                      visitFrequency.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="visitFrequency.errors?.['required']">
-                    Visit Frequency is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      visitFrequency.invalid &&
+                      (visitFrequency.touched ||
+                        visitFrequency.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="visitFrequency.errors?.['required']">
+                      Visit Frequency is required.
+                    </small>
 
-                  <small *ngIf="visitFrequency.errors?.['maxlength']">
-                    Visit Frequency cannot exceed 100 characters.
-                  </small>
+                    <small *ngIf="visitFrequency.errors?.['maxlength']">
+                      Visit Frequency cannot exceed 100 characters.
+                    </small>
 
-                  <small *ngIf="visitFrequency.errors?.['pattern']">
-                    Visit Frequency cannot contain only spaces.
-                  </small>
+                    <small *ngIf="visitFrequency.errors?.['pattern']">
+                      Visit Frequency cannot contain only spaces.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Contract Amount -->
-              <div class="form-group mt-3">
-                <label for="contractAmount">
-                  Contract Amount <span>*</span>
-                </label>
+                <!-- Contract Amount -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="contractAmount">
+                    Contract Amount <span>*</span>
+                  </label>
 
-                <input
-                  type="number"
-                  class="form-control"
-                  id="contractAmount"
-                  name="contractAmount"
-                  [(ngModel)]="serviceContractObj.contractAmount"
-                  #contractAmount="ngModel"
-                  required
-                  min="0"
-                  step="0.01"
-                  placeholder="Enter Contract Amount"
-                />
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="contractAmount"
+                    name="contractAmount"
+                    [(ngModel)]="serviceContractObj.contractAmount"
+                    #contractAmount="ngModel"
+                    required
+                    min="0"
+                    step="0.01"
+                    placeholder="Enter Contract Amount"
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    contractAmount.invalid &&
-                    (contractAmount.touched ||
-                      contractAmount.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="contractAmount.errors?.['required']">
-                    Contract Amount is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      contractAmount.invalid &&
+                      (contractAmount.touched ||
+                        contractAmount.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="contractAmount.errors?.['required']">
+                      Contract Amount is required.
+                    </small>
 
-                  <small *ngIf="contractAmount.errors?.['min']">
-                    Contract Amount cannot be negative.
-                  </small>
+                    <small *ngIf="contractAmount.errors?.['min']">
+                      Contract Amount cannot be negative.
+                    </small>
 
-                  <small *ngIf="contractAmount.errors?.['step']">
-                    Enter a valid amount with up to two decimal places.
-                  </small>
+                    <small *ngIf="contractAmount.errors?.['step']">
+                      Enter a valid amount with up to two decimal places.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Terms -->
-              <div class="form-group mt-3">
-                <label for="terms">
-                  Terms <span>*</span>
-                </label>
+                <!-- Terms -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="terms"> Terms <span>*</span> </label>
 
-                <textarea
-                  class="form-control"
-                  id="terms"
-                  name="terms"
-                  [(ngModel)]="serviceContractObj.terms"
-                  #terms="ngModel"
-                  required
-                  maxlength="2000"
-                  pattern=".*\S.*"
-                  rows="3"
-                  placeholder="Enter Contract Terms"
-                ></textarea>
+                  <textarea
+                    class="form-control"
+                    id="terms"
+                    name="terms"
+                    [(ngModel)]="serviceContractObj.terms"
+                    #terms="ngModel"
+                    required
+                    maxlength="2000"
+                    pattern=".*\S.*"
+                    rows="1"
+                    placeholder="Enter Contract Terms"
+                  ></textarea>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    terms.invalid &&
-                    (terms.touched ||
-                      terms.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="terms.errors?.['required']">
-                    Contract Terms are required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      terms.invalid &&
+                      (terms.touched ||
+                        terms.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="terms.errors?.['required']">
+                      Contract Terms are required.
+                    </small>
 
-                  <small *ngIf="terms.errors?.['maxlength']">
-                    Contract Terms cannot exceed 2000 characters.
-                  </small>
+                    <small *ngIf="terms.errors?.['maxlength']">
+                      Contract Terms cannot exceed 2000 characters.
+                    </small>
 
-                  <small *ngIf="terms.errors?.['pattern']">
-                    Contract Terms cannot contain only spaces.
-                  </small>
+                    <small *ngIf="terms.errors?.['pattern']">
+                      Contract Terms cannot contain only spaces.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Customer -->
-              <div class="form-group mt-3">
-                <label for="customerId">
-                  Customer <span>*</span>
-                </label>
+                <!-- Customer -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerId"> Customer <span>*</span> </label>
 
-                <ng-select
-                  [items]="allCustomers"
-                  bindLabel="customerName"
-                  bindValue="id"
-                  [(ngModel)]="selectedCustomerId"
-                  name="customerId"
-                  placeholder="Select Customer"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #customerIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allCustomers"
+                    bindLabel="customerName"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerId"
+                    name="customerId"
+                    placeholder="Select Customer"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerIdModel.invalid &&
-                    (customerIdModel.touched ||
-                      customerIdModel.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="customerIdModel.errors?.['required']">
-                    Customer is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerIdModel.invalid &&
+                      (customerIdModel.touched ||
+                        customerIdModel.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerIdModel.errors?.['required']">
+                      Customer is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Customer Site -->
-              <div class="form-group mt-3">
-                <label for="customerSiteId">
-                  Customer Site <span>*</span>
-                </label>
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId">
+                    Customer Site <span>*</span>
+                  </label>
 
-                <ng-select
-                  [items]="allCustomerSites"
-                  bindLabel="siteName"
-                  bindValue="id"
-                  [(ngModel)]="selectedCustomerSiteId"
-                  name="customerSiteId"
-                  placeholder="Select Customer Site"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #customerSiteIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allCustomerSites"
+                    bindLabel="siteName"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerSiteId"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerSiteIdModel.invalid &&
-                    (customerSiteIdModel.touched ||
-                      customerSiteIdModel.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="customerSiteIdModel.errors?.['required']">
-                    Customer Site is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Service Type -->
-              <div class="form-group mt-3">
-                <label for="serviceTypeId">
-                  Service Type <span>*</span>
-                </label>
+                <!-- Service Type -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceTypeId">
+                    Service Type <span>*</span>
+                  </label>
 
-                <ng-select
-                  [items]="allServiceTypes"
-                  bindLabel="serviceName"
-                  bindValue="id"
-                  [(ngModel)]="selectedServiceTypeId"
-                  name="serviceTypeId"
-                  placeholder="Select Service Type"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #serviceTypeIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allServiceTypes"
+                    bindLabel="serviceName"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceTypeId"
+                    name="serviceTypeId"
+                    placeholder="Select Service Type"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #serviceTypeIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    serviceTypeIdModel.invalid &&
-                    (serviceTypeIdModel.touched ||
-                      serviceTypeIdModel.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="serviceTypeIdModel.errors?.['required']">
-                    Service Type is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceTypeIdModel.invalid &&
+                      (serviceTypeIdModel.touched ||
+                        serviceTypeIdModel.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                      Service Type is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Status -->
-              <div class="form-group mt-3">
-                <label for="statusId">Status <span>*</span></label>
+                <!-- Status -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="statusId">Status <span>*</span></label>
 
-                <ng-select
-                  [items]="allStatus"
-                  bindLabel="name"
-                  bindValue="id"
-                  [(ngModel)]="selectedStatusId"
-                  name="statusId"
-                  placeholder="Select Status"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #statusIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="selectedStatusId"
+                    name="statusId"
+                    placeholder="Select Status"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #statusIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    statusIdModel.invalid &&
-                    (statusIdModel.touched ||
-                      statusIdModel.dirty ||
-                      serviceContractForm.submitted)
-                  "
-                >
-                  <small *ngIf="statusIdModel.errors?.['required']">
-                    Status is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      statusIdModel.invalid &&
+                      (statusIdModel.touched ||
+                        statusIdModel.dirty ||
+                        serviceContractForm.submitted)
+                    "
+                  >
+                    <small *ngIf="statusIdModel.errors?.['required']">
+                      Status is required.
+                    </small>
+                  </div>
                 </div>
               </div>
 
@@ -555,13 +547,11 @@
             </div>
 
             <!-- Responsive Table -->
-            <div
-              class="table-responsive service-contract-table-responsive"
-            >
+            <div class="table-responsive service-contract-table-responsive">
               <table class="table service-contract-table align-middle">
                 <thead>
                   <tr>
-                    <th>Contract Code</th>
+                    <!-- <th>Contract Code</th> -->
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Visit Frequency</th>
@@ -586,9 +576,7 @@
 
                         <h6>No service contracts found</h6>
 
-                        <p>
-                          Try changing your search or filter criteria.
-                        </p>
+                        <p>Try changing your search or filter criteria.</p>
                       </div>
                     </td>
                   </tr>
@@ -603,19 +591,13 @@
 
                     <td>
                       <span class="service-contract-date">
-                        {{
-                          serviceContract.startDate
-                            | date: "MMM dd, yyyy"
-                        }}
+                        {{ serviceContract.startDate | date: "MMM dd, yyyy" }}
                       </span>
                     </td>
 
                     <td>
                       <span class="service-contract-date">
-                        {{
-                          serviceContract.endDate
-                            | date: "MMM dd, yyyy"
-                        }}
+                        {{ serviceContract.endDate | date: "MMM dd, yyyy" }}
                       </span>
                     </td>
 
@@ -629,8 +611,7 @@
                       <span class="service-contract-related-name">
                         {{
                           serviceContract.contractAmount != null
-                            ? (serviceContract.contractAmount
-                              | number: "1.2-2")
+                            ? (serviceContract.contractAmount | number: "1.2-2")
                             : "—"
                         }}
                       </span>
@@ -659,9 +640,7 @@
 
                     <td>
                       <span class="service-contract-related-name">
-                        {{
-                          serviceContract.serviceType?.serviceName || "—"
-                        }}
+                        {{ serviceContract.serviceType?.serviceName || "—" }}
                       </span>
                     </td>
 
@@ -688,7 +667,9 @@
                           type="button"
                           title="Delete service contract"
                           aria-label="Delete service contract"
-                          (click)="DeleteServiceContractById(serviceContract.id)"
+                          (click)="
+                            DeleteServiceContractById(serviceContract.id)
+                          "
                         >
                           <i class="bi bi-trash3"></i>
                         </button>

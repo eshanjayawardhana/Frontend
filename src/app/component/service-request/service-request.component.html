@@ -9,7 +9,7 @@
     ></app-page-header>
 
     <div class="row">
-      <div class="col-lg-12 mb-3">
+      <div class="col-12 mb-3">
         <div class="card text-dark mb-3 h-100 service-request-form-card">
           <div class="card-header service-request-section-header">
             Service Request Form
@@ -21,8 +21,9 @@
               (ngSubmit)="SaveServiceRequest(serviceRequestForm)"
               novalidate
             >
-              <!-- Request Code -->
-              <!-- <div class="form-group mt-3">
+              <div class="row">
+                <!-- Request Code -->
+                <!-- <div class="col-md-6 form-group mt-3">
                 <label for="requestCode">Request Code</label>
 
                 <input
@@ -61,299 +62,304 @@
                 </div>
               </div> -->
 
-              <!-- Request Date -->
-              <div class="form-group mt-3">
-                <label for="requestDate">Request Date <span>*</span></label>
+                <!-- Request Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="requestDate">Request Date <span>*</span></label>
 
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="requestDate"
-                  name="requestDate"
-                  [(ngModel)]="serviceRerquestObj.requestDate"
-                  #requestDate="ngModel"
-                  required
-                />
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="requestDate"
+                    name="requestDate"
+                    [(ngModel)]="serviceRerquestObj.requestDate"
+                    #requestDate="ngModel"
+                    required
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    requestDate.invalid &&
-                    (requestDate.touched ||
-                      requestDate.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="requestDate.errors?.['required']">
-                    Request Date is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      requestDate.invalid &&
+                      (requestDate.touched ||
+                        requestDate.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="requestDate.errors?.['required']">
+                      Request Date is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Preferred Date -->
-              <div class="form-group mt-3">
-                <label for="preferredDate">Preferred Date <span>*</span></label>
+                <!-- Preferred Date -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="preferredDate"
+                    >Preferred Date <span>*</span></label
+                  >
 
-                <input
-                  type="date"
-                  class="form-control"
-                  id="preferredDate"
-                  name="preferredDate"
-                  [(ngModel)]="serviceRerquestObj.preferredDate"
-                  #preferredDate="ngModel"
-                  required
-                />
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="preferredDate"
+                    name="preferredDate"
+                    [(ngModel)]="serviceRerquestObj.preferredDate"
+                    #preferredDate="ngModel"
+                    required
+                  />
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    preferredDate.invalid &&
-                    (preferredDate.touched ||
-                      preferredDate.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="preferredDate.errors?.['required']">
-                    Preferred Date is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      preferredDate.invalid &&
+                      (preferredDate.touched ||
+                        preferredDate.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="preferredDate.errors?.['required']">
+                      Preferred Date is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Problem Description -->
-              <div class="form-group mt-3">
-                <label for="problemDescription">
-                  Problem Description <span>*</span>
-                </label>
+                <!-- Service Type -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceTypeId">Service Type <span>*</span></label>
 
-                <textarea
-                  class="form-control"
-                  id="problemDescription"
-                  name="problemDescription"
-                  [(ngModel)]="serviceRerquestObj.problemDescription"
-                  #problemDescription="ngModel"
-                  required
-                  maxlength="500"
-                  pattern=".*\S.*"
-                  rows="3"
-                  placeholder="Enter Problem Description"
-                ></textarea>
+                  <ng-select
+                    [items]="allServiceTypes"
+                    bindLabel="serviceName"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceTypeId"
+                    name="serviceTypeId"
+                    placeholder="Select Service Type"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #serviceTypeIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    problemDescription.invalid &&
-                    (problemDescription.touched ||
-                      problemDescription.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="problemDescription.errors?.['required']">
-                    Problem Description is required.
-                  </small>
-
-                  <small *ngIf="problemDescription.errors?.['maxlength']">
-                    Problem Description cannot exceed 500 characters.
-                  </small>
-
-                  <small *ngIf="problemDescription.errors?.['pattern']">
-                    Problem Description cannot contain only spaces.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceTypeIdModel.invalid &&
+                      (serviceTypeIdModel.touched ||
+                        serviceTypeIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                      Service Type is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Priority -->
-              <div class="form-group mt-3">
-                <label for="priority">Priority <span>*</span></label>
+                <!-- Priority -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="priority">Priority <span>*</span></label>
 
-                <ng-select
-                  [items]="priorityOptions"
-                  [(ngModel)]="serviceRerquestObj.priority"
-                  name="priority"
-                  placeholder="Select Priority"
-                  [clearable]="true"
-                  [searchable]="false"
-                  #priorityModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="priorityOptions"
+                    [(ngModel)]="serviceRerquestObj.priority"
+                    name="priority"
+                    placeholder="Select Priority"
+                    [clearable]="true"
+                    [searchable]="false"
+                    #priorityModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    priorityModel.invalid &&
-                    (priorityModel.touched ||
-                      priorityModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="priorityModel.errors?.['required']">
-                    Priority is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      priorityModel.invalid &&
+                      (priorityModel.touched ||
+                        priorityModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="priorityModel.errors?.['required']">
+                      Priority is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Customer -->
-              <div class="form-group mt-3">
-                <label for="customerId">Customer <span>*</span></label>
+                <!-- Customer -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerId">Customer <span>*</span></label>
 
-                <ng-select
-                  [items]="allCustomers"
-                  bindLabel="customerName"
-                  bindValue="id"
-                  [(ngModel)]="selectedCustomerId"
-                  name="customerId"
-                  placeholder="Select Customer"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #customerIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allCustomers"
+                    bindLabel="customerName"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerId"
+                    name="customerId"
+                    placeholder="Select Customer"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerIdModel.invalid &&
-                    (customerIdModel.touched ||
-                      customerIdModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="customerIdModel.errors?.['required']">
-                    Customer is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerIdModel.invalid &&
+                      (customerIdModel.touched ||
+                        customerIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerIdModel.errors?.['required']">
+                      Customer is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Customer Site -->
-              <div class="form-group mt-3">
-                <label for="customerSiteId">Customer Site <span>*</span></label>
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId"
+                    >Customer Site <span>*</span></label
+                  >
 
-                <ng-select
-                  [items]="allCustomerSites"
-                  bindLabel="siteName"
-                  bindValue="id"
-                  [(ngModel)]="selectedCustomerSiteId"
-                  name="customerSiteId"
-                  placeholder="Select Customer Site"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #customerSiteIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allCustomerSites"
+                    bindLabel="siteName"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerSiteId"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    customerSiteIdModel.invalid &&
-                    (customerSiteIdModel.touched ||
-                      customerSiteIdModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="customerSiteIdModel.errors?.['required']">
-                    Customer Site is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Pest Type -->
-              <div class="form-group mt-3">
-                <label for="pestTypeId">Pest Type <span>*</span></label>
+                <!-- Pest Type -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="pestTypeId">Pest Type <span>*</span></label>
 
-                <ng-select
-                  [items]="allPestTypes"
-                  bindLabel="pestName"
-                  bindValue="id"
-                  [(ngModel)]="selectedPestTypeId"
-                  name="pestTypeId"
-                  placeholder="Select Pest Type"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #pestTypeIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allPestTypes"
+                    bindLabel="pestName"
+                    bindValue="id"
+                    [(ngModel)]="selectedPestTypeId"
+                    name="pestTypeId"
+                    placeholder="Select Pest Type"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #pestTypeIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    pestTypeIdModel.invalid &&
-                    (pestTypeIdModel.touched ||
-                      pestTypeIdModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="pestTypeIdModel.errors?.['required']">
-                    Pest Type is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      pestTypeIdModel.invalid &&
+                      (pestTypeIdModel.touched ||
+                        pestTypeIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="pestTypeIdModel.errors?.['required']">
+                      Pest Type is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Service Type -->
-              <div class="form-group mt-3">
-                <label for="serviceTypeId">Service Type <span>*</span></label>
+                <!-- Status -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="statusId">Status <span>*</span></label>
 
-                <ng-select
-                  [items]="allServiceTypes"
-                  bindLabel="serviceName"
-                  bindValue="id"
-                  [(ngModel)]="selectedServiceTypeId"
-                  name="serviceTypeId"
-                  placeholder="Select Service Type"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #serviceTypeIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <ng-select
+                    [items]="allStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="selectedStatusId"
+                    name="statusId"
+                    placeholder="Select Status"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #statusIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    serviceTypeIdModel.invalid &&
-                    (serviceTypeIdModel.touched ||
-                      serviceTypeIdModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="serviceTypeIdModel.errors?.['required']">
-                    Service Type is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      statusIdModel.invalid &&
+                      (statusIdModel.touched ||
+                        statusIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="statusIdModel.errors?.['required']">
+                      Status is required.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Status -->
-              <div class="form-group mt-3">
-                <label for="statusId">Status <span>*</span></label>
+                <!-- Problem Description -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="problemDescription">
+                    Problem Description <span>*</span>
+                  </label>
 
-                <ng-select
-                  [items]="allStatus"
-                  bindLabel="name"
-                  bindValue="id"
-                  [(ngModel)]="selectedStatusId"
-                  name="statusId"
-                  placeholder="Select Status"
-                  [clearable]="true"
-                  [searchable]="true"
-                  #statusIdModel="ngModel"
-                  required
-                >
-                </ng-select>
+                  <textarea
+                    class="form-control"
+                    id="problemDescription"
+                    name="problemDescription"
+                    [(ngModel)]="serviceRerquestObj.problemDescription"
+                    #problemDescription="ngModel"
+                    required
+                    maxlength="500"
+                    pattern=".*\S.*"
+                    rows="3"
+                    placeholder="Enter Problem Description"
+                  ></textarea>
 
-                <div
-                  class="text-danger mt-1"
-                  *ngIf="
-                    statusIdModel.invalid &&
-                    (statusIdModel.touched ||
-                      statusIdModel.dirty ||
-                      serviceRequestForm.submitted)
-                  "
-                >
-                  <small *ngIf="statusIdModel.errors?.['required']">
-                    Status is required.
-                  </small>
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      problemDescription.invalid &&
+                      (problemDescription.touched ||
+                        problemDescription.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="problemDescription.errors?.['required']">
+                      Problem Description is required.
+                    </small>
+
+                    <small *ngIf="problemDescription.errors?.['maxlength']">
+                      Problem Description cannot exceed 500 characters.
+                    </small>
+
+                    <small *ngIf="problemDescription.errors?.['pattern']">
+                      Problem Description cannot contain only spaces.
+                    </small>
+                  </div>
                 </div>
               </div>
 
