@@ -613,3 +613,68 @@
     font-size: 0.75rem;
   }
 }
+
+
+/* Tax Configuration */
+
+.customer-page .tax-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
+  background: #f7f9f6;
+  border: 1px solid #dfe7dc;
+  border-radius: 9px;
+}
+
+.customer-page .tax-option .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-left: 0;
+}
+
+.customer-page .tax-option .form-check-input {
+  float: none;
+  margin: 0;
+  width: 2.2rem;
+  height: 1.15rem;
+  cursor: pointer;
+}
+
+.customer-page .tax-option .form-check-input:checked {
+  background-color: #367c50;
+  border-color: #367c50;
+}
+
+.customer-page .tax-option .form-check-label {
+  color: #344239;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.customer-page .tax-option small {
+  font-size: 0.75rem;
+}
+
+.customer-page .tax-rate-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #26332b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.customer-page .tax-rate-field label span {
+  color: #c0392b;
+}
+
+.customer-page .tax-rate-field .input-group-text {
+  color: #245b3a;
+  background: #edf4eb;
+  border-color: #d8e1d7;
+  font-weight: 600;
+}
+

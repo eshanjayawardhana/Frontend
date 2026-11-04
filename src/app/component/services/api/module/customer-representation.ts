@@ -9,5 +9,7 @@ export interface CustomerRepresentation {
   phone?: string;
   nic?: string;
   billingAddress?: string;
+  isTaxable?: boolean;
+  taxRate?: number | null;
   status?: StatusRepresentation;
 }

@@ -273,6 +273,12 @@ export class CustomerComponent implements OnInit {
     this.customerObj.customerType = selectedType;
   }
 
+  onTaxableChange(isTaxable: boolean): void {
+    if (!isTaxable) {
+      this.customerObj.taxRate = null;
+    }
+  }
+
   ClearForm(form?: any): void {
     this.customerObj = {
       customerType: null as any,
