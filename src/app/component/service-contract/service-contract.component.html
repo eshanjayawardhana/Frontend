@@ -249,7 +249,7 @@
                   <label for="customerId"> Customer <span>*</span> </label>
 
                   <ng-select
-                    [items]="allCustomers"
+                    [items]="filteredCustomers"
                     bindLabel="customerName"
                     bindValue="id"
                     [(ngModel)]="selectedCustomerId"
@@ -360,6 +360,7 @@
                     placeholder="Select Status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditServiceContract"
                     #statusIdModel="ngModel"
                     required
                   >
@@ -533,12 +534,8 @@
                 type="button"
                 title="Clear all filters"
                 (click)="
-                  searchText = '';
-                  selectedFilterCustomerId = null;
-                  selectedFilterCustomerSiteId = null;
-                  selectedFilterServiceTypeId = null;
-                  selectedFilterStatusId = null;
-                  SearchServiceContracts()
+
+                  ClearServiceContractFilters()
                 "
               >
                 <i class="bi bi-arrow-counterclockwise"></i>

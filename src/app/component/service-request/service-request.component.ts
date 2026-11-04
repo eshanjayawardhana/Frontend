@@ -1,3 +1,4 @@
+import { ServiceContracService } from './../services/api/service-contract/service-contrac.service';
 import { CustomerSiteService } from './../services/api/customer-site/customer-site.service';
 import { CustomerSiteComponent } from './../customer-site/customer-site.component';
 import { CustomerService } from './../services/api/customer/customer.service';
@@ -238,6 +239,7 @@ export class ServiceRequestComponent implements OnInit {
       next: (allData) => {
         this.serviceRequests = allData?.data?.dataList || [];
         this.allServiceRequests = [...this.serviceRequests];
+        this.SearchServiceRequests(); // Apply search and filter after fetching service requests
       },
       error: (error) => {
         console.error('Failed to load customer sites:', error);
@@ -322,17 +324,10 @@ export class ServiceRequestComponent implements OnInit {
     });
   }
 
-  GetAllServiceRequestStatus() {
-    this.statusService.GetAllServiceRequestStatus().subscribe((allData) => {
-      this.allStatus = allData.data.dataList;
-    });
-  }
-
   SearchServiceRequests(): void {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.serviceRequests = this.allServiceRequests.filter((type: any) => {
-
       // Search Fields
       const requestCode = type.requestCode?.toString().toLowerCase() || '';
 
@@ -410,14 +405,75 @@ export class ServiceRequestComponent implements OnInit {
     });
   }
 
+  ClearServiceRequestFilters(): void {
+    this.searchText = '';
+    this.selectedFilterCustomerId = null;
+    this.selectedFilterCustomerSiteId = null;
+    this.selectedFilterPestTypeId = null;
+    this.selectedFilterServiceTypeId = null;
+    this.selectedFilterStatusId = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'new',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchServiceRequests();
+  }
+
+  GetAllServiceRequestStatus(): void {
+    this.statusService.GetAllServiceRequestStatus().subscribe({
+      next: (allData) => {
+        this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditServiceRequest) {
+          this.setDefaultStatus('New');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'new',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchServiceRequests();
+      },
+
+      error: (error) => {
+        console.error('Failed to load service request statuses:', error);
+      },
+    });
+  }
+
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.serviceRerquestObj.status = { id: statusId };
   }
 
   onChangeType($event: Event) {
     const selectedType = ($event.target as HTMLSelectElement).value;
     this.serviceRerquestObj.priority = selectedType;
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.serviceRerquestObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form: any): void {
@@ -428,12 +484,24 @@ export class ServiceRequestComponent implements OnInit {
     this.isEditServiceRequest = false;
     this.statusValue = null;
 
-    this.selectedStatusId = null;
     this.selectedCustomerId = null;
     this.selectedPestTypeId = null;
     this.selectedCustomerSiteId = null;
     this.selectedServiceTypeId = null;
 
-    form.resetForm();
+    // Set default status
+    this.setDefaultStatus('New');
+
+    // Reset form with correct control names
+    if (form) {
+      form.resetForm({
+        statusId: this.selectedStatusId,
+        serviceTypeId: null,
+        priority: null,
+        customerId: null,
+        customerSiteId: null,
+        pestTypeId: null,
+      });
+    }
   }
 }

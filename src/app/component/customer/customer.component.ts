@@ -219,7 +219,11 @@ export class CustomerComponent implements OnInit {
   ClearFilters(): void {
     this.searchText = '';
     this.selectedFilterCustomerType = null;
-    this.selectedFilterStatusId = null;
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
 
     this.SearchCustomers();
   }
@@ -256,6 +260,23 @@ export class CustomerComponent implements OnInit {
     this.statusService.GetAllCustomerStatus().subscribe({
       next: (allData) => {
         this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditCustomer) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchCustomers();
       },
       error: (error) => {
         console.error('Failed to load customer statuses:', error);
@@ -265,6 +286,7 @@ export class CustomerComponent implements OnInit {
 
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.customerObj.status = { id: statusId };
   }
 
@@ -279,6 +301,20 @@ export class CustomerComponent implements OnInit {
     }
   }
 
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.customerObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
+  }
+
   ClearForm(form?: any): void {
     this.customerObj = {
       customerType: null as any,
@@ -289,6 +325,9 @@ export class CustomerComponent implements OnInit {
     this.customerTypeValue = null;
     this.selectedStatusId = null;
 
+    // Reset status to default Active
+    this.setDefaultStatus('Active');
+
     if (form) {
       form.resetForm({
         customerName: '',
@@ -297,7 +336,7 @@ export class CustomerComponent implements OnInit {
         phone: '',
         nic: '',
         billingAddress: '',
-        status: null,
+        status: this.selectedStatusId,
       });
     }
   }

@@ -232,6 +232,23 @@ export class CustomerSiteComponent implements OnInit {
     this.statusService.GetAllCustomerSiteStatus().subscribe({
       next: (allData) => {
         this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditCustomerSite) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchCustomerSites();
       },
 
       error: (error) => {
@@ -296,17 +313,35 @@ export class CustomerSiteComponent implements OnInit {
 
   ClearFilters(): void {
     this.searchText = '';
-    this.selectedFilterStatusId = null;
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
 
     this.SearchCustomerSites();
   }
 
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
-
+    this.selectedStatusId = statusId;
     this.customerSiteObj.status = {
       id: statusId,
     };
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.customerSiteObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form?: any): void {
@@ -317,6 +352,9 @@ export class CustomerSiteComponent implements OnInit {
     this.selectedStatusId = null;
     this.selectedCustomerId = null;
 
+    // Reset status to default Active
+    this.setDefaultStatus('Active');
+
     if (form) {
       form.resetForm({
         customer: null,
@@ -326,7 +364,7 @@ export class CustomerSiteComponent implements OnInit {
         contactPerson: '',
         contactPhone: '',
         siteNotes: '',
-        status: null,
+        status: this.selectedStatusId,
       });
     }
   }

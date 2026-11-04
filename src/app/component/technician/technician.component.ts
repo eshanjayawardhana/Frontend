@@ -208,6 +208,19 @@ export class TechnicianComponent implements OnInit {
     });
   }
 
+  ClearTechnicianFilters(): void {
+    this.searchText = '';
+    this.selectedFilterSpecialization = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchTechnicians();
+  }
+
   DeleteById(ID: any) {
     swal({
       title: 'Are you sure',
@@ -224,20 +237,58 @@ export class TechnicianComponent implements OnInit {
     });
   }
 
-  GetAllTechnicianStatus() {
-    this.statusService.GetAllTechnicianStatus().subscribe((allData) => {
-      this.allStatus = allData.data.dataList;
+  GetAllTechnicianStatus(): void {
+    this.statusService.GetAllTechnicianStatus().subscribe({
+      next: (allData) => {
+        this.allStatus = allData?.data?.dataList || [];
+
+        // Form default status
+        if (!this.isEditTechnician) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchTechnicians();
+      },
+
+      error: (error) => {
+        console.error('Failed to load technician statuses:', error);
+      },
     });
   }
 
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.technicianObj.status = { id: statusId };
   }
 
   onChangeType($event: Event) {
     const selectedType = ($event.target as HTMLSelectElement).value;
     this.technicianObj.specialization = selectedType;
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.technicianObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form?: any): void {
@@ -248,7 +299,9 @@ export class TechnicianComponent implements OnInit {
     this.isEditTechnician = false;
     this.statusValue = null;
     this.technicianSpecializationValue = null;
-    this.selectedStatusId = null;
+
+    // Reset status to default Active
+    this.setDefaultStatus('Active');
 
     if (form) {
       form.resetForm({
@@ -256,7 +309,7 @@ export class TechnicianComponent implements OnInit {
         phone: '',
         licenseNo: '',
         specialization: null,
-        status: null,
+        status: this.selectedStatusId,
       });
     }
   }

@@ -322,6 +322,7 @@
                     placeholder="Select Status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditInspection"
                     #statusIdModel="ngModel"
                     required
                   >
@@ -524,14 +525,7 @@
                 class="btn inspection-clear-btn"
                 type="button"
                 title="Clear all filters"
-                (click)="
-                  searchText = '';
-                  selectedFilterServiceRequestId = null;
-                  selectedFilterCustomerSitesId = null;
-                  selectedFilterTechniciansId = null;
-                  selectedFilterStatusId = null;
-                  SearchInspections()
-                "
+                (click)="ClearInspectionFilters()"
               >
                 <i class="bi bi-arrow-counterclockwise"></i>
                 <span>Clear</span>

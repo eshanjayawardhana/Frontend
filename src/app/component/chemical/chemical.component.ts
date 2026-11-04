@@ -162,6 +162,7 @@ export class ChemicalComponent implements OnInit {
       next: (allData) => {
         this.chemicals = allData?.data?.dataList || [];
         this.allChemicals = [...this.chemicals];
+        this.SearchChemicals(); // Apply search and filter after fetching chemicals
       },
       error: (error) => {
         console.error('Failed to load chemicals:', error);
@@ -198,25 +199,34 @@ export class ChemicalComponent implements OnInit {
     });
   }
 
-  GetAllChemicalStatus() {
-    this.statusService.GetAllChemicalStatus().subscribe((allData) => {
-      this.allStatus = allData.data.dataList;
+  GetAllChemicalStatus(): void {
+    this.statusService.GetAllChemicalStatus().subscribe({
+      next: (allData) => {
+        this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditChemical) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchChemicals();
+      },
+
+      error: (error) => {
+        console.error('Failed to load chemical statuses:', error);
+      },
     });
   }
-
-  /**
-   filter types below for chemical search
-    chemicalCode;
-    chemicalName;
-    activeIngredient;
-    unit;
-    stockQuantity;
-    reorderLevel;
-    LocalDate expiryDate;
-    safetyNotes;
-    StatusDto status;
-
-  */
 
   SearchChemicals(): void {
     const search = this.searchText.toLowerCase().trim();
@@ -267,6 +277,33 @@ export class ChemicalComponent implements OnInit {
     });
   }
 
+  // Clear Filters
+  ClearChemicalFilters(): void {
+    this.searchText = '';
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchChemicals();
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.chemicalObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
+  }
+
   ClearForm(form: any): void {
     this.chemicalObj = {
       unit: null as any,
@@ -277,8 +314,11 @@ export class ChemicalComponent implements OnInit {
     this.selectedStatusId = null;
     this.chemicalUnitValue = null;
 
+    // Reset status to default Active
+    this.setDefaultStatus('Active');
+
     if (form) {
-      form.resetForm();
+      form.resetForm({ status: this.selectedStatusId });
     }
   }
 }

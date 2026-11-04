@@ -181,7 +181,7 @@ export class ServiceTypeComponent implements OnInit {
       next: (allData) => {
         this.serviceTypes = allData?.data?.dataList || [];
         this.allServiceTypes = [...this.serviceTypes];
-        // console.log('Service Types:', this.serviceTypes);
+        this.SearchServiceTypes(); // Apply search and filters after fetching data
       },
       error: (error) => {
         console.error('Failed to load service types:', error);
@@ -218,9 +218,32 @@ export class ServiceTypeComponent implements OnInit {
     });
   }
 
-  GetAllServiceTypesStatus() {
-    this.statusService.GetAllServiceTypeStatus().subscribe((allData) => {
-      this.allStatus = allData.data.dataList;
+  GetAllServiceTypesStatus(): void {
+    this.statusService.GetAllServiceTypeStatus().subscribe({
+      next: (allData) => {
+        this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditServiceType) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchServiceTypes();
+      },
+
+      error: (error) => {
+        console.error('Failed to load Service Contract status:', error);
+      },
     });
   }
 
@@ -276,8 +299,23 @@ export class ServiceTypeComponent implements OnInit {
     });
   }
 
+  ClearServiceTypeFilters(): void {
+    this.searchText = '';
+    this.selectedFilterPestTypeId = null;
+    this.selectedFilterStatusId = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchServiceTypes();
+  }
+
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.serviceTypeObj.status = { id: statusId };
   }
 
@@ -302,6 +340,20 @@ export class ServiceTypeComponent implements OnInit {
     return `${m}m`;
   }
 
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.serviceTypeObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
+  }
+
   ClearForm(form: any): void {
     this.serviceTypeObj = {};
     this.isEditServiceType = false;
@@ -309,6 +361,11 @@ export class ServiceTypeComponent implements OnInit {
     this.selectedStatusId = null;
     this.selectedPestTypeId = null;
 
-    form.resetForm(); // Reset the form to its initial state
+    // Set default status
+    this.setDefaultStatus('Active');
+
+    if (form) {
+      form.resetForm({ status: this.selectedStatusId });
+    }
   }
 }

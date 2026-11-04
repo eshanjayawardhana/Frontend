@@ -430,6 +430,7 @@
                     placeholder="Select Status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditTreatmentJob"
                     #statusIdModel="ngModel"
                     required
                   >
@@ -838,17 +839,7 @@
                 class="btn treatment-job-clear-btn"
                 type="button"
                 title="Clear all filters"
-                (click)="
-                  searchText = '';
-                  selectedFilterServiceRequestId = null;
-                  selectedFilterInspectionId = null;
-                  selectedFilterServiceContractId = null;
-                  selectedFilterCustomerSitesId = null;
-                  selectedFilterTechniciansId = null;
-                  selectedFilterServiceTypeId = null;
-                  selectedFilterStatusId = null;
-                  SearchTreatmentJobs()
-                "
+                (click)="ClearTreatmentJobFilters()"
               >
                 <i class="bi bi-arrow-counterclockwise"></i>
                 <span>Clear</span>
