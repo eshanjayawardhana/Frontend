@@ -24,7 +24,9 @@
               <div class="row">
                 <!-- Customer Name -->
                 <div class="col-md-6 form-group mb-3">
-                  <label for="customerName"> Full Name <span>*</span> </label>
+                  <label for="customerName">
+                    Full Name / Company <span>*</span>
+                  </label>
 
                   <input
                     type="text"
@@ -98,7 +100,9 @@
 
                 <!-- Email -->
                 <div class="col-md-6 form-group mb-3">
-                  <label for="email">Email <span>*</span></label>
+                  <label for="email"
+                    >Email / Business Email <span>*</span></label
+                  >
 
                   <input
                     type="email"
@@ -110,7 +114,7 @@
                     required
                     maxlength="150"
                     email
-                    placeholder="Enter customer email"
+                    placeholder="Enter email"
                   />
 
                   <div
@@ -166,7 +170,7 @@
 
                 <!-- NIC -->
                 <div class="col-md-6 form-group mb-3">
-                  <label for="nic">NIC <span>*</span></label>
+                  <label for="nic">NIC (owner) <span>*</span></label>
 
                   <input
                     type="text"
@@ -200,7 +204,7 @@
                 <!-- Billing Address -->
                 <div class="col-md-6 form-group mb-3">
                   <label for="billingAddress">
-                    Billing Address <span>*</span>
+                    Billing Address / Company Address <span>*</span>
                   </label>
 
                   <input
@@ -254,6 +258,7 @@
                     placeholder="Select customer status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditCustomer"
                     #status="ngModel"
                     required
                   ></ng-select>
@@ -529,7 +534,11 @@
                     </td>
                     <td>
                       <span class="customer-tax-rate">
-                        {{ customer.taxRate !== null ? (customer.taxRate) + '%' : "—" }}
+                        {{
+                          customer.taxRate !== null
+                            ? customer.taxRate + "%"
+                            : "—"
+                        }}
                       </span>
                     </td>
 

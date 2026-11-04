@@ -27,6 +27,9 @@ export class ServiceContractComponent implements OnInit {
   allServiceTypes: any;
   allStatus: any;
 
+  // filtered customers - Commercial and Industrial
+  filteredCustomers: any = [];
+
   // Selected dropdown IDs
   selectedCustomerId: number | null = null;
   selectedCustomerSiteId: number | null = null;
@@ -220,6 +223,7 @@ export class ServiceContractComponent implements OnInit {
       next: (allData) => {
         this.serviceContracts = allData?.data?.dataList || [];
         this.allServiceContracts = [...this.serviceContracts];
+        this.SearchServiceContracts(); // Apply search and filters after fetching data
       },
 
       error: (error) => {
@@ -264,6 +268,12 @@ export class ServiceContractComponent implements OnInit {
     this.customerService.GetAllCustomers().subscribe({
       next: (allData) => {
         this.allCustomers = allData?.data?.dataList || [];
+        this.filteredCustomers = this.allCustomers.filter(
+          (customer: any) =>
+            customer.customerType === 'Commercial' ||
+            customer.customerType === 'Industrial',
+        );
+
       },
 
       error: (error) => {
@@ -303,6 +313,23 @@ export class ServiceContractComponent implements OnInit {
     this.statusService.GetAllServiceContractStatus().subscribe({
       next: (allData) => {
         this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditServiceContract) {
+          this.setDefaultStatus('Active');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'active',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchServiceContracts();
       },
 
       error: (error) => {
@@ -389,10 +416,39 @@ export class ServiceContractComponent implements OnInit {
     });
   }
 
+  ClearServiceContractFilters(): void {
+    this.searchText = '';
+    this.selectedFilterCustomerId = null;
+    this.selectedFilterCustomerSiteId = null;
+    this.selectedFilterServiceTypeId = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'active',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchServiceContracts();
+  }
+
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
-
+    this.selectedStatusId = statusId;
     this.serviceContractObj.status = { id: statusId } as any;
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.serviceContractObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form: any): void {
@@ -406,6 +462,11 @@ export class ServiceContractComponent implements OnInit {
     this.selectedServiceTypeId = null;
     this.selectedStatusId = null;
 
-    form.resetForm();
+    // Set default status
+    this.setDefaultStatus('Active');
+
+    if (form) {
+      form.resetForm({ statusId: this.selectedStatusId });
+    }
   }
 }

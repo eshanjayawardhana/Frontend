@@ -258,7 +258,7 @@ export class TreatmentJobComponent implements OnInit {
       next: (allData) => {
         this.treatmentJobs = allData?.data?.dataList || [];
         this.allTreatmentJobs = [...this.treatmentJobs];
-
+        this.SearchTreatmentJobs(); // Apply search and filters after loading data
         // console.log('Treatment Jobs:', this.treatmentJobs);
       },
       error: (error) => {
@@ -380,6 +380,24 @@ export class TreatmentJobComponent implements OnInit {
     this.statusService.GetAllTreatmentJobStatus().subscribe({
       next: (allData) => {
         this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditTreatmentJob) {
+          this.setDefaultStatus('In Progress');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'in progress',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchTreatmentJobs();
+
       },
       error: (error) => {
         console.error('Failed to load Treatment Job status:', error);
@@ -388,8 +406,6 @@ export class TreatmentJobComponent implements OnInit {
   }
 
   // 8. selected service request by id
-  GetServiceRequestById(ID: any) {}
-
   getCusDetailsBySelectedServiceReq(ID: any) {
     if (!ID) {
       this.selectedServiceRequestData = null;
@@ -546,9 +562,42 @@ export class TreatmentJobComponent implements OnInit {
     });
   }
 
+  ClearTreatmentJobFilters(): void {
+    this.searchText = '';
+    this.selectedFilterServiceRequestId = null;
+    this.selectedFilterInspectionId = null;
+    this.selectedFilterServiceContractId = null;
+    this.selectedFilterCustomerSitesId = null;
+    this.selectedFilterTechniciansId = null;
+    this.selectedFilterServiceTypeId = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'in progress',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchTreatmentJobs();
+  }
+
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.treatmentJobObj.status = { id: statusId };
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.treatmentJobObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form: any): void {
@@ -567,6 +616,11 @@ export class TreatmentJobComponent implements OnInit {
 
     this.selectedServiceRequestData = null;
 
-    form.resetForm();
+    // Set default status
+    this.setDefaultStatus('In Progress');
+
+    if (form) {
+      form.resetForm({ statusId: this.selectedStatusId });
+    }
   }
 }

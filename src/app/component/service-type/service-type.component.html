@@ -280,6 +280,7 @@
                   placeholder="Select Status"
                   [clearable]="true"
                   [searchable]="true"
+                  [disabled]="!isEditServiceType"
                   #status="ngModel"
                   required
                 >
@@ -408,12 +409,7 @@
                   type="button"
                   title="Clear search and filters"
                   aria-label="Clear search and filters"
-                  (click)="
-                    searchText = '';
-                    selectedFilterPestTypeId = null;
-                    selectedFilterStatusId = null;
-                    SearchServiceTypes()
-                  "
+                  (click)="ClearServiceTypeFilters()"
                 >
                   <i class="bi bi-arrow-counterclockwise"></i>
                   <span>Clear</span>

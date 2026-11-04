@@ -351,6 +351,7 @@
                     placeholder="Select Chemical Status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditChemical"
                     #status="ngModel"
                     required
                   >
@@ -474,11 +475,7 @@
               <button
                 class="btn chemical-clear-btn"
                 type="button"
-                (click)="
-                  searchText = '';
-                  selectedFilterStatusId = null;
-                  SearchChemicals()
-                "
+                (click)="ClearChemicalFilters()"
               >
                 <i class="bi bi-arrow-counterclockwise me-1"></i>
                 Clear

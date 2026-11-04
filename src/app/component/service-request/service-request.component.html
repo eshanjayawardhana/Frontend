@@ -300,6 +300,7 @@
                     placeholder="Select Status"
                     [clearable]="true"
                     [searchable]="true"
+                    [disabled]="!isEditServiceRequest"
                     #statusIdModel="ngModel"
                     required
                   >
@@ -528,15 +529,7 @@
                 class="btn service-request-clear-btn"
                 type="button"
                 title="Clear all filters"
-                (click)="
-                  searchText = '';
-                  selectedFilterCustomerId = null;
-                  selectedFilterCustomerSiteId = null;
-                  selectedFilterPestTypeId = null;
-                  selectedFilterServiceTypeId = null;
-                  selectedFilterStatusId = null;
-                  SearchServiceRequests()
-                "
+                (click)="ClearServiceRequestFilters()"
               >
                 <i class="bi bi-arrow-counterclockwise"></i>
                 <span>Clear</span>

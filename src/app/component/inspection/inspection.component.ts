@@ -207,7 +207,7 @@ export class InspectionComponent implements OnInit {
       next: (allData) => {
         this.inspections = allData?.data?.dataList || [];
         this.allInspections = [...this.inspections];
-        // console.log('Inspections:', this.inspections);
+        this.SearchInspections(); // Apply search and filters after fetching data
       },
       error: (error) => {
         console.error('Failed to load Inspections:', error);
@@ -288,6 +288,23 @@ export class InspectionComponent implements OnInit {
     this.statusService.GetAllInspectionStatus().subscribe({
       next: (allData) => {
         this.allStatus = allData?.data?.dataList || [];
+
+        // Set default status only in Add Mode
+        if (!this.isEditInspection) {
+          this.setDefaultStatus('Scheduled');
+        }
+
+        // Table filter default status
+        const activeStatus = this.allStatus.find(
+          (status: any) => status.name?.toLowerCase() === 'scheduled',
+        );
+
+        this.selectedFilterStatusId = activeStatus
+          ? Number(activeStatus.id)
+          : null;
+
+        // Apply default filter
+        this.SearchInspections();
       },
       error: (error) => {
         console.error('Failed to load inspection status:', error);
@@ -300,7 +317,7 @@ export class InspectionComponent implements OnInit {
     const search = this.searchText?.toLowerCase().trim() || '';
 
     this.inspections = this.allInspections.filter((type: any) => {
-      
+
       // Search Fields
       const inspectionCode =
         type.inspectionCode?.toString().toLowerCase() || '';
@@ -377,14 +394,44 @@ export class InspectionComponent implements OnInit {
     });
   }
 
+  ClearInspectionFilters(): void {
+    this.searchText = '';
+    this.selectedFilterServiceRequestId = null;
+    this.selectedFilterCustomerSitesId = null;
+    this.selectedFilterTechniciansId = null;
+
+    const activeStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === 'scheduled',
+    );
+
+    this.selectedFilterStatusId = activeStatus ? Number(activeStatus.id) : null;
+
+    this.SearchInspections();
+  }
+
   onChangeStatus(event: Event): void {
     const statusId = Number((event.target as HTMLSelectElement).value);
+    this.selectedStatusId = statusId;
     this.inspectionObj.status = { id: statusId };
   }
 
   onChangeType($event: Event) {
     const selectedType = ($event.target as HTMLSelectElement).value;
     this.inspectionObj.infestationLevel = selectedType;
+  }
+
+  //////// default status //////
+
+  setDefaultStatus(statusName: string): void {
+    const defaultStatus = this.allStatus?.find(
+      (status: any) => status.name?.toLowerCase() === statusName.toLowerCase(),
+    );
+
+    this.selectedStatusId = defaultStatus ? Number(defaultStatus.id) : null;
+
+    this.inspectionObj.status = defaultStatus
+      ? { id: Number(defaultStatus.id) }
+      : (null as any);
   }
 
   ClearForm(form: any): void {
@@ -400,6 +447,11 @@ export class InspectionComponent implements OnInit {
     this.selectedTechniciansId = null;
     this.selectedStatusId = null;
 
-    form.resetForm();
+    // Set default status
+    this.setDefaultStatus('Scheduled');
+
+    if (form) {
+      form.resetForm({ statusId: this.selectedStatusId });
+    }
   }
 }

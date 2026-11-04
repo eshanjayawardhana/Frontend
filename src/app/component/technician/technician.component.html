@@ -9,7 +9,6 @@
     <div class="row">
       <div class="col-12 mb-3">
         <div class="card technician-form-card">
-          
           <div class="card-header technician-section-header">
             Technician Form
           </div>
@@ -195,6 +194,7 @@
                       placeholder="Select Technician Status"
                       [clearable]="true"
                       [searchable]="true"
+                      [disabled]="!isEditTechnician"
                       #status="ngModel"
                       required
                     >
@@ -250,9 +250,9 @@
     <div class="row">
       <div class="col-12 mb-4">
         <div class="card technician-table-card h-100">
-
-          <div class="card-header technician-section-header technician-table-heading">
-
+          <div
+            class="card-header technician-section-header technician-table-heading"
+          >
             <div class="d-flex align-items-center gap-3">
               <div class="technician-header-icon">
                 <i class="bi bi-people"></i>
@@ -325,12 +325,7 @@
                 type="button"
                 class="btn technician-clear-btn"
                 title="Clear search and filters"
-                (click)="
-                  searchText = '';
-                  selectedFilterSpecialization = null;
-                  selectedFilterStatusId = null;
-                  SearchTechnicians()
-                "
+                (click)="ClearTechnicianFilters()"
               >
                 <i class="bi bi-arrow-counterclockwise"></i>
                 <span>Clear</span>
