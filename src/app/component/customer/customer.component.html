@@ -13,7 +13,6 @@
     <div class="row">
       <div class="col-12 mb-3">
         <div class="card customer-form-card">
-
           <div class="card-header customer-section-header">Customer Form</div>
 
           <div class="card-body">
@@ -271,6 +270,79 @@
                     </small>
                   </div>
                 </div>
+
+                <!-- Tax Configuration -->
+                <div class="col-md-6 form-group mb-3">
+                  <label class="mb-2">Tax Configuration</label>
+
+                  <div class="tax-option">
+                    <div class="form-check form-switch mb-0">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        role="switch"
+                        id="isTaxable"
+                        name="isTaxable"
+                        [(ngModel)]="customerObj.isTaxable"
+                        (ngModelChange)="onTaxableChange($event)"
+                      />
+
+                      <label class="form-check-label" for="isTaxable">
+                        Taxable Customer
+                      </label>
+                    </div>
+
+                    <small class="text-muted">
+                      {{ customerObj.isTaxable ? "Enabled" : "Disabled" }}
+                    </small>
+                  </div>
+
+                  <div
+                    class="tax-rate-field mt-3"
+                    *ngIf="customerObj.isTaxable"
+                  >
+                    <label for="taxRate"> Tax Rate (%) <span>*</span> </label>
+
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="taxRate"
+                        name="taxRate"
+                        [(ngModel)]="customerObj.taxRate"
+                        #taxRate="ngModel"
+                        placeholder="Enter tax rate"
+                        min="0.01"
+                        max="100"
+                        step="0.01"
+                        required
+                      />
+
+                      <!-- validations -->
+                      <div
+                        class="text-danger mt-1"
+                        *ngIf="
+                          customerObj.isTaxable &&
+                          (taxRate.invalid ||
+                            taxRate.touched ||
+                            taxRate.dirty ||
+                            customerForm.submitted)
+                        "
+                      >
+                        <small *ngIf="taxRate.errors?.['required']">
+                          Tax rate is required for taxable customers.
+                        </small>
+                        <small *ngIf="taxRate.errors?.['min']">
+                          Tax rate must be at least 0.01%.
+                        </small>
+                        <small *ngIf="taxRate.errors?.['max']">
+                          Tax rate cannot exceed 100%.
+                        </small>
+                      </div>
+                      <!-- <span class="input-group-text">%</span> -->
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- Form Actions -->
@@ -392,6 +464,8 @@
                     <th>Phone</th>
                     <th>NIC</th>
                     <th>Billing Address</th>
+                    <th>Taxable</th>
+                    <th>Tax Rate (%)</th>
                     <th>Status</th>
                     <th class="text-center">Actions</th>
                   </tr>
@@ -399,7 +473,7 @@
 
                 <tbody>
                   <tr *ngIf="customers.length === 0">
-                    <td colspan="9">
+                    <td colspan="11">
                       <div class="customer-empty-state">
                         <div class="customer-empty-icon">
                           <i class="bi bi-people"></i>
@@ -439,6 +513,23 @@
                         [title]="customer.billingAddress"
                       >
                         {{ customer.billingAddress }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span
+                        class="customer-taxable"
+                        [ngClass]="{
+                          'taxable-yes': customer.isTaxable,
+                          'taxable-no': !customer.isTaxable,
+                        }"
+                      >
+                        {{ customer.isTaxable ? "Yes" : "No" }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="customer-tax-rate">
+                        {{ customer.taxRate !== null ? (customer.taxRate) + '%' : "—" }}
                       </span>
                     </td>
 
