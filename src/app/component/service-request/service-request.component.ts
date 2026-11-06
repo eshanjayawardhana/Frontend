@@ -28,11 +28,15 @@ export class ServiceRequestComponent implements OnInit {
   serviceRequests: Array<any> = [];
 
   // objects from other modules
-  allCustomers: any;
-  allCustomerSites: any;
-  allPestTypes: any;
-  allServiceTypes: any;
-  allStatus: any;
+  allCustomers: any[] = [];
+  allCustomerSites: any[] = [];
+  allPestTypes: any[] = [];
+  allServiceTypes: any[] = [];
+  allStatus: any[] = [];
+
+  // Filtered records for dropdowns
+  filteredCustomers: any[] = [];
+  filteredCustomerSites: any[] = [];
 
   selectedStatusId: number | null = null;
   selectedPestTypeId: number | null = null;
@@ -218,12 +222,27 @@ export class ServiceRequestComponent implements OnInit {
         // Set dropdown values
         this.selectedCustomerId = data.customer?.id ?? null;
         this.selectedCustomerSiteId = data.customerSite?.id ?? null;
+
         this.selectedPestTypeId = data.pestType?.id ?? null;
         this.selectedServiceTypeId = data.serviceType?.id ?? null;
         this.selectedStatusId = data.status?.id ?? null;
 
-        console.log('Edit Service Request:', this.serviceRerquestObj);
-        console.log('Priority:', this.serviceRerquestObj.priority);
+        // Restore original dropdown data first
+        // this.filteredCustomers = [...this.allCustomers];
+        // this.filteredCustomerSites = [...this.allCustomerSites];
+
+        // Apply Customer filtering
+        if (this.selectedCustomerId !== null) {
+          this.onCustomerChange(this.selectedCustomerId);
+        }
+
+        // Restore the saved Customer Site selection
+        if (this.selectedCustomerSiteId !== null) {
+          this.onCustomerSiteChange(this.selectedCustomerSiteId);
+        }
+
+        // console.log('Edit Service Request:', this.serviceRerquestObj);
+        // console.log('Priority:', this.serviceRerquestObj.priority);
 
         this.isEditServiceRequest = true;
       },
@@ -280,6 +299,7 @@ export class ServiceRequestComponent implements OnInit {
     this.customerService.GetAllCustomers().subscribe({
       next: (allData) => {
         this.allCustomers = allData?.data?.dataList || [];
+        this.filteredCustomers = [...this.allCustomers];
         // console.log('Customers:', this.allCustomers);
       },
       error: (error) => {
@@ -292,7 +312,8 @@ export class ServiceRequestComponent implements OnInit {
     this.CustomerSiteService.GetAllCustomerSites().subscribe({
       next: (allData) => {
         this.allCustomerSites = allData?.data?.dataList || [];
-        // console.log('Customer Sites:', this.allCustomerSites);
+        this.filteredCustomerSites = [...this.allCustomerSites];
+        console.log('Customer Sites:', this.allCustomerSites);
       },
       error: (error) => {
         console.error('Failed to load customer Sites:', error);
@@ -405,6 +426,91 @@ export class ServiceRequestComponent implements OnInit {
     });
   }
 
+  ///////// Customer and Customer Site filtering logic ///////////////
+
+  // Get Customer ID from a Customer Site object
+  getSiteCustomerId(site: any): number | null {
+    const customerId =
+      site?.customer?.id ?? site?.customerId ?? site?.customer_id;
+
+    return customerId == null ? null : Number(customerId);
+  }
+
+  // Customer selected → Filter Customer Sites
+  onCustomerChange(value: any): void {
+    const customerId = value == null || value === '' ? null : Number(value);
+
+    this.selectedCustomerId = customerId;
+
+    // If Customer is cleared
+    if (customerId === null) {
+      this.filteredCustomerSites = [...this.allCustomerSites];
+      this.selectedCustomerSiteId = null;
+      return;
+    }
+
+    // Filter sites belonging to selected Customer
+    this.filteredCustomerSites = this.allCustomerSites.filter(
+      (site: any) => this.getSiteCustomerId(site) === customerId,
+    );
+
+    // Clear selected Site if it doesn't belong to selected Customer
+    const siteExists = this.filteredCustomerSites.some(
+      (site: any) => Number(site.id) === Number(this.selectedCustomerSiteId),
+    );
+
+    if (!siteExists) {
+      this.selectedCustomerSiteId = null;
+    }
+  }
+
+  // Customer Site selected → Automatically select its Customer
+  onCustomerSiteChange(value: any): void {
+    const siteId = value == null || value === '' ? null : Number(value);
+
+    this.selectedCustomerSiteId = siteId;
+
+    // If Customer Site is cleared
+    if (siteId === null) {
+      this.filteredCustomers = [...this.allCustomers];
+      return;
+    }
+
+    // Find selected Customer Site
+    const selectedSite = this.allCustomerSites.find(
+      (site: any) => Number(site.id) === siteId,
+    );
+
+    if (!selectedSite) {
+      console.warn('Selected Customer Site not found:', siteId);
+      return;
+    }
+
+    // Get related Customer ID
+    const customerId = this.getSiteCustomerId(selectedSite);
+
+    if (customerId === null) {
+      console.error(
+        'Customer ID is missing in Customer Site data:',
+        selectedSite,
+      );
+      return;
+    }
+
+    // Automatically select related Customer
+    this.selectedCustomerId = customerId;
+
+    // Filter Customers
+    this.filteredCustomers = this.allCustomers.filter(
+      (customer: any) => Number(customer.id) === customerId,
+    );
+
+    // Keep only sites belonging to this Customer
+    this.filteredCustomerSites = this.allCustomerSites.filter(
+      (site: any) => this.getSiteCustomerId(site) === customerId,
+    );
+  }
+
   ClearServiceRequestFilters(): void {
     this.searchText = '';
     this.selectedFilterCustomerId = null;
@@ -488,6 +594,9 @@ export class ServiceRequestComponent implements OnInit {
     this.selectedPestTypeId = null;
     this.selectedCustomerSiteId = null;
     this.selectedServiceTypeId = null;
+
+    this.filteredCustomers = [...this.allCustomers];
+    this.filteredCustomerSites = [...this.allCustomerSites];
 
     // Set default status
     this.setDefaultStatus('New');

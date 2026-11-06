@@ -62,6 +62,76 @@
                 </div>
               </div> -->
 
+                <!-- Customer -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerId">Customer <span>*</span></label>
+
+                  <ng-select
+                    [items]="filteredCustomers"
+                    bindLabel="customerName"
+                    bindValue="id"
+                    [ngModel]="selectedCustomerId"
+                    (ngModelChange)="onCustomerChange($event)"
+                    name="customerId"
+                    placeholder="Select Customer"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerIdModel.invalid &&
+                      (customerIdModel.touched ||
+                        customerIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerIdModel.errors?.['required']">
+                      Customer is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId"
+                    >Customer Site <span>*</span></label
+                  >
+
+                  <ng-select
+                    [items]="filteredCustomerSites"
+                    bindLabel="siteCode"
+                    bindValue="id"
+                    [ngModel]="selectedCustomerSiteId"
+                    (ngModelChange)="onCustomerSiteChange($event)"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
+                </div>
+
                 <!-- Request Date -->
                 <div class="col-md-6 form-group mt-3">
                   <label for="requestDate">Request Date <span>*</span></label>
@@ -155,104 +225,7 @@
                   </div>
                 </div>
 
-                <!-- Priority -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="priority">Priority <span>*</span></label>
 
-                  <ng-select
-                    [items]="priorityOptions"
-                    [(ngModel)]="serviceRerquestObj.priority"
-                    name="priority"
-                    placeholder="Select Priority"
-                    [clearable]="true"
-                    [searchable]="false"
-                    #priorityModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      priorityModel.invalid &&
-                      (priorityModel.touched ||
-                        priorityModel.dirty ||
-                        serviceRequestForm.submitted)
-                    "
-                  >
-                    <small *ngIf="priorityModel.errors?.['required']">
-                      Priority is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Customer -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="customerId">Customer <span>*</span></label>
-
-                  <ng-select
-                    [items]="allCustomers"
-                    bindLabel="customerName"
-                    bindValue="id"
-                    [(ngModel)]="selectedCustomerId"
-                    name="customerId"
-                    placeholder="Select Customer"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #customerIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      customerIdModel.invalid &&
-                      (customerIdModel.touched ||
-                        customerIdModel.dirty ||
-                        serviceRequestForm.submitted)
-                    "
-                  >
-                    <small *ngIf="customerIdModel.errors?.['required']">
-                      Customer is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Customer Site -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="customerSiteId"
-                    >Customer Site <span>*</span></label
-                  >
-
-                  <ng-select
-                    [items]="allCustomerSites"
-                    bindLabel="siteName"
-                    bindValue="id"
-                    [(ngModel)]="selectedCustomerSiteId"
-                    name="customerSiteId"
-                    placeholder="Select Customer Site"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #customerSiteIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      customerSiteIdModel.invalid &&
-                      (customerSiteIdModel.touched ||
-                        customerSiteIdModel.dirty ||
-                        serviceRequestForm.submitted)
-                    "
-                  >
-                    <small *ngIf="customerSiteIdModel.errors?.['required']">
-                      Customer Site is required.
-                    </small>
-                  </div>
-                </div>
 
                 <!-- Pest Type -->
                 <div class="col-md-6 form-group mt-3">
@@ -283,6 +256,37 @@
                   >
                     <small *ngIf="pestTypeIdModel.errors?.['required']">
                       Pest Type is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Priority -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="priority">Priority <span>*</span></label>
+
+                  <ng-select
+                    [items]="priorityOptions"
+                    [(ngModel)]="serviceRerquestObj.priority"
+                    name="priority"
+                    placeholder="Select Priority"
+                    [clearable]="true"
+                    [searchable]="false"
+                    #priorityModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      priorityModel.invalid &&
+                      (priorityModel.touched ||
+                        priorityModel.dirty ||
+                        serviceRequestForm.submitted)
+                    "
+                  >
+                    <small *ngIf="priorityModel.errors?.['required']">
+                      Priority is required.
                     </small>
                   </div>
                 </div>

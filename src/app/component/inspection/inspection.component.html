@@ -60,6 +60,42 @@
                 </div>
               </div> -->
 
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId">
+                    Customer Site <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="filteredCustomerSites"
+                    bindLabel="siteCode"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomerSitesId"
+                    (ngModelChange)="onCustomerSiteChange($event)"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        inspectionForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
+                </div>
+
                 <!-- Inspection Date -->
                 <div class="col-md-6 form-group mt-3">
                   <label for="inspectionDate">
@@ -87,39 +123,6 @@
                   >
                     <small *ngIf="inspectionDate.errors?.['required']">
                       Inspection Date is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Infestation Level -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="infestationLevel">
-                    Infestation Level <span>*</span>
-                  </label>
-
-                  <ng-select
-                    [items]="infestationLevel"
-                    [(ngModel)]="inspectionObj.infestationLevel"
-                    name="infestationLevel"
-                    placeholder="Select Infestation Level"
-                    [clearable]="true"
-                    [searchable]="false"
-                    #infestationLevelModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      infestationLevelModel.invalid &&
-                      (infestationLevelModel.touched ||
-                        infestationLevelModel.dirty ||
-                        inspectionForm.submitted)
-                    "
-                  >
-                    <small *ngIf="infestationLevelModel.errors?.['required']">
-                      Infestation Level is required.
                     </small>
                   </div>
                 </div>
@@ -166,6 +169,39 @@
                   </div>
                 </div>
 
+                <!-- Infestation Level -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="infestationLevel">
+                    Infestation Level <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="infestationLevel"
+                    [(ngModel)]="inspectionObj.infestationLevel"
+                    name="infestationLevel"
+                    placeholder="Select Infestation Level"
+                    [clearable]="true"
+                    [searchable]="false"
+                    #infestationLevelModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      infestationLevelModel.invalid &&
+                      (infestationLevelModel.touched ||
+                        infestationLevelModel.dirty ||
+                        inspectionForm.submitted)
+                    "
+                  >
+                    <small *ngIf="infestationLevelModel.errors?.['required']">
+                      Infestation Level is required.
+                    </small>
+                  </div>
+                </div>
+
                 <!-- Technician -->
                 <div class="col-md-6 form-group mt-3">
                   <label for="technicianId"> Technician <span>*</span> </label>
@@ -206,10 +242,11 @@
                   </label>
 
                   <ng-select
-                    [items]="allServiceRequests"
+                    [items]="filteredServiceRequests"
                     bindLabel="requestCode"
                     bindValue="id"
                     [(ngModel)]="selectedServiceRequestId"
+                    (ngModelChange)="onServiceRequestChange($event)"
                     name="serviceRequestId"
                     placeholder="Select Service Request"
                     [clearable]="true"
@@ -230,41 +267,6 @@
                   >
                     <small *ngIf="serviceRequestIdModel.errors?.['required']">
                       Service Request is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Customer Site -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="customerSiteId">
-                    Customer Site <span>*</span>
-                  </label>
-
-                  <ng-select
-                    [items]="allCustomerSites"
-                    bindLabel="siteName"
-                    bindValue="id"
-                    [(ngModel)]="selectedCustomerSitesId"
-                    name="customerSiteId"
-                    placeholder="Select Customer Site"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #customerSiteIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      customerSiteIdModel.invalid &&
-                      (customerSiteIdModel.touched ||
-                        customerSiteIdModel.dirty ||
-                        inspectionForm.submitted)
-                    "
-                  >
-                    <small *ngIf="customerSiteIdModel.errors?.['required']">
-                      Customer Site is required.
                     </small>
                   </div>
                 </div>
@@ -342,8 +344,6 @@
                     </small>
                   </div>
                 </div>
-
-
 
                 <!-- Recommendation -->
                 <div class="col-md-6 form-group mt-3">

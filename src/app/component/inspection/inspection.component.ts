@@ -25,10 +25,14 @@ export class InspectionComponent implements OnInit {
   inspections: Array<any> = [];
 
   // objects from other modules
-  allServiceRequests: any;
-  allCustomerSites: any;
-  allTechnicians: any;
-  allStatus: any;
+  allCustomerSites: any[] = [];
+  allServiceRequests: any[] = [];
+  allTechnicians: any[] = [];
+  allStatus: any[] = [];
+
+  // Filtered records for dropdowns
+  filteredServiceRequests: any[] = [];
+  filteredCustomerSites: any[] = [];
 
   selectedServiceRequestId: number | null = null;
   selectedCustomerSitesId: number | null = null;
@@ -190,6 +194,16 @@ export class InspectionComponent implements OnInit {
         this.selectedTechniciansId = data.technician?.id ?? null;
         this.selectedStatusId = data.status?.id ?? null;
 
+        // Apply Service Request filtering
+        if (this.selectedServiceRequestId !== null) {
+          this.onServiceRequestChange(this.selectedServiceRequestId);
+        }
+
+        // Restore the saved Customer Site selection
+        if (this.selectedCustomerSitesId !== null) {
+          this.onCustomerSiteChange(this.selectedCustomerSitesId);
+        }
+
         // console.log('Edit Inspection:', this.inspectionObj);
         // console.log('InfestationLevel:', this.inspectionObj.infestationLevel);
 
@@ -251,6 +265,7 @@ export class InspectionComponent implements OnInit {
     this.serviceRequestService.GetAllServiceRequests().subscribe({
       next: (allData) => {
         this.allServiceRequests = allData?.data?.dataList || [];
+        this.filteredServiceRequests = [...this.allServiceRequests];
       },
       error: (error) => {
         console.error('Failed to load Service Requests:', error);
@@ -263,6 +278,7 @@ export class InspectionComponent implements OnInit {
     this.CustomerSiteService.GetAllCustomerSites().subscribe({
       next: (allData) => {
         this.allCustomerSites = allData?.data?.dataList || [];
+        this.filteredCustomerSites = [...this.allCustomerSites];
         // console.log('Customer Sites:', this.allCustomerSites);
       },
       error: (error) => {
@@ -394,6 +410,101 @@ export class InspectionComponent implements OnInit {
     });
   }
 
+  ///////// Service Request and Customer Site filtering logic ///////////////
+
+  // Get Customer site id from a Service Request object
+  getServiceRequestCustomerSiteId(serviceRequest: any): number | null {
+    const customerSiteId =
+      serviceRequest?.customerSite?.id ??
+      serviceRequest?.customerSiteId ??
+      serviceRequest?.customer_site_id;
+
+    return customerSiteId == null ? null : Number(customerSiteId);
+  }
+
+  // Service Request selected → Automatically select its Customer Site
+  onServiceRequestChange(value: any): void {
+    const serviceRequestId =
+      value == null || value === '' ? null : Number(value);
+
+    this.selectedServiceRequestId = serviceRequestId;
+
+    // If Service Request is cleared
+    if (serviceRequestId === null) {
+      this.filteredCustomerSites = [...this.allCustomerSites];
+      return;
+    }
+
+    // Find selected Service Request
+    const selectedServiceRequest = this.allServiceRequests.find(
+      (sr: any) => Number(sr.id) === serviceRequestId,
+    );
+
+    if (!selectedServiceRequest) {
+      console.warn('Selected Service Request not found:', serviceRequestId);
+      return;
+    }
+
+    // Get related Customer Site ID from Service Request
+    const customerSiteId = this.getServiceRequestCustomerSiteId(
+      selectedServiceRequest,
+    );
+
+    if (customerSiteId === null) {
+      console.error(
+        'Customer Site ID is missing in Service Request data:',
+        selectedServiceRequest,
+      );
+      return;
+    }
+
+    // Automatically select related Customer Site
+    this.selectedCustomerSitesId = customerSiteId;
+
+    // Filter Customer Sites to match this Service Request
+    this.filteredCustomerSites = this.allCustomerSites.filter(
+      (site: any) => Number(site.id) === customerSiteId,
+    );
+
+    // Keep only Service Requests belonging to this Customer Site
+    this.filteredServiceRequests = this.allServiceRequests.filter(
+      (sr: any) => this.getServiceRequestCustomerSiteId(sr) === customerSiteId,
+    );
+  }
+
+  // Customer Site selected → Filter related Service Requests
+  onCustomerSiteChange(value: any): void {
+    const siteId = value == null || value === '' ? null : Number(value);
+
+    this.selectedCustomerSitesId = siteId;
+
+    // If Customer Site is cleared
+    if (siteId === null) {
+      this.filteredServiceRequests = [...this.allServiceRequests];
+      this.filteredCustomerSites = [...this.allCustomerSites];
+      this.selectedServiceRequestId = null;
+      return;
+    }
+
+    // Filter Service Requests belonging to the selected Customer Site
+    this.filteredServiceRequests = this.allServiceRequests.filter(
+      (sr: any) => this.getServiceRequestCustomerSiteId(sr) === siteId,
+    );
+
+    // Clear selected Service Request if it doesn't belong to this Customer Site
+    const requestExists = this.filteredServiceRequests.some(
+      (sr: any) => Number(sr.id) === Number(this.selectedServiceRequestId),
+    );
+
+    if (!requestExists) {
+      // Auto-select if there is exactly 1 Service Request for this site, otherwise null
+      this.selectedServiceRequestId =
+        this.filteredServiceRequests.length === 1
+          ? Number(this.filteredServiceRequests[0].id)
+          : null;
+    }
+  }
+
   ClearInspectionFilters(): void {
     this.searchText = '';
     this.selectedFilterServiceRequestId = null;
@@ -447,11 +558,20 @@ export class InspectionComponent implements OnInit {
     this.selectedTechniciansId = null;
     this.selectedStatusId = null;
 
+    this.filteredServiceRequests = [...this.allServiceRequests];
+    this.filteredCustomerSites = [...this.allCustomerSites];
+
     // Set default status
     this.setDefaultStatus('Scheduled');
 
     if (form) {
-      form.resetForm({ statusId: this.selectedStatusId });
+      form.resetForm({
+        statusId: this.selectedStatusId,
+        serviceRequestId: null,
+        customerSitesId: null,
+        techniciansId: null,
+        infestationLevel: null,
+      });
     }
   }
 }

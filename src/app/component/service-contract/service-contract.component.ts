@@ -22,13 +22,14 @@ export class ServiceContractComponent implements OnInit {
   serviceContracts: Array<any> = [];
 
   // Objects from other modules
-  allCustomers: any;
-  allCustomerSites: any;
-  allServiceTypes: any;
-  allStatus: any;
+  allCustomers: any[] = [];
+  allCustomerSites: any[] = [];
+  allServiceTypes: any[] = [];
+  allStatus: any[] = [];
 
-  // filtered customers - Commercial and Industrial
-  filteredCustomers: any = [];
+  filteredCustomers: any[] = []; // filtered customers - Commercial and Industrial
+  filteredCustomerSites: any[] = [];
+  filteredServiceTypes: any[] = [];
 
   // Selected dropdown IDs
   selectedCustomerId: number | null = null;
@@ -209,6 +210,18 @@ export class ServiceContractComponent implements OnInit {
         this.selectedServiceTypeId = data.serviceType?.id ?? null;
         this.selectedStatusId = data.status?.id ?? null;
 
+        // Apply Customer filtering
+        if (this.selectedCustomerId !== null) {
+          this.onCustomerChange(this.selectedCustomerId);
+        }
+
+        // Apply Customer Site filtering
+        if (this.selectedCustomerSiteId !== null) {
+          this.onCustomerSiteChange(this.selectedCustomerSiteId);
+        }
+
+        this.isEditServiceContract = true;
+
         this.isEditServiceContract = true;
       },
 
@@ -273,7 +286,6 @@ export class ServiceContractComponent implements OnInit {
             customer.customerType === 'Commercial' ||
             customer.customerType === 'Industrial',
         );
-
       },
 
       error: (error) => {
@@ -286,7 +298,17 @@ export class ServiceContractComponent implements OnInit {
   GetAllCustomerSites(): void {
     this.customerSiteService.GetAllCustomerSites().subscribe({
       next: (allData) => {
-        this.allCustomerSites = allData?.data?.dataList || [];
+        const sites = allData?.data?.dataList || [];
+
+        // Keep only Commercial and Industrial customer sites
+        this.allCustomerSites = sites.filter(
+          (site: any) =>
+            site.customer?.customerType === 'Commercial' ||
+            site.customer?.customerType === 'Industrial',
+        );
+
+        // Initially show all eligible customer sites
+        this.filteredCustomerSites = [...this.allCustomerSites];
       },
 
       error: (error) => {
@@ -416,6 +438,99 @@ export class ServiceContractComponent implements OnInit {
     });
   }
 
+  // Get Customer ID from Customer Site object
+  getSiteCustomerId(site: any): number | null {
+    const customerId =
+      site?.customer?.id ?? site?.customerId ?? site?.customer_id;
+
+    return customerId == null ? null : Number(customerId);
+  }
+
+  // Customer Change
+  onCustomerChange(value: any): void {
+    const customerId = value == null || value === '' ? null : Number(value);
+
+    this.selectedCustomerId = customerId;
+
+    // If customer is cleared, show all sites
+    if (customerId === null) {
+      this.filteredCustomerSites = [...this.allCustomerSites];
+      this.selectedCustomerSiteId = null;
+      return;
+    }
+
+    // Filter sites according to selected customer
+    this.filteredCustomerSites = this.allCustomerSites.filter(
+      (site: any) => this.getSiteCustomerId(site) === customerId,
+    );
+
+    // Clear previously selected site if it doesn't belong to this customer
+    const siteExists = this.filteredCustomerSites.some(
+      (site: any) => Number(site.id) === Number(this.selectedCustomerSiteId),
+    );
+
+    if (!siteExists) {
+      this.selectedCustomerSiteId = null;
+    }
+  }
+
+  ///////// Customer and Customer Site filtering logic ///////////////
+
+  // Customer Site Change
+  onCustomerSiteChange(value: any): void {
+    const siteId = value == null || value === '' ? null : Number(value);
+
+    this.selectedCustomerSiteId = siteId;
+
+    // If site is cleared, show all eligible customers
+    if (siteId === null) {
+      this.filteredCustomers = this.allCustomers.filter(
+        (customer: any) =>
+          customer.customerType === 'Commercial' ||
+          customer.customerType === 'Industrial',
+      );
+
+      return;
+    }
+
+    // Find selected site
+    const selectedSite = this.allCustomerSites.find(
+      (site: any) => Number(site.id) === siteId,
+    );
+
+    if (!selectedSite) {
+      console.warn('Selected Customer Site not found:', siteId);
+      return;
+    }
+
+    // Get related customer ID
+    const customerId = this.getSiteCustomerId(selectedSite);
+
+    if (customerId === null) {
+      console.error(
+        'Customer ID is missing in Customer Site data:',
+        selectedSite,
+      );
+      return;
+    }
+
+    // Automatically select related customer
+    this.selectedCustomerId = customerId;
+
+    // Filter customers
+    this.filteredCustomers = this.allCustomers.filter(
+      (customer: any) =>
+        Number(customer.id) === customerId &&
+        (customer.customerType === 'Commercial' ||
+          customer.customerType === 'Industrial'),
+    );
+
+    // Keep only sites belonging to selected customer
+    this.filteredCustomerSites = this.allCustomerSites.filter(
+      (site: any) => this.getSiteCustomerId(site) === customerId,
+    );
+  }
+
   ClearServiceContractFilters(): void {
     this.searchText = '';
     this.selectedFilterCustomerId = null;
@@ -461,6 +576,16 @@ export class ServiceContractComponent implements OnInit {
     this.selectedCustomerSiteId = null;
     this.selectedServiceTypeId = null;
     this.selectedStatusId = null;
+
+    // Reset dropdown lists
+    this.filteredCustomers = this.allCustomers.filter(
+      (customer: any) =>
+        customer.customerType === 'Commercial' ||
+        customer.customerType === 'Industrial',
+    );
+
+    this.filteredCustomerSites = [...this.allCustomerSites];
+    this.filteredServiceTypes = [...this.allServiceTypes];
 
     // Set default status
     this.setDefaultStatus('Active');
