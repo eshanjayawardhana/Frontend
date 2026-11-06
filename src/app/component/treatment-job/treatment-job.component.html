@@ -62,6 +62,215 @@
                   </div>
                 </div> -->
 
+                <!-- Service Request -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceRequestId">
+                    Service Request
+                  </label>
+
+                  <ng-select
+                    [items]="filteredServiceRequests"
+                    bindLabel="requestCode"
+                    bindValue="id"
+                    [ngModel]="selectedServiceRequestId"
+                    (ngModelChange)="onServiceRequestChange($event)"
+                    name="serviceRequestId"
+                    placeholder="Select Service Request"
+                    [clearable]="true"
+                    [searchable]="true"
+                    [disabled]="selectedServiceContractId !== null"
+                    [required]="!selectedServiceContractId"
+                    #serviceRequestIdModel="ngModel"
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceRequestIdModel.invalid &&
+                      (serviceRequestIdModel.touched ||
+                        serviceRequestIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceRequestIdModel.errors?.['required']">
+                      Service Request is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Service Contract -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceContractId">Service Contract</label>
+
+                  <ng-select
+                    [items]="filteredServiceContracts"
+                    bindLabel="contractCode"
+                    bindValue="id"
+                    [ngModel]="selectedServiceContractId"
+                    (ngModelChange)="onServiceContractChange($event)"
+                    name="serviceContractId"
+                    placeholder="Select Service Contract"
+                    [clearable]="true"
+                    [searchable]="true"
+                    [disabled]="selectedServiceRequestId !== null"
+                    [required]="!selectedServiceRequestId"
+                    #serviceContractIdModel="ngModel"
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceContractIdModel.invalid &&
+                      (serviceContractIdModel.touched ||
+                        serviceContractIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceContractIdModel.errors?.['required']">
+                      Service Contract is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Inspection -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="inspectionId"> Inspection</label>
+
+                  <ng-select
+                    [items]="filteredInspections"
+                    bindLabel="inspectionCode"
+                    bindValue="id"
+                    [ngModel]="selectedInspectionId"
+                    (ngModelChange)="onInspectionChange($event)"
+                    name="inspectionId"
+                    placeholder="Select Inspection"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #inspectionIdModel="ngModel"
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      inspectionIdModel.invalid &&
+                      (inspectionIdModel.touched ||
+                        inspectionIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="inspectionIdModel.errors?.['required']">
+                      Inspection is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Customer Site -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="customerSiteId">
+                    Customer Site <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="filteredCustomerSites"
+                    bindLabel="siteCode"
+                    bindValue="id"
+                    [ngModel]="selectedCustomerSitesId"
+                    (ngModelChange)="onCustomerSiteChange($event)"
+                    name="customerSiteId"
+                    placeholder="Select Customer Site"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #customerSiteIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      customerSiteIdModel.invalid &&
+                      (customerSiteIdModel.touched ||
+                        customerSiteIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="customerSiteIdModel.errors?.['required']">
+                      Customer Site is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Technician -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="technicianId"> Technician <span>*</span> </label>
+
+                  <ng-select
+                    [items]="allTechnicians"
+                    bindLabel="fullName"
+                    bindValue="id"
+                    [(ngModel)]="selectedTechniciansId"
+                    name="technicianId"
+                    placeholder="Select Technician"
+                    [clearable]="true"
+                    [searchable]="true"
+                    #technicianIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      technicianIdModel.invalid &&
+                      (technicianIdModel.touched ||
+                        technicianIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="technicianIdModel.errors?.['required']">
+                      Technician is required.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Service Type -->
+                <div class="col-md-6 form-group mt-3">
+                  <label for="serviceTypeId">
+                    Service Type <span>*</span>
+                  </label>
+
+                  <ng-select
+                    [items]="filteredServiceTypes"
+                    bindLabel="serviceName"
+                    bindValue="id"
+                    [(ngModel)]="selectedServiceTypeId"
+                    name="serviceTypeId"
+                    placeholder="Select Service Type"
+                    [clearable]="false"
+                    [searchable]="true"
+                    #serviceTypeIdModel="ngModel"
+                    required
+                  >
+                  </ng-select>
+
+                  <div
+                    class="text-danger mt-1"
+                    *ngIf="
+                      serviceTypeIdModel.invalid &&
+                      (serviceTypeIdModel.touched ||
+                        serviceTypeIdModel.dirty ||
+                        treatmentJobForm.submitted)
+                    "
+                  >
+                    <small *ngIf="serviceTypeIdModel.errors?.['required']">
+                      Service Type is required.
+                    </small>
+                  </div>
+                </div>
+
                 <!-- Scheduled Date -->
                 <div class="col-md-6 form-group mt-3">
                   <label for="scheduledDate">
@@ -219,200 +428,6 @@
 
                     <small *ngIf="customerSignature.errors?.['pattern']">
                       Customer Signature cannot contain only spaces.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Inspection -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="inspectionId"> Inspection <span>*</span> </label>
-
-                  <ng-select
-                    [items]="allInspections"
-                    bindLabel="inspectionCode"
-                    bindValue="id"
-                    [(ngModel)]="selectedInspectionId"
-                    name="inspectionId"
-                    placeholder="Select Inspection"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #inspectionIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      inspectionIdModel.invalid &&
-                      (inspectionIdModel.touched ||
-                        inspectionIdModel.dirty ||
-                        treatmentJobForm.submitted)
-                    "
-                  >
-                    <small *ngIf="inspectionIdModel.errors?.['required']">
-                      Inspection is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Service Contract -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="serviceContractId">Service Contract</label>
-
-                  <ng-select
-                    [items]="allServiceContracts"
-                    bindLabel="contractCode"
-                    bindValue="id"
-                    [(ngModel)]="selectedServiceContractId"
-                    name="serviceContractId"
-                    placeholder="Select Service Contract (Optional)"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #serviceContractIdModel="ngModel"
-                  >
-                  </ng-select>
-                </div>
-
-                <!-- Customer Site -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="customerSiteId">
-                    Customer Site <span>*</span>
-                  </label>
-
-                  <ng-select
-                    [items]="allCustomerSites"
-                    bindLabel="siteName"
-                    bindValue="id"
-                    [(ngModel)]="selectedCustomerSitesId"
-                    name="customerSiteId"
-                    placeholder="Select Customer Site"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #customerSiteIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      customerSiteIdModel.invalid &&
-                      (customerSiteIdModel.touched ||
-                        customerSiteIdModel.dirty ||
-                        treatmentJobForm.submitted)
-                    "
-                  >
-                    <small *ngIf="customerSiteIdModel.errors?.['required']">
-                      Customer Site is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Technician -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="technicianId"> Technician <span>*</span> </label>
-
-                  <ng-select
-                    [items]="allTechnicians"
-                    bindLabel="fullName"
-                    bindValue="id"
-                    [(ngModel)]="selectedTechniciansId"
-                    name="technicianId"
-                    placeholder="Select Technician"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #technicianIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      technicianIdModel.invalid &&
-                      (technicianIdModel.touched ||
-                        technicianIdModel.dirty ||
-                        treatmentJobForm.submitted)
-                    "
-                  >
-                    <small *ngIf="technicianIdModel.errors?.['required']">
-                      Technician is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Service Type -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="serviceTypeId">
-                    Service Type <span>*</span>
-                  </label>
-
-                  <ng-select
-                    [items]="allServiceTypes"
-                    bindLabel="serviceName"
-                    bindValue="id"
-                    [(ngModel)]="selectedServiceTypeId"
-                    name="serviceTypeId"
-                    placeholder="Select Service Type"
-                    [clearable]="true"
-                    [searchable]="true"
-                    #serviceTypeIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      serviceTypeIdModel.invalid &&
-                      (serviceTypeIdModel.touched ||
-                        serviceTypeIdModel.dirty ||
-                        treatmentJobForm.submitted)
-                    "
-                  >
-                    <small *ngIf="serviceTypeIdModel.errors?.['required']">
-                      Service Type is required.
-                    </small>
-                  </div>
-                </div>
-
-                <!-- Service Request -->
-                <div class="col-md-6 form-group mt-3">
-                  <label for="serviceRequestId">
-                    Service Request <span>*</span>
-                  </label>
-
-                  <ng-select
-                    [items]="allServiceRequests"
-                    bindLabel="requestCode"
-                    bindValue="id"
-                    [(ngModel)]="selectedServiceRequestId"
-                    name="serviceRequestId"
-                    placeholder="Select Service Request"
-                    [clearable]="true"
-                    [searchable]="true"
-                    (change)="
-                      getCusDetailsBySelectedServiceReq(
-                        selectedServiceRequestId
-                      )
-                    "
-                    #serviceRequestIdModel="ngModel"
-                    required
-                  >
-                  </ng-select>
-
-                  <div
-                    class="text-danger mt-1"
-                    *ngIf="
-                      serviceRequestIdModel.invalid &&
-                      (serviceRequestIdModel.touched ||
-                        serviceRequestIdModel.dirty ||
-                        treatmentJobForm.submitted)
-                    "
-                  >
-                    <small *ngIf="serviceRequestIdModel.errors?.['required']">
-                      Service Request is required.
                     </small>
                   </div>
                 </div>
