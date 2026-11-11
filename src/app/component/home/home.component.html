@@ -1,0 +1,384 @@
+<div class="landing-page">
+  <!-- Top Navigation Bar -->
+  <header class="landing-header">
+    <div class="container landing-nav-container">
+      <!-- Brand Identity -->
+      <a routerLink="/" class="landing-brand" (click)="closeMobileNav()">
+        <img src="assets/pest_logo.png" alt="Agrosole Logo" class="landing-brand__logo" />
+        <div class="landing-brand__text">
+          <span class="landing-brand__name">Agrosole</span>
+          <span class="landing-brand__tag">Smart Pest Control System</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="landing-nav" [class.landing-nav--open]="isMobileNavOpen" aria-label="Public navigation">
+        <a href="#services" class="landing-nav__link" (click)="closeMobileNav()">Services</a>
+        <a href="#how-it-works" class="landing-nav__link" (click)="closeMobileNav()">How It Works</a>
+        <a href="#pests" class="landing-nav__link" (click)="closeMobileNav()">Target Pests</a>
+        <a href="#faq" class="landing-nav__link" (click)="closeMobileNav()">FAQ</a>
+
+        <!-- Mobile-only Action Buttons -->
+        <div class="landing-nav__mobile-actions">
+          <ng-container *ngIf="!isLoggedIn(); else loggedInMobile">
+            <a routerLink="/login" class="btn btn-outline-ink w-100" (click)="closeMobileNav()">Sign In</a>
+            <a routerLink="/register" class="btn btn-primary w-100" (click)="closeMobileNav()">Get Started</a>
+          </ng-container>
+          <ng-template #loggedInMobile>
+            <a routerLink="/dashboard" class="btn btn-primary w-100" (click)="closeMobileNav()">
+              <i class="bi bi-grid-1x2 me-1"></i> Go to Dashboard
+            </a>
+          </ng-template>
+        </div>
+      </nav>
+
+      <!-- Desktop Action Buttons -->
+      <div class="landing-actions">
+        <ng-container *ngIf="!isLoggedIn(); else loggedInDesktop">
+          <a routerLink="/login" class="btn btn-outline-ink">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+          </a>
+          <a routerLink="/register" class="btn btn-primary">
+            <i class="bi bi-person-plus me-1"></i> Register
+          </a>
+        </ng-container>
+        <ng-template #loggedInDesktop>
+          <a routerLink="/dashboard" class="btn btn-primary">
+            <i class="bi bi-grid-1x2 me-1"></i> Go to Dashboard
+          </a>
+        </ng-template>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          type="button"
+          class="landing-menu-toggle"
+          (click)="toggleMobileNav()"
+          [attr.aria-expanded]="isMobileNavOpen"
+          aria-label="Toggle navigation menu"
+        >
+          <i class="bi" [ngClass]="isMobileNavOpen ? 'bi-x-lg' : 'bi-list'"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <!-- Hero Left Column: Copy & CTAs -->
+        <div class="col-lg-6">
+          <div class="hero-badge">
+            <span class="hero-badge__dot"></span>
+            <span>Smart Industrial & Residential Pest Management</span>
+          </div>
+
+          <h1 class="hero-title">
+            Precision Pest Control Powered by <span class="text-highlight">Smart Tracking.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Protect your warehouses, commercial facilities, and residential properties with certified technicians, regulated eco-safe chemicals, and real-time digital inspection and treatment tracking.
+          </p>
+
+          <div class="hero-cta-group">
+            <button type="button" class="btn btn-primary btn-lg hero-btn-main" (click)="navigateToPortal()">
+              <span>{{ isLoggedIn() ? 'Open Management Dashboard' : 'Request an Inspection' }}</span>
+              <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+            <a href="#how-it-works" class="btn btn-outline-ink btn-lg">
+              <i class="bi bi-play-circle me-1"></i> How Agrosole Works
+            </a>
+          </div>
+
+          <!-- Key Metrics Strip -->
+          <div class="hero-stats-grid">
+            <div class="hero-stat-item" *ngFor="let stat of heroStats">
+              <div class="hero-stat-value">{{ stat.value }}</div>
+              <div class="hero-stat-label">{{ stat.label }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Interactive Visual Preview Card -->
+        <div class="col-lg-6">
+          <div class="hero-visual-wrapper">
+            <!-- Main Preview Card -->
+            <div class="hero-preview-card">
+              <div class="hero-preview-header">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="preview-icon-box">
+                    <i class="bi bi-shield-fill-check"></i>
+                  </div>
+                  <div>
+                    <div class="preview-title">Live Operations Overview</div>
+                    <div class="preview-subtitle">Real-time Site & Treatment Tracking</div>
+                  </div>
+                </div>
+                <span class="status-badge status-active">
+                  <i class="bi bi-check-circle-fill"></i> System Active
+                </span>
+              </div>
+
+              <!-- Simulated Workflow Items -->
+              <div class="hero-preview-body">
+                <div class="preview-workflow-item">
+                  <div class="preview-step-icon preview-step-icon--green">
+                    <i class="bi bi-clipboard2-pulse"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="preview-item-title">Site Inspection #INS-2048</div>
+                    <div class="preview-item-meta">Colombo Commercial Hub • Termite Assessment</div>
+                  </div>
+                  <span class="status-badge status-info">Scheduled</span>
+                </div>
+
+                <div class="preview-workflow-item">
+                  <div class="preview-step-icon preview-step-icon--gold">
+                    <i class="bi bi-droplet-half"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="preview-item-title">Treatment Job #JOB-8912</div>
+                    <div class="preview-item-meta">Warehouse Fumigation • Certified Technician Assigned</div>
+                  </div>
+                  <span class="status-badge status-pending">In Progress</span>
+                </div>
+
+                <div class="preview-workflow-item">
+                  <div class="preview-step-icon preview-step-icon--sage">
+                    <i class="bi bi-file-earmark-check"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="preview-item-title">Annual Service Contract #AMC-504</div>
+                    <div class="preview-item-meta">Multi-Site Protection • 100% Compliance</div>
+                  </div>
+                  <span class="status-badge status-completed">Completed</span>
+                </div>
+              </div>
+
+              <div class="hero-preview-footer">
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                  <i class="bi bi-lock-fill text-success"></i>
+                  <span>End-to-end digital audit trail for every customer site</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Feature Pill -->
+            <div class="hero-floating-badge">
+              <i class="bi bi-patch-check-fill"></i>
+              <div>
+                <div class="fw-bold">Licensed Specialists</div>
+                <small>Termite • Fumigation • General</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="section-block section-bg-white">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-eyebrow">Our Specializations</span>
+        <h2 class="section-title">Comprehensive Pest Control Solutions</h2>
+        <p class="section-description">
+          Tailored eradication and preventive programs engineered for industrial complexes, agricultural storage, and residential properties.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-3" *ngFor="let service of services">
+          <article class="service-card h-100">
+            <div class="service-card__top">
+              <div class="service-card__icon">
+                <i class="bi" [ngClass]="service.icon"></i>
+              </div>
+              <span class="service-card__category">{{ service.category }}</span>
+            </div>
+
+            <h3 class="service-card__title">{{ service.title }}</h3>
+            <p class="service-card__desc">{{ service.description }}</p>
+
+            <ul class="service-card__list">
+              <li *ngFor="let feature of service.features">
+                <i class="bi bi-check2-circle"></i>
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works (System Workflow) Section -->
+  <section id="how-it-works" class="section-block">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-eyebrow">Streamlined Process</span>
+        <h2 class="section-title">How the Agrosole Workflow Operates</h2>
+        <p class="section-description">
+          From initial service request to technician dispatch and contract renewal, every stage is transparently managed.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3" *ngFor="let step of workflowSteps">
+          <div class="workflow-card h-100">
+            <div class="workflow-card__header">
+              <span class="workflow-card__number">{{ step.stepNumber }}</span>
+              <div class="workflow-card__icon">
+                <i class="bi" [ngClass]="step.icon"></i>
+              </div>
+            </div>
+            <h3 class="workflow-card__title">{{ step.title }}</h3>
+            <p class="workflow-card__desc">{{ step.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Target Pests Matrix Section -->
+  <section id="pests" class="section-block section-bg-white">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <span class="section-eyebrow">Threat Identification</span>
+          <h2 class="section-title">Targeted Eradication by Severity Level</h2>
+          <p class="section-description mb-4">
+            Different pests require distinct chemical formulations and containment protocols. Our system classifies threats by severity to assign the right specialist and treatment duration.
+          </p>
+
+          <div class="pest-highlight-box">
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-clipboard2-data-fill fs-3 text-success"></i>
+              <div>
+                <h5 class="mb-1 fw-bold">Regulated Chemical Tracking</h5>
+                <p class="mb-0 text-muted small">
+                  Every treatment job logs exact chemical usage, safety data, and technician hours to guarantee compliance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="row g-3">
+            <div class="col-sm-6" *ngFor="let pest of targetPests">
+              <div class="pest-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div class="pest-card__icon">
+                    <i class="bi" [ngClass]="pest.icon"></i>
+                  </div>
+                  <span
+                    class="status-badge"
+                    [ngClass]="{
+                      'status-danger': pest.severity === 'Critical' || pest.severity === 'High',
+                      'status-warning': pest.severity === 'Medium'
+                    }"
+                  >
+                    Severity: {{ pest.severity }}
+                  </span>
+                </div>
+                <h4 class="pest-card__title">{{ pest.name }}</h4>
+                <p class="pest-card__signs">
+                  <strong>Indicators:</strong> {{ pest.commonSigns }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section-block">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-eyebrow">Common Questions</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="faq-list">
+            <div
+              class="faq-item"
+              *ngFor="let item of faqs; let i = index"
+              [class.faq-item--open]="item.isOpen"
+            >
+              <button
+                type="button"
+                class="faq-question"
+                (click)="toggleFaq(i)"
+                [attr.aria-expanded]="item.isOpen"
+              >
+                <span>{{ item.question }}</span>
+                <i class="bi" [ngClass]="item.isOpen ? 'bi-dash-circle' : 'bi-plus-circle'"></i>
+              </button>
+              <div class="faq-answer" *ngIf="item.isOpen">
+                <p>{{ item.answer }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Banner -->
+  <section class="cta-banner-section">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <h2 class="cta-banner__title">Ready to Secure Your Property Against Pests?</h2>
+            <p class="cta-banner__text">
+              Join Agrosole today to schedule site inspections, manage multi-location service contracts, and track treatment jobs in one unified platform.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <button type="button" class="btn btn-light btn-lg cta-banner__btn" (click)="navigateToPortal()">
+              <span>{{ isLoggedIn() ? 'Go to Dashboard' : 'Access Client Portal' }}</span>
+              <i class="bi bi-arrow-up-right ms-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="container">
+      <div class="row g-4 justify-content-between align-items-center">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <img src="assets/pest_logo.png" alt="Agrosole Logo" class="footer-logo" />
+            <span class="fw-bold fs-5 text-white">Agrosole</span>
+          </div>
+          <p class="footer-copy mb-0">
+            Smart Pest Control & Site Management System. Built for reliability, safety, and complete operational visibility.
+          </p>
+        </div>
+
+        <div class="col-md-6 text-md-end">
+          <div class="footer-links mb-2">
+            <a href="#services">Services</a>
+            <a href="#how-it-works">Workflow</a>
+            <a routerLink="/login">Sign In</a>
+            <a routerLink="/register">Register</a>
+          </div>
+          <p class="footer-copyright mb-0">
+            &copy; {{currentYear}} Agrosole Smart Pest Control System. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

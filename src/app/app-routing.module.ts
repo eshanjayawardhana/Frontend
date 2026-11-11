@@ -22,9 +22,14 @@ import { ServiceRequestComponent } from './component/service-request/service-req
 import { InspectionComponent } from './component/inspection/inspection.component';
 import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
 import { ServiceContractComponent } from './component/service-contract/service-contract.component';
+import { HomeComponent } from './component/home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // Public Landing Page (First user interaction)
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'home', redirectTo: '', pathMatch: 'full' },
+
+
   { path: 'login', component: InstituteLoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forbidden', component: ForbiddenComponent },
@@ -92,11 +97,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
 
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
