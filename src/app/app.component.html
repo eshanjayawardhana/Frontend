@@ -13,7 +13,8 @@
 </div>
 
 <!-- Authenticated Application Layout -->
-<div class="app-frame" *ngIf="isLoggedIn(); else guestView">
+<div class="app-frame" *ngIf="showAppShell(); else guestView">
+
   <!-- Mobile Sidebar Overlay -->
   <button
     *ngIf="isMobileMenuOpen"

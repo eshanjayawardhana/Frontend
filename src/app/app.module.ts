@@ -34,6 +34,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { InspectionComponent } from './component/inspection/inspection.component';
 import { TreatmentJobComponent } from './component/treatment-job/treatment-job.component';
 import { ServiceContractComponent } from './component/service-contract/service-contract.component';
+import { HomeComponent } from './component/home/home.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { ServiceContractComponent } from './component/service-contract/service-c
     InspectionComponent,
     TreatmentJobComponent,
     ServiceContractComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
